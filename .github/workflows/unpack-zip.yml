@@ -24,6 +24,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import base64
           import shutil
           import zipfile
 
@@ -56,6 +57,18 @@ jobs:
                   shutil.copytree(item, dest, dirs_exist_ok=True)
               else:
                   shutil.copy2(item, dest)
+
+          # GitHub Actions' GITHUB_TOKEN cannot add/update workflow files here.
+          # Emit their contents so the authorized GitHub connector can add them separately.
+          workflows = repo / '.github' / 'workflows'
+          if workflows.exists():
+              for wf in sorted(workflows.rglob('*')):
+                  if not wf.is_file() or wf.name == 'unpack-zip.yml':
+                      continue
+                  rel = wf.relative_to(repo).as_posix()
+                  payload = base64.b64encode(wf.read_bytes()).decode('ascii')
+                  print(f'WORKFLOW_BASE64 {rel} {payload}')
+                  wf.unlink()
 
           archive.unlink()
           shutil.rmtree(temp)
