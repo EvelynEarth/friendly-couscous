@@ -5,8 +5,8 @@ project:
   current_phase: model_design
   objectives:
   - optimization
-  version: v1.0-current-proposed-model
-  updated_at: '2026-08-26T22:00:00+08:00'
+  version: v1.1-r3-pure-transport
+  updated_at: '2026-08-26T23:05:00+08:00'
 requirements:
   total: 6
   completed:
@@ -29,31 +29,31 @@ data:
     path: conversation_attachment:A题赛题
     role: Q3韧性投资与应急资源输入
   version_hashes: {}
-  locked_scope: 题面结构化参数已完成非破坏性审计；原始数据直接进入模型，年/周/阶段换算属于模型派生参数。
+  locked_scope: 题面结构化参数已完成非破坏性审计；Q3的R3口径已由用户显式选择为纯运输，不创造供给。
   active_source_mode: raw
 preprocessing:
   decision: not_needed
   level: none
   status: not_applicable
   evidence:
-  - 题面数据为完整的小规模结构化参数表，当前未发现缺失、重复、异常修复、时间错位或统一编码需求。
-  - Q1–Q3所需年/周/响应阶段换算均属于数学模型内部派生，不改变原始数据语义。
+  - 题面数据为完整的小规模结构化参数表，无需项目级清洗或变换。
+  - 年/周/响应阶段换算属于模型内部派生，不改变原始数据语义。
   operations: []
   forbidden_operations:
   - 无证据的缺失值填补
   - 无证据的异常删除
   - 插值、平滑或滤波
   - 为流程完整而标准化或归一化
-  - 为获得更优结果而修改题面成本、概率或容量
+  - 为使R3产生效果而虚构普通运输容量或时效瓶颈
   downstream_data_source: raw
   quality_status: not_applicable
-  note: 三问路线与输入需求均已闭合，项目级preprocessing_decision正式锁定为not_needed。
+  note: preprocessing_decision=current:not_needed。
 decisions:
   Q1:
     selected_model: Capacitated Facility Location + Network Flow MILP
     rejected_models:
     - GA/PSO等元启发式作为主模型
-    key_reason: 题目规模小且结构线性，MILP可精确求解；设施组合枚举+LP可作为独立精确交叉验证。
+    key_reason: 线性小规模结构可精确求解；设施组合枚举+LP可独立交叉验证。
     solver_candidates:
     - MILP solver
     - facility enumeration + LP cross-check
@@ -70,7 +70,7 @@ decisions:
     selected_model: Two-stage Finite-scenario Stochastic MILP
     rejected_models:
     - CVaR作为主目标
-    key_reason: 题面给定完整场景概率并直接要求期望总成本；CVaR需额外风险偏好参数，当前仅适合作为补充敏感性。
+    key_reason: 题面给定场景概率并要求期望总成本；CVaR需要额外风险偏好参数。
     solver_candidates:
     - extensive-form MILP
     - Q1-layout fixed risk benchmark
@@ -85,39 +85,37 @@ decisions:
     - 最坏服务损失
     - 风险重设计价值
   Q3:
-    selected_model: Response-phase Stochastic Resilience Investment & Emergency Recourse MILP
+    selected_model: Response-phase Stochastic Resilience Investment MILP with Source-Conserving Air-Transport Coupling
     rejected_models:
+    - 将R3解释为独立外部应急供给
     - 逐日time-expanded MILP作为主模型
     - GA/ALNS等启发式
-    key_reason: 资源可用状态只在0、2天、7天发生变化，事件驱动阶段压缩保留题面全部响应信息；二元投资仅2个，可枚举4种组合并与MILP精确交叉验证。
+    key_reason: 用户明确选择R3纯运输口径；R3必须绑定正常剩余供给或R1/R2/R4货源并满足源守恒，不能创造供给。0/2天/7天阶段保留全部响应节点。
     solver_candidates:
     - MILP solver
     - 4-contract-combination enumeration + LP cross-check
     validation_plan:
     - solver optimal status
     - MIP gap
-    - 预算/库存/应急容量/市场平衡残差
+    - 预算/库存/市场平衡残差
+    - R3空运容量残差
+    - R3货源守恒残差
     - 枚举+LP一致性
-    - R3-off/transport-only替代口径敏感性
     result_analysis_candidates:
     - 韧性投资成本效益
     - 缺货下降与服务率提升
     - E3时间轴与恢复时间
-    - R3替代口径敏感性
+    - R3空运来源与利用率
+    - R3不活跃时的数据边界解释
 subproblems:
   Q1:
     status: designed
     selected_model: Capacitated Facility Location + Network Flow MILP
     classification:
       objective: optimization
-      structures:
-      - network
-      confidence:
-        objective: 0.99
-        network: 0.99
-      legacy_task_packs:
-      - optimization
-      - graph_network
+      structures: [network]
+      confidence: {objective: 0.99, network: 0.99}
+      legacy_task_packs: [optimization, graph_network]
     capabilities:
       has_explicit_constraints: true
       requires_feasibility_check: true
@@ -134,17 +132,15 @@ subproblems:
     problem_contract_status: frozen
     semantic_closure_status: passed
     complexity_sanity_status: passed
-    complexity_sanity_flags:
-    - implausibly_easy_computation
-    complexity_sanity_note: 设施二元变量仅7个，但未删除任何工厂、仓库、市场、直运/中转结构或容量约束；小规模来自题面候选数有限。
+    complexity_sanity_flags: [implausibly_easy_computation]
+    complexity_sanity_note: 小规模来自题面候选设施数量有限；关键网络结构与约束均保留。
     model_challenge_status: passed
     human_model_approval_status: pending
     semantic_revision: 1
-    semantic_hash: e531e4cd4b9385315a1b70676dfeab4c5c44dc31f89cbef61220fdb4ed969f62
+    semantic_hash: 24fc4aff91668a16d378bb1dae5a2d5f8503882ed63c7c24503549d371489795
     validated_semantic_revision: 1
-    validated_semantic_hash: e531e4cd4b9385315a1b70676dfeab4c5c44dc31f89cbef61220fdb4ed969f62
-    semantic_change_categories:
-    - initial_design
+    validated_semantic_hash: 24fc4aff91668a16d378bb1dae5a2d5f8503882ed63c7c24503549d371489795
+    semantic_change_categories: [initial_design]
     artifact_hashes: {}
     validated_artifact_hashes: {}
     stale_layers: []
@@ -166,17 +162,9 @@ subproblems:
     selected_model: Two-stage Finite-scenario Stochastic MILP
     classification:
       objective: optimization
-      structures:
-      - network
-      - stochastic
-      confidence:
-        objective: 0.99
-        network: 0.99
-        stochastic: 0.99
-      legacy_task_packs:
-      - optimization
-      - graph_network
-      - simulation
+      structures: [network, stochastic]
+      confidence: {objective: 0.99, network: 0.99, stochastic: 0.99}
+      legacy_task_packs: [optimization, graph_network, simulation]
     capabilities:
       has_explicit_constraints: true
       requires_feasibility_check: true
@@ -192,24 +180,22 @@ subproblems:
     depends_on:
     - question: Q1
       kind: model
-      note: 继承Q1网络节点、路径、容量与成本结构
+      note: 继承Q1网络结构
     - question: Q1
       kind: result
-      note: 使用Q1确定性最优成本和布局作为题面比较基准
+      note: 使用Q1确定性最优成本与布局作比较基准
     problem_contract_status: frozen
     semantic_closure_status: passed
     complexity_sanity_status: passed
-    complexity_sanity_flags:
-    - dynamic_to_static_collapse
-    complexity_sanity_note: 同场景中断周在周需求均匀、状态不变、无跨周库存/产能平滑条件下可严格压缩为单周recourse乘持续周数。
+    complexity_sanity_flags: [dynamic_to_static_collapse]
+    complexity_sanity_note: 同场景中断周在当前条件下可等价压缩为单周recourse乘持续周数。
     model_challenge_status: passed
     human_model_approval_status: pending
     semantic_revision: 1
-    semantic_hash: f6005e53980596570ac7cd58219f5b9d88c5d4bb0bffc7133895f1a735c8532e
+    semantic_hash: fce8ac5c0b4fa6afde339cd218b940e194b50dc2d736c9c30aeccfe2d75f4418
     validated_semantic_revision: 1
-    validated_semantic_hash: f6005e53980596570ac7cd58219f5b9d88c5d4bb0bffc7133895f1a735c8532e
-    semantic_change_categories:
-    - initial_design
+    validated_semantic_hash: fce8ac5c0b4fa6afde339cd218b940e194b50dc2d736c9c30aeccfe2d75f4418
+    semantic_change_categories: [initial_design]
     artifact_hashes: {}
     validated_artifact_hashes: {}
     stale_layers: []
@@ -228,22 +214,12 @@ subproblems:
     evidence: []
   Q3:
     status: designed
-    selected_model: Response-phase Stochastic Resilience Investment & Emergency Recourse MILP
+    selected_model: Response-phase Stochastic Resilience Investment MILP with Source-Conserving Air-Transport Coupling
     classification:
       objective: optimization
-      structures:
-      - network
-      - scheduling
-      - stochastic
-      confidence:
-        objective: 0.99
-        network: 0.97
-        scheduling: 0.98
-        stochastic: 0.98
-      legacy_task_packs:
-      - optimization
-      - scheduling
-      - graph_network
+      structures: [network, scheduling, stochastic]
+      confidence: {objective: 0.99, network: 0.98, scheduling: 0.98, stochastic: 0.98}
+      legacy_task_packs: [optimization, scheduling, graph_network]
     capabilities:
       has_explicit_constraints: true
       requires_feasibility_check: true
@@ -262,24 +238,19 @@ subproblems:
       note: 继承Q2随机中断、缺货与网络recourse结构
     - question: Q2
       kind: result
-      note: 固定Q2最优风险网络布局作为Q3基础网络
+      note: 固定Q2最优风险网络布局
     problem_contract_status: frozen
     semantic_closure_status: passed
     complexity_sanity_status: passed
-    complexity_sanity_flags:
-    - dynamic_to_static_collapse
-    - inactive_key_constraints
-    - implausibly_easy_computation
-    complexity_sanity_note: 按0/2天/7天资源状态变化节点进行事件驱动阶段压缩；预算可能不绑定来自题面730<800；二元投资仅2个但场景、阶段、网络流与应急资源仍完整保留。
+    complexity_sanity_flags: [dynamic_to_static_collapse, inactive_key_constraints, implausibly_easy_computation]
+    complexity_sanity_note: R3按用户审核选择为纯运输。题面未给普通运输时效/容量瓶颈，因此R3可能最优调用为0；这是数据与口径边界，禁止通过虚构瓶颈使其生效。0/2天/7天阶段和源守恒均保留。
     model_challenge_status: passed
     human_model_approval_status: pending
-    semantic_revision: 2
-    semantic_hash: 68514f6bb6368018b49e3080beb7c359305d062874ea4f70a0346c6bb10886fd
-    validated_semantic_revision: 2
-    validated_semantic_hash: 68514f6bb6368018b49e3080beb7c359305d062874ea4f70a0346c6bb10886fd
-    semantic_change_categories:
-    - parameter
-    - constraint
+    semantic_revision: 3
+    semantic_hash: 17b0d874d56c32187f8aba6a54182e15909e4c70b8ea43cd878191a1896ad521
+    validated_semantic_revision: 3
+    validated_semantic_hash: 17b0d874d56c32187f8aba6a54182e15909e4c70b8ea43cd878191a1896ad521
+    semantic_change_categories: [problem_definition, variable, constraint]
     artifact_hashes: {}
     validated_artifact_hashes: {}
     stale_layers: []
@@ -309,7 +280,9 @@ variables:
   - b1
   - q2
   - b4
-  - e_kmsb
+  - o_kmsb
+  - aN_imsb
+  - aK_kmsb
   source:
     y_i: Q1/Q2工厂启用二元变量
     z_w: Q1/Q2仓库启用二元变量
@@ -322,27 +295,33 @@ variables:
     b1: Q3 R1合同二元变量
     q2: Q3 R2安全库存水平
     b4: Q3 R4合同二元变量
-    e_kmsb: Q3应急资源有效到货量
+    o_kmsb: Q3 R1/R2/R4普通交付量
+    aN_imsb: Q3正常剩余供给经R3空运量
+    aK_kmsb: Q3 R1/R2/R4供给经R3空运量
 paper_framework:
   path: 模型论文框架.md
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  sha256: 7259273fcc23ee721347dad6cb8e912bf2ffeae78401dc806e92349378f2e249
-  last_synced_at: '2026-08-26T22:00:00+08:00'
-  last_sync_scope: Q1–Q3 Problem Contract、Formula Trace、Semantic Closure、Complexity Sanity、preprocessing_decision及双重Model Challenge已同步；当前等待Human Model Approval。
+  sha256: fa6cb116d893c11b93c9ea4be1d349714f838afa264eeb13fb6b2b946761d3be
+  last_synced_at: '2026-08-26T23:05:00+08:00'
+  last_sync_scope: Q3按用户显式审核选择改为R3纯运输口径并递增至revision 3；Q3重新完成Problem Contract、语义闭环、Complexity Sanity与双重Model Challenge；当前等待Human Model Approval。
   terminology_registry:
   - id: T1
     canonical_term: 风险代价
     definition: 题面口径下Z2*-Z1*，不与VSS/EVPI混用
     status: current
   - id: T2
-    canonical_term: 有效应急到货
-    definition: R1/R3/R4在响应后可直接用于满足市场需求的企业级应急供给量
+    canonical_term: 应急供给量
+    definition: 未中断正常产能、R1、R2或R4实际提供的产品数量；R3不属于供给源
     status: current
   - id: T3
     canonical_term: 恢复时间
     definition: 从某时刻起至事件结束所有市场持续零缺货的最早时刻
+    status: current
+  - id: T4
+    canonical_term: 应急空运量
+    definition: 已存在供给中经R3运输的数量，必须占用对应货源
     status: current
   numeric_profile:
   - id: N1
@@ -382,6 +361,15 @@ paper_framework:
   proposition_status: not_assessed
   propositions: []
 execution:
+  owner: user
+  profile: full_fidelity
+  assistant_task_execution_allowed: false
+  allow_reduced_data: false
+  allow_coarser_grid: false
+  allow_shorter_horizon: false
+  allow_fewer_repetitions: false
+  allow_relaxed_tolerance: false
+  allow_silent_solver_fallback: false
   python_version: '3.12'
   dependencies: {}
   platform: 待用户本地full-fidelity执行时填写
@@ -389,10 +377,10 @@ artifacts:
   code: []
   results: []
   figures: []
-  papers:
-  - 模型论文框架.md
+  papers: [模型论文框架.md]
   sync_report: sync_report.yaml
-risks: []
+risks:
+- R3已由用户显式选择为纯运输口径；题面缺少普通运输时效/容量瓶颈，因此R3韧性收益可能不可识别或最优调用为0，禁止虚构供给或瓶颈。
 next_gate:
   module: model_design
   condition: model_challenge_status=passed且human_model_approval_status=pending；向用户提供绑定current semantic revision/hash的Model Approval Brief，只有明确批准后才形成current locked_model_spec并进入solve_validate。
