@@ -1,4 +1,4 @@
-name: Unpack repository ZIP
+name: Recover ZIP workflow files
 
 on:
   push:
@@ -11,78 +11,68 @@ permissions:
   contents: write
 
 jobs:
-  unpack:
+  recover-workflows:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Safely unpack ZIP into repository root
+      - name: Recover workflow files from ZIP in history
         shell: bash
         run: |
           python - <<'PY'
+          from io import BytesIO
           from pathlib import Path
-          import base64
-          import shutil
+          import subprocess
           import zipfile
 
-          repo = Path.cwd().resolve()
-          archive = repo / 'mathmodel-skill-main.zip'
-          temp = repo / '.unpack_tmp'
+          repo = Path.cwd()
+          source_commit = 'c537b640549c5496c71749d676e85da18b657b59'
+          archive = subprocess.run(
+              ['git', 'show', f'{source_commit}:mathmodel-skill-main.zip'],
+              check=True,
+              stdout=subprocess.PIPE,
+          ).stdout
 
-          if not archive.exists():
-              raise SystemExit('Archive not found: mathmodel-skill-main.zip')
+          payload_root = repo / '.workflow_payload'
+          payload_root.mkdir(exist_ok=True)
 
-          if temp.exists():
-              shutil.rmtree(temp)
-          temp.mkdir()
-
-          with zipfile.ZipFile(archive) as zf:
+          recovered = 0
+          with zipfile.ZipFile(BytesIO(archive)) as zf:
               for info in zf.infolist():
-                  target = (temp / info.filename).resolve()
-                  if temp != target and temp not in target.parents:
-                      raise RuntimeError(f'Unsafe ZIP path: {info.filename}')
-              zf.extractall(temp)
-
-          entries = [p for p in temp.iterdir() if p.name not in {'__MACOSX'}]
-          source = entries[0] if len(entries) == 1 and entries[0].is_dir() else temp
-
-          for item in source.iterdir():
-              if item.name == '.git':
-                  continue
-              dest = repo / item.name
-              if item.is_dir():
-                  shutil.copytree(item, dest, dirs_exist_ok=True)
-              else:
-                  shutil.copy2(item, dest)
-
-          # GitHub Actions' GITHUB_TOKEN cannot add/update workflow files here.
-          # Emit their contents so the authorized GitHub connector can add them separately.
-          workflows = repo / '.github' / 'workflows'
-          if workflows.exists():
-              for wf in sorted(workflows.rglob('*')):
-                  if not wf.is_file() or wf.name == 'unpack-zip.yml':
+                  if info.is_dir():
                       continue
-                  rel = wf.relative_to(repo).as_posix()
-                  payload = base64.b64encode(wf.read_bytes()).decode('ascii')
-                  print(f'WORKFLOW_BASE64 {rel} {payload}')
-                  wf.unlink()
+                  parts = Path(info.filename).parts
+                  try:
+                      idx = parts.index('.github')
+                  except ValueError:
+                      continue
+                  if len(parts) <= idx + 2 or parts[idx + 1] != 'workflows':
+                      continue
+                  rel_parts = parts[idx + 2:]
+                  if not rel_parts:
+                      continue
+                  target = payload_root.joinpath(*rel_parts)
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(zf.read(info))
+                  print(f'Recovered {"/".join(rel_parts)}')
+                  recovered += 1
 
-          archive.unlink()
-          shutil.rmtree(temp)
+          if recovered == 0:
+              raise SystemExit('No workflow files found in ZIP history')
           PY
 
-      - name: Commit unpacked contents
+      - name: Commit recovered workflow payloads
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
+          git add .workflow_payload
           if git diff --cached --quiet; then
-            echo 'No changes to commit.'
+            echo 'No payload changes to commit.'
             exit 0
           fi
-          git commit -m 'Deploy contents from mathmodel-skill-main.zip'
+          git commit -m 'Recover workflow files from ZIP'
           git push origin HEAD:main
