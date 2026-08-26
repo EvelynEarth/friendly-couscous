@@ -1,0 +1,518 @@
+#!/usr/bin/env python3
+"""Static delivery and engineering-quality validation for preprocessing and question-stage Python scripts."""
+from __future__ import annotations
+
+import argparse
+import ast
+import hashlib
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+SKILL_ROOT = Path(__file__).resolve().parents[1]
+QUALITY_CONTRACT = SKILL_ROOT / "core" / "code_quality_contract.yaml"
+FALSE_FLAGS = (
+    "allow_reduced_data", "allow_coarser_grid", "allow_shorter_horizon",
+    "allow_fewer_repetitions", "allow_relaxed_tolerance", "allow_silent_solver_fallback",
+)
+PLACEHOLDERS = ("TODO", "FIXME", "__QUESTION_NAME__", "NotImplementedError")
+CONFIG_NAMES = {"FULL_FIDELITY_CONFIG", "FULL_RUN_CONFIG", "RUN_CONFIG"}
+REQUIRED_FIELDS = {
+    "execution_owner", "execution_profile", "stage", "problem_name", "data_paths",
+    "data_sha256", "solver", "solver_version", "random_seed", "tolerance",
+    "iteration_or_time_limit", "expected_workbook", *FALSE_FLAGS,
+}
+ANALYSIS_STALE_LAYERS = {
+    "result_analysis_workbook", "matlab_script", "figure_bundle", "framework",
+}
+PRIMARY_STALE_LAYERS = {
+    "solution_workbook", "result_analysis_workbook", "matlab_script", "figure_bundle", "framework",
+}
+ALL_RESULT_STALE_LAYERS = {
+    "data", "solution_workbook", "result_analysis_workbook", "matlab_script", "figure_bundle", "framework",
+}
+VALID_PREPROCESSING_DECISIONS = {"not_needed", "question_local", "project_level"}
+DATA_READER_NAMES = {
+    "open", "ExcelFile", "read_csv", "read_excel", "read_table", "read_fwf",
+    "read_json", "read_parquet", "read_feather", "read_pickle", "read_hdf",
+    "load", "loadtxt", "genfromtxt",
+}
+DATA_READER_PATH_KEYWORDS = {"path", "filepath", "filename", "fname", "io", "filepath_or_buffer"}
+
+
+def load_yaml(path: Path) -> dict[str, Any]:
+    return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def is_sha256(value: Any) -> bool:
+    text = str(value).strip().lower()
+    return len(text) == 64 and all(character in "0123456789abcdef" for character in text)
+
+
+def embedded_config(text: str) -> dict[str, Any]:
+    tree = ast.parse(text)
+    for node in tree.body:
+        if isinstance(node, (ast.Assign, ast.AnnAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            if any(isinstance(target, ast.Name) and target.id in CONFIG_NAMES for target in targets):
+                value = ast.literal_eval(node.value)
+                if not isinstance(value, dict):
+                    raise ValueError("FULL_FIDELITY_CONFIG必须为字典常量")
+                return value
+    raise ValueError("缺少FULL_FIDELITY_CONFIG字典常量")
+
+
+def script_identity(script: Path) -> tuple[str, str]:
+    if script.parent.name == "数据预处理" and script.name == "数据预处理.py":
+        return "数据预处理", "preprocessing"
+    folder = script.parent.name
+    if not folder.endswith("求解"):
+        raise ValueError("正式Python脚本必须位于数据预处理/或问题X求解/目录")
+    problem = folder.removesuffix("求解")
+    if script.name == f"{problem}求解.py":
+        return problem, "primary"
+    if script.name == f"{problem}结果深化分析.py":
+        return problem, "analysis"
+    raise ValueError(f"脚本名必须为{problem}求解.py或{problem}结果深化分析.py")
+
+
+def problem_from_path(script: Path) -> str:
+    return script_identity(script)[0]
+
+
+def stage_from_filename(script: Path, problem: str | None = None) -> str:
+    return script_identity(script)[1]
+
+
+def _param_count(node: ast.FunctionDef | ast.AsyncFunctionDef) -> int:
+    args = [*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs]
+    return sum(arg.arg not in {"self", "cls"} for arg in args)
+
+
+def _complexity(node: ast.AST) -> int:
+    branch_nodes = (ast.If, ast.For, ast.AsyncFor, ast.While, ast.Try, ast.IfExp, ast.Match, ast.comprehension)
+    score = 1 + sum(isinstance(item, branch_nodes) for item in ast.walk(node))
+    score += sum(max(0, len(item.values) - 1) for item in ast.walk(node) if isinstance(item, ast.BoolOp))
+    return score
+
+
+def code_quality_findings(
+    text: str,
+    config: dict[str, Any] | None = None,
+) -> tuple[list[str], list[str], dict[str, Any]]:
+    """Return blocking issues, warnings and lightweight static metrics without executing task code."""
+    contract = load_yaml(QUALITY_CONTRACT)
+    errors: list[str] = []
+    warnings: list[str] = []
+    metrics: dict[str, Any] = {}
+    try:
+        tree = ast.parse(text)
+    except SyntaxError as exc:
+        return [f"Python语法错误: {exc}"], [], metrics
+
+    nonblank = sum(bool(line.strip()) for line in text.splitlines())
+    metrics["nonblank_lines"] = nonblank
+    line_policy = contract["line_count"]
+    exemption = (config or {}).get(line_policy["exemption_field"], {})
+    valid_exemption = (
+        isinstance(exemption, dict)
+        and exemption.get("enabled") is True
+        and len(str(exemption.get("reason", "")).strip()) >= int(line_policy["exemption_reason_min_chars"])
+    )
+    if nonblank > int(line_policy["exemption_max"]):
+        errors.append(f"代码{nonblank}行，超过绝对上限{line_policy['exemption_max']}行")
+    elif nonblank > int(line_policy["hard_max"]):
+        if valid_exemption:
+            warnings.append(f"代码{nonblank}行，已使用复杂题豁免；仍应继续精简")
+        else:
+            errors.append(
+                f"代码{nonblank}行，超过{line_policy['hard_max']}行；"
+                "复杂题需在FULL_FIDELITY_CONFIG提供code_quality_exemption"
+            )
+    elif nonblank > int(line_policy["target_max"]):
+        warnings.append(f"代码{nonblank}行，超过目标{line_policy['target_max']}行")
+
+    function_policy = contract["function_size"]
+    parameter_policy = contract["parameter_count"]
+    complexity_policy = contract["complexity"]
+    functions = [node for node in ast.walk(tree) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))]
+    metrics["function_count"] = len(functions)
+    for node in functions:
+        span = (node.end_lineno or node.lineno) - node.lineno + 1
+        params = _param_count(node)
+        complexity = _complexity(node)
+        if span > int(function_policy["hard_max"]):
+            errors.append(f"函数{node.name}共{span}行，超过{function_policy['hard_max']}行硬上限")
+        elif span > int(function_policy["target_max"]):
+            warnings.append(f"函数{node.name}共{span}行，超过{function_policy['target_max']}行目标")
+        if params > int(parameter_policy["hard_max"]):
+            errors.append(f"函数{node.name}有{params}个参数，超过{parameter_policy['hard_max']}个硬上限")
+        elif params > int(parameter_policy["target_max"]):
+            warnings.append(f"函数{node.name}有{params}个参数，超过{parameter_policy['target_max']}个目标")
+        if complexity > int(complexity_policy["hard_max"]):
+            errors.append(f"函数{node.name}静态复杂度{complexity}，超过{complexity_policy['hard_max']}")
+        elif complexity > int(complexity_policy["warning_max"]):
+            warnings.append(f"函数{node.name}静态复杂度{complexity}偏高")
+
+    imported: dict[str, str] = {}
+    used = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)}
+    forbidden_imports = set(contract["forbidden_import_roots"])
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                root = alias.name.split(".")[0]
+                if root in forbidden_imports:
+                    errors.append(f"正式数值脚本禁止导入绘图库: {root}")
+                imported[alias.asname or root] = alias.name
+        elif isinstance(node, ast.ImportFrom):
+            root = (node.module or "").split(".")[0]
+            if root in forbidden_imports:
+                errors.append(f"正式数值脚本禁止导入绘图库: {root}")
+            for alias in node.names:
+                if alias.name == "*":
+                    errors.append("禁止通配import")
+                else:
+                    imported[alias.asname or alias.name] = f"{node.module}.{alias.name}"
+        elif isinstance(node, ast.ExceptHandler) and node.type is None:
+            errors.append("禁止裸except")
+        elif isinstance(node, ast.Call):
+            if isinstance(node.func, ast.Name) and node.func.id == "breakpoint":
+                errors.append("正式代码禁止breakpoint()")
+            if (
+                isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == "pdb"
+                and node.func.attr == "set_trace"
+            ):
+                errors.append("正式代码禁止pdb.set_trace()")
+
+    unused = sorted(name for name in imported if name not in used and name != "annotations")
+    if unused:
+        warnings.append("可能存在未使用import: " + ", ".join(unused))
+
+    print_count = sum(
+        isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "print"
+        for node in ast.walk(tree)
+    )
+    metrics["print_calls"] = print_count
+    if print_count > int(contract["print_calls"]["hard_count"]):
+        errors.append(f"print调用{print_count}次，疑似调试输出过多")
+    elif print_count >= int(contract["print_calls"]["warning_count"]):
+        warnings.append(f"存在{print_count}处print；最终版优先使用必要日志或工作簿记录")
+
+    top_names = [
+        node.name for node in tree.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+    ]
+    duplicates = sorted({name for name in top_names if top_names.count(name) > 1})
+    if duplicates:
+        errors.append("重复顶层定义: " + ", ".join(duplicates))
+
+    return list(dict.fromkeys(errors)), list(dict.fromkeys(warnings)), metrics
+
+
+def _normalize_path_token(value: Any) -> str:
+    text = str(value or "").strip().replace("\\", "/")
+    while text.startswith("./"):
+        text = text[2:]
+    return text.casefold()
+
+
+def _path_matches(candidate: Any, target: Any) -> bool:
+    left = _normalize_path_token(candidate)
+    right = _normalize_path_token(target)
+    if not left or not right:
+        return False
+    return left == right or left.endswith("/" + right) or right.endswith("/" + left)
+
+
+def _call_leaf_name(node: ast.AST) -> str:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    return ""
+
+
+def _literal_path_argument(node: ast.AST) -> str | None:
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.Call) and _call_leaf_name(node.func) in {"Path", "str"} and node.args:
+        return _literal_path_argument(node.args[0])
+    return None
+
+
+def literal_data_reader_paths(text: str) -> list[str]:
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        return []
+    found: list[str] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or _call_leaf_name(node.func) not in DATA_READER_NAMES:
+            continue
+        candidate: ast.AST | None = node.args[0] if node.args else None
+        if candidate is None:
+            candidate = next(
+                (item.value for item in node.keywords if item.arg in DATA_READER_PATH_KEYWORDS),
+                None,
+            )
+        if candidate is not None:
+            value = _literal_path_argument(candidate)
+            if value:
+                found.append(value)
+    return list(dict.fromkeys(found))
+
+
+def _decision_gate_issues(
+    project_root: Path,
+    stage: str,
+    data_hash: str | None = None,
+    data_paths: Any = None,
+    code_text: str = "",
+) -> list[str]:
+    state_path = project_root / "state" / "project_state.yaml"
+    if not state_path.is_file():
+        return []
+    state = load_yaml(state_path)
+    preprocessing = state.get("preprocessing") or {}
+    decision = str(preprocessing.get("decision", "")).strip()
+    if decision not in VALID_PREPROCESSING_DECISIONS:
+        return ["项目状态缺少有效preprocessing.decision；正式代码前必须先锁定not_needed/question_local/project_level"]
+    issues: list[str] = []
+    if stage == "preprocessing":
+        if decision != "project_level":
+            issues.append("只有preprocessing.decision=project_level时才允许交付数据预处理.py")
+        return issues
+    if stage in {"primary", "analysis"} and decision == "project_level":
+        if preprocessing.get("status") != "accepted" or preprocessing.get("quality_status") != "passed":
+            issues.append("project_level项目必须先验收数据预处理结果.xlsx并通过预处理质量门")
+        expected = str(preprocessing.get("workbook_sha256", "")).lower()
+        if expected and data_hash and expected != str(data_hash).lower():
+            issues.append(f"{stage}阶段data_sha256必须等于已验收数据预处理结果.xlsx哈希")
+
+        covered = [str(item) for item in (preprocessing.get("covered_raw_sources") or []) if str(item).strip()]
+        if not covered:
+            issues.append("project_level必须在state.preprocessing.covered_raw_sources声明被统一工作簿替代的原始数据源")
+        configured_paths = [str(item) for item in (data_paths or [])] if isinstance(data_paths, (list, tuple)) else []
+        workbook = str(preprocessing.get("workbook") or "数据预处理/数据预处理结果.xlsx")
+        if stage == "primary" and not any(_path_matches(item, workbook) for item in configured_paths):
+            issues.append("project_level主求解FULL_FIDELITY_CONFIG.data_paths必须包含已验收数据预处理结果.xlsx")
+        for item in configured_paths:
+            if any(_path_matches(item, source) for source in covered):
+                issues.append(f"project_level下游data_paths不得重新声明已覆盖共享原始数据源: {item}")
+        for item in literal_data_reader_paths(code_text):
+            if any(_path_matches(item, source) for source in covered):
+                issues.append(f"project_level下游代码不得重新读取已覆盖共享原始数据源: {item}")
+    return list(dict.fromkeys(issues))
+
+
+def validate_script(
+    project_root: Path,
+    script: Path,
+    expected_stage: str | None = None,
+) -> tuple[list[str], dict[str, Any]]:
+    issues: list[str] = []
+    try:
+        problem, filename_stage = script_identity(script)
+    except ValueError as exc:
+        return [str(exc)], {}
+
+    text = script.read_text(encoding="utf-8", errors="strict")
+    for marker in PLACEHOLDERS:
+        if marker in text:
+            issues.append(f"正式代码仍含占位标记: {marker}")
+    if 'if __name__ == "__main__":' not in text and "if __name__ == '__main__':" not in text:
+        issues.append("正式代码缺少main入口")
+
+    try:
+        config = embedded_config(text)
+    except (SyntaxError, ValueError) as exc:
+        issues.append(str(exc))
+        config = {}
+
+    for field in sorted(REQUIRED_FIELDS):
+        if field not in config or config[field] in (None, "", []):
+            issues.append(f"嵌入运行配置缺少字段: {field}")
+    stage = str(config.get("stage", ""))
+    if stage not in {"preprocessing", "primary", "analysis"}:
+        issues.append("stage必须为preprocessing、primary或analysis")
+    if stage and stage != filename_stage:
+        issues.append(f"脚本文件名对应{filename_stage}阶段，但FULL_FIDELITY_CONFIG.stage={stage}")
+    if expected_stage and stage != expected_stage:
+        issues.append(f"stage应为{expected_stage}")
+    if config.get("problem_name") != problem:
+        issues.append("problem_name与目录/阶段身份不一致")
+    if config.get("execution_owner") != "user":
+        issues.append("execution_owner必须为user")
+    if config.get("execution_profile") != "full_fidelity":
+        issues.append("execution_profile必须为full_fidelity")
+    for flag in FALSE_FLAGS:
+        if config.get(flag) is not False:
+            issues.append(f"{flag}必须显式为false")
+    if not is_sha256(config.get("data_sha256")):
+        issues.append("data_sha256必须是64位十六进制SHA-256")
+
+    expected = {
+        "preprocessing": "数据预处理结果.xlsx",
+        "primary": f"{problem}求解结果.xlsx",
+        "analysis": f"{problem}结果深化分析.xlsx",
+    }.get(stage, "")
+    if expected and Path(str(config.get("expected_workbook", ""))).name != expected:
+        issues.append(f"expected_workbook必须指向{expected}")
+
+    issues.extend(_decision_gate_issues(
+        project_root, stage, str(config.get("data_sha256", "")),
+        config.get("data_paths"), text,
+    ))
+    quality_errors, _, _ = code_quality_findings(text, config)
+    issues.extend(quality_errors)
+    return list(dict.fromkeys(issues)), config
+
+
+def _question_key(problem: str) -> str:
+    order = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+    suffix = problem.removeprefix("问题")
+    return f"Q{order.index(suffix) + 1}" if suffix in order else problem
+
+
+def update_state(project_root: Path, config: dict[str, Any], script: Path) -> None:
+    state_path = project_root / "state" / "project_state.yaml"
+    if not state_path.is_file():
+        return
+    state = load_yaml(state_path)
+    problem = str(config["problem_name"])
+    stage = str(config["stage"])
+    new_hash = sha256(script)
+    relative = script.relative_to(project_root).as_posix()
+
+    if stage == "preprocessing":
+        preprocessing = state.setdefault("preprocessing", {})
+        if preprocessing.get("decision") != "project_level":
+            raise ValueError("只有project_level项目允许写入预处理执行状态")
+        old_hash = preprocessing.get("code_sha256")
+        preprocessing["code"] = relative
+        preprocessing["code_sha256"] = new_hash
+        preprocessing["status"] = "awaiting_user_preprocessing"
+        preprocessing["quality_status"] = "pending"
+        data = state.setdefault("data", {})
+        data.setdefault("version_hashes", {})["preprocessing_input"] = str(config["data_sha256"]).lower()
+        data["active_source_mode"] = "raw"
+        state.setdefault("project", {})["current_phase"] = "data_preprocessing"
+        if old_hash and old_hash != new_hash:
+            preprocessing["workbook"] = ""
+            preprocessing["workbook_sha256"] = ""
+            for entry in (state.get("subproblems") or {}).values():
+                if not isinstance(entry, dict):
+                    continue
+                entry["result_quality_status"] = "pending"
+                entry["result_analysis_status"] = "pending"
+                entry["result_summary_status"] = "stale"
+                entry["artifacts_stale"] = True
+                entry["stale_layers"] = sorted(set(entry.get("stale_layers", [])) | ALL_RESULT_STALE_LAYERS)
+        state_path.write_text(yaml.safe_dump(state, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        return
+
+    key = _question_key(problem)
+    entry = state.setdefault("subproblems", {}).setdefault(key, {})
+    entry["data_hash"] = str(config["data_sha256"]).lower()
+
+    if stage == "primary":
+        old_hash = entry.get("primary_code_sha256")
+        accepted = entry.get("primary_execution_status") == "accepted"
+        unchanged_accepted = accepted and old_hash == new_hash
+        phase = str((state.get("project") or {}).get("current_phase", ""))
+        if accepted and old_hash and old_hash != new_hash and phase != "solve_validate":
+            raise ValueError("主求解脚本已accepted并冻结；如需修改必须先显式回退solve_validate")
+        entry["code"] = relative
+        entry["primary_code_sha256"] = new_hash
+        entry.setdefault("analysis_execution_status", "pending")
+        if not unchanged_accepted:
+            entry["primary_execution_status"] = "awaiting_user_execution"
+        if old_hash and old_hash != new_hash:
+            entry["status"] = "designed"
+            entry["result_quality_status"] = "pending"
+            entry["result_analysis_status"] = "pending"
+            entry["analysis_execution_status"] = "pending"
+            entry["result_summary_status"] = "stale"
+            entry["artifacts_stale"] = True
+            entry["stale_layers"] = sorted(set(entry.get("stale_layers", [])) | PRIMARY_STALE_LAYERS)
+    else:
+        if entry.get("primary_execution_status") != "accepted":
+            raise ValueError("主工作簿未accepted，禁止交付最终结果深化分析脚本")
+        old_hash = entry.get("analysis_code_sha256")
+        entry["result_analysis_code"] = relative
+        entry["analysis_code_sha256"] = new_hash
+        entry["analysis_execution_status"] = "awaiting_user_execution"
+        if old_hash != new_hash:
+            entry["status"] = "solved"
+            entry["result_analysis_status"] = "pending"
+            entry["result_summary_status"] = "stale"
+            entry["artifacts_stale"] = True
+            entry["stale_layers"] = sorted(set(entry.get("stale_layers", [])) | ANALYSIS_STALE_LAYERS)
+            state.setdefault("project", {})["current_phase"] = "result_analysis"
+
+    state_path.write_text(yaml.safe_dump(state, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+
+def discover_scripts(root: Path) -> list[Path]:
+    patterns = (
+        "数据预处理/数据预处理.py",
+        "问题*求解/问题*求解.py",
+        "问题*求解/问题*结果深化分析.py",
+    )
+    return sorted({path for pattern in patterns for path in root.glob(pattern)})
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("project_root", type=Path)
+    parser.add_argument("--script", type=Path)
+    parser.add_argument("--stage", choices=("preprocessing", "primary", "analysis"))
+    parser.add_argument("--write", action="store_true")
+    parser.add_argument("--strict", action="store_true")
+    args = parser.parse_args()
+    root = args.project_root.resolve()
+    scripts = (
+        [args.script if args.script and args.script.is_absolute() else root / args.script]
+        if args.script else discover_scripts(root)
+    )
+    issues: list[str] = []
+    warnings: list[str] = []
+    metrics: dict[str, Any] = {}
+    checked: list[str] = []
+    for script in scripts:
+        item_issues, config = validate_script(root, script, args.stage)
+        issues.extend(f"{script.name}: {item}" for item in item_issues)
+        _, item_warnings, item_metrics = code_quality_findings(
+            script.read_text(encoding="utf-8"), config
+        )
+        warnings.extend(f"{script.name}: {item}" for item in item_warnings)
+        metrics[script.relative_to(root).as_posix()] = item_metrics
+        checked.append(script.relative_to(root).as_posix())
+        if args.write and not item_issues:
+            try:
+                update_state(root, config, script)
+            except ValueError as exc:
+                issues.append(f"{script.name}: {exc}")
+
+    report = {
+        "status": "passed" if not issues else "failed",
+        "checked_scripts": checked,
+        "issues": issues,
+        "warnings": warnings,
+        "code_quality_metrics": metrics,
+        "task_code_executed": False,
+        "report_persisted": False,
+    }
+    print(yaml.safe_dump(report, allow_unicode=True, sort_keys=False).rstrip())
+    return 1 if issues and args.strict else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

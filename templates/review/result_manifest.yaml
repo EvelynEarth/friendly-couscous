@@ -1,0 +1,28 @@
+# 仅在用户明确要求完整复现包、跨聊天交接或终稿审查时生成。
+# 实际文件应放在项目级 internal_metadata/，不得放入问题X求解/。
+project:
+  competition: "CUMCM / MCM / Diangong / 认证杯"
+  problem: "A"
+  version: "v1.0-current"
+  random_seed: 2026
+  model_paper_framework: "模型论文框架.md"
+  framework_sync_status: "current"
+
+outputs:
+  问题一:
+    framework_section: "### Q1：填写问题名称"
+    result_summary_status: "current"
+    result_directory: "问题一求解"
+    solution_workbook: "问题一求解/问题一求解结果.xlsx"
+    result_analysis_workbook: "问题一求解/问题一结果深化分析.xlsx"
+    matlab_script: "问题一求解/q1_plot.m"
+    figure_sources:
+      - figure: "图 1"
+        workbook: "问题一求解结果.xlsx"
+        worksheet: "明细结果"
+        required_headers: ["记录键", "横轴真实字段", "纵轴真实字段"]
+        matlab_script: "问题一求解/q1_plot.m"
+        exported_file: "figures/q1_core_result.pdf"
+        framework_registry: "模型论文框架.md / 图表证据链 / 图1"
+    final: true
+    risk_note: "填写仍需人工复核的风险点"

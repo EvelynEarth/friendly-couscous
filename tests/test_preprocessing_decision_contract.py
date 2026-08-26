@@ -1,0 +1,359 @@
+import importlib.util
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def load_module(name: str, relative: str):
+    spec = importlib.util.spec_from_file_location(name, ROOT / relative)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+class TestPreprocessingDecisionContract(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.contract = yaml.safe_load(
+            (ROOT / "core/global_preprocessing_contract.yaml").read_text(encoding="utf-8")
+        )
+        cls.router = yaml.safe_load(
+            (ROOT / "core/workflow_router.yaml").read_text(encoding="utf-8")
+        )
+        cls.manifest = yaml.safe_load(
+            (ROOT / "core/module_manifest.yaml").read_text(encoding="utf-8")
+        )
+        cls.output = yaml.safe_load(
+            (ROOT / "core/output_contract.yaml").read_text(encoding="utf-8")
+        )
+        cls.state_schema = yaml.safe_load(
+            (ROOT / "core/project_state.schema.yaml").read_text(encoding="utf-8")
+        )
+        cls.resolver = load_module("resolver_723", "scripts/resolve_workflow.py")
+        cls.code_gate = load_module("code_gate_723", "scripts/validate_code_delivery.py")
+        cls.execution_gate = load_module("execution_gate_723", "scripts/validate_user_execution.py")
+        cls.sync = load_module("sync_723", "scripts/sync_project.py")
+
+    def test_three_state_decision_is_authoritative(self):
+        self.assertEqual(
+            self.contract["decision_gate"]["decision_values"],
+            ["not_needed", "question_local", "project_level"],
+        )
+        self.assertEqual(
+            self.contract["decision_gate"]["level_values"],
+            ["none", "structural", "transformative"],
+        )
+
+    def test_shared_data_is_not_sufficient_for_project_level(self):
+        text = yaml.safe_dump(self.contract, allow_unicode=True)
+        self.assertIn("两个及以上小问共享同一原始数据源", text)
+        insufficient = self.contract["activation"]["never_sufficient_alone"]
+        self.assertTrue(any("共享同一原始数据源" in item for item in insufficient))
+
+    def test_generic_judgment_framework_covers_cross_competition_data_risks(self):
+        audit = self.contract["judgment_framework"]["audit_dimensions"]
+        for key in (
+            "completeness", "consistency", "validity", "identity_and_duplicates",
+            "sampling_and_coverage", "measurement_quality", "model_readiness",
+            "temporal_causality_and_leakage", "target_and_label_integrity",
+        ):
+            self.assertIn(key, audit)
+        principle = self.contract["judgment_framework"]["general_rules"]
+        self.assertTrue(any("某一赛题" in item or "固定操作模板" in item for item in principle))
+
+    def test_missing_values_do_not_imply_interpolation(self):
+        policy = self.contract["missing_data_policy"]
+        self.assertIn("不存在“有缺失就插值”的默认规则", policy["principle"])
+        boundaries = policy["method_boundaries"]
+        self.assertIn("类别", boundaries["interpolation"])
+        self.assertIn("predictive_imputation", boundaries)
+        self.assertIn("人工掩蔽", boundaries["model_based_imputation"])
+
+    def test_predictive_imputation_is_not_the_task_prediction_model(self):
+        boundary = self.contract["prediction_boundary"]
+        self.assertIn("只有前者可能属于预处理", boundary["principle"])
+        self.assertTrue(any("赛题直接要求预测未来值" in item for item in boundary["not_preprocessing_when"]))
+        self.assertTrue(any("缺测" in item for item in boundary["preprocessing_prediction_when"]))
+        self.assertIn("不得以“数据预处理”的名义提前生成答案", boundary["rule"])
+
+    def test_learned_preprocessing_requires_no_leakage_and_validation(self):
+        rules = self.contract["operation_gate"]["rules"]
+        self.assertTrue(any("训练/验证边界" in item for item in rules))
+        quality = self.contract["workbook"]["quality_gate"]["checks"]
+        self.assertTrue(any("人工掩蔽" in item or "留出样本" in item for item in quality))
+        self.assertTrue(any("信息泄漏" in item for item in quality))
+
+    def test_substantive_preprocessing_requires_paper_math_and_validation(self):
+        paper = self.contract["paper_evidence_contract"]
+        required = "\n".join(paper["required_paper_elements"])
+        self.assertIn("数学公式", required)
+        self.assertIn("参数", required)
+        self.assertIn("合理性验证", required)
+        self.assertIn("预处理图", required)
+        self.assertIn("形式证明", paper["formal_proof_boundary"])
+        self.assertIn("不得编造数学证明", paper["formal_proof_boundary"])
+
+    def test_project_level_preprocessing_directory_has_data_process(self):
+        self.assertEqual(
+            self.contract["project_directory"]["exact_default_files"],
+            ["数据预处理.py", "数据预处理结果.xlsx", "data_process.m"],
+        )
+        output_files = self.output["global_preprocessing"]["exact_default_files"]
+        self.assertEqual(output_files, ["数据预处理.py", "数据预处理结果.xlsx", "data_process.m"])
+
+    def test_preprocessing_workbook_persists_paper_and_plot_evidence(self):
+        required = self.contract["workbook"]["common_required_sheets"]
+        for sheet in ("预处理方法证据", "处理前后对比", "绘图数据索引"):
+            self.assertIn(sheet, required)
+        validator_sheets = self.execution_gate.PREPROCESSING_EVIDENCE_SHEETS
+        for sheet in ("预处理方法证据", "处理前后对比", "绘图数据索引"):
+            self.assertIn(sheet, validator_sheets)
+
+    def test_data_process_contract_and_template_are_fixed(self):
+        figure = self.contract["preprocessing_figure_contract"]
+        self.assertEqual(figure["project_level_script"], "数据预处理/data_process.m")
+        self.assertEqual(figure["export_stem"], "data_process")
+        template = (ROOT / "templates/matlab/data_process.m").read_text(encoding="utf-8")
+        self.assertIn("数据预处理结果.xlsx", template)
+        self.assertIn("处理前", template)
+        self.assertIn("处理后", template)
+        self.assertNotIn("exportgraphics(", template)
+        self.assertNotIn("interp1(", template)
+        self.assertNotIn("smoothdata(", template)
+
+    def test_figures_scope_requires_data_process_only_for_project_level(self):
+        conditional = self.output["project_sync"]["conditional_stage_requirements"]
+        project = conditional["preprocessing_decision_project_level"]
+        self.assertIn("preprocessing_matlab_script", project["figures"])
+        self.assertIn("preprocessing_matlab_script", project["latex"])
+        forbidden = conditional["preprocessing_decision_not_needed_or_question_local"]["forbidden_required_artifacts"]
+        self.assertIn("preprocessing_matlab_script", forbidden)
+        self.assertNotIn("preprocessing_matlab_script", self.output["project_sync"]["stage_requirements"]["figures"])
+
+    def test_full_solution_does_not_unconditionally_load_preprocessing(self):
+        route = self.router["routing"]["full_solution"]
+        loaded = [*route.get("load", []), *route.get("then", [])]
+        self.assertNotIn("modules/03_data_preprocessing.md", loaded)
+        self.assertEqual(route["conditional_stage"]["when"], "preprocessing_decision == project_level")
+        self.assertIn("data_preprocessing", self.router["execution_contract"]["conditional_modules"])
+
+    def test_manifest_makes_preprocessing_conditional(self):
+        self.assertNotIn("conditional_modules", self.manifest)
+        self.assertIn("data_preprocessing", self.router["execution_contract"]["conditional_modules"])
+        pre = self.manifest["modules"]["data_preprocessing"]
+        self.assertTrue(pre["conditional"])
+        self.assertEqual(pre["activation"], "preprocessing_decision == project_level")
+        self.assertNotIn("preprocessing_workbook", self.manifest["modules"]["solve_validate"]["inputs"])
+        self.assertEqual(
+            self.manifest["modules"]["solve_validate"]["conditional_inputs"]["preprocessing_workbook"]["when"],
+            "preprocessing_decision == project_level",
+        )
+        self.assertIn("preprocessing_matlab_script", self.manifest["modules"]["figure_evidence"]["outputs"])
+
+    def test_output_contract_requires_preprocessing_only_for_project_level(self):
+        base_code = self.output["project_sync"]["stage_requirements"]["code"]
+        self.assertNotIn("preprocessing_code", base_code)
+        self.assertNotIn("preprocessing_workbook", base_code)
+        conditional = self.output["project_sync"]["conditional_stage_requirements"]
+        self.assertEqual(
+            conditional["preprocessing_decision_project_level"]["condition"],
+            "preprocessing_decision == project_level",
+        )
+        self.assertIn("preprocessing_workbook", conditional["preprocessing_decision_project_level"]["results"])
+
+    def test_resolver_skips_preprocessing_for_clean_shared_data_decision(self):
+        plan = self.resolver.resolve_workflow(
+            "full_solution",
+            objective="optimization",
+            preprocessing_decision="not_needed",
+            available_artifacts=["locked_model_spec"],
+        )
+        self.assertNotIn("modules/03_data_preprocessing.md", plan["modules"])
+        self.assertIn("modules/03_solve_validate.md", plan["modules"])
+        self.assertIn("python_code", plan["terminal_outputs"])
+        self.assertEqual(plan["preprocessing_decision"], "not_needed")
+
+    def test_resolver_pauses_at_project_level_preprocessing(self):
+        plan = self.resolver.resolve_workflow(
+            "full_solution",
+            objective="optimization",
+            preprocessing_decision="project_level",
+            available_artifacts=["locked_model_spec"],
+        )
+        self.assertIn("modules/03_data_preprocessing.md", plan["modules"])
+        self.assertNotIn("modules/03_solve_validate.md", plan["modules"])
+        self.assertIn("preprocessing_code", plan["terminal_outputs"])
+        self.assertIn("awaiting_user_preprocessing", plan["terminal_outputs"])
+        self.assertTrue(plan["pause_for_user_execution"])
+
+    def test_resolver_continues_after_project_level_workbook_is_accepted(self):
+        plan = self.resolver.resolve_workflow(
+            "full_solution",
+            objective="optimization",
+            preprocessing_decision="project_level",
+            available_artifacts=["locked_model_spec", "accepted_preprocessing_workbook"],
+        )
+        self.assertNotIn("modules/03_data_preprocessing.md", plan["modules"])
+        self.assertIn("modules/03_solve_validate.md", plan["modules"])
+        self.assertIn("python_code", plan["terminal_outputs"])
+        self.assertNotIn("solve_validate:preprocessing_workbook", plan["missing_prerequisites"])
+
+    def test_state_schema_supports_conditional_preprocessing_phase(self):
+        phases = self.state_schema["properties"]["project"]["properties"]["current_phase"]["enum"]
+        self.assertIn("data_preprocessing", phases)
+        decisions = self.state_schema["$defs"]["preprocessing_decision"]["enum"]
+        self.assertEqual(decisions, ["not_needed", "question_local", "project_level"])
+        self.assertIn("preprocessing", self.state_schema["properties"])
+
+    def test_seismic_operations_are_conditional_domain_example_not_default(self):
+        seismic = self.contract["seismic_guidance"]
+        self.assertIn("领域专项示例", seismic["role"])
+        self.assertIn("不得反向成为其他赛题的默认预处理模板", seismic["role"])
+        self.assertIn("先审计后处理", seismic["principle"])
+        self.assertIn("默认带通滤波", seismic["forbidden_defaults"])
+        self.assertIn("默认插值坏道", seismic["forbidden_defaults"])
+        self.assertIn("仅在", seismic["optional_operations"]["带通滤波"])
+
+    def test_code_delivery_recognizes_preprocessing_stage(self):
+        problem, stage = self.code_gate.script_identity(Path("项目") / "数据预处理" / "数据预处理.py")
+        self.assertEqual((problem, stage), ("数据预处理", "preprocessing"))
+
+    def test_returned_workbook_recognizes_preprocessing_stage(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            workbook = root / "数据预处理" / "数据预处理结果.xlsx"
+            problem, stage, issues = self.execution_gate.workbook_identity(root, workbook)
+        self.assertEqual((problem, stage), ("数据预处理", "preprocessing"))
+        self.assertEqual(issues, [])
+
+    def test_sync_stage_requirements_follow_decision(self):
+        raw_state = {"preprocessing": {"decision": "not_needed"}}
+        project_state = {"preprocessing": {"decision": "project_level"}}
+        raw_required = self.sync.stage_requirements("figures", self.output, raw_state)
+        project_required = self.sync.stage_requirements("figures", self.output, project_state)
+        self.assertNotIn("preprocessing_matlab_script", raw_required)
+        self.assertIn("preprocessing_matlab_script", project_required)
+
+    def test_runtime_forbidden_matlab_calls_match_contract_and_block_reprocessing(self):
+        declared = set(self.contract["preprocessing_figure_contract"]["runtime_forbidden_matlab_functions"])
+        runtime = set(self.sync.MATLAB_PREPROCESSING_FORBIDDEN_FUNCTIONS)
+        self.assertEqual(declared, runtime)
+        declared_dispatch = set(self.contract["preprocessing_figure_contract"]["runtime_forbidden_matlab_dispatch_functions"])
+        runtime_dispatch = set(self.sync.MATLAB_PREPROCESSING_FORBIDDEN_DISPATCH_FUNCTIONS)
+        self.assertEqual(declared_dispatch, runtime_dispatch)
+        for name in ("interp2", "normalize", "detrend", "filter", "movmean", "movmedian", "predict"):
+            self.assertIn(name, runtime)
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            process_dir = root / "数据预处理"
+            process_dir.mkdir()
+            script = process_dir / "data_process.m"
+            script.write_text(
+                'title("证据图");\nbook = "数据预处理结果.xlsx";\ny = normalize(x);\n',
+                encoding="utf-8",
+            )
+            issues = self.sync._preprocessing_artifact_issues(
+                root,
+                {"preprocessing_matlab_script"},
+                {"preprocessing": {"decision": "project_level"}},
+            )
+            self.assertTrue(any("normalize" in item for item in issues))
+
+            script.write_text(
+                'title("证据图");\nbook = "数据预处理结果.xlsx";\nplot(x, y); % normalize(x) 仅为行尾说明\n',
+                encoding="utf-8",
+            )
+            issues = self.sync._preprocessing_artifact_issues(
+                root,
+                {"preprocessing_matlab_script"},
+                {"preprocessing": {"decision": "project_level"}},
+            )
+            self.assertFalse(any("不得重新执行预处理" in item for item in issues))
+
+            script.write_text(
+                'title("证据图");\nbook = "数据预处理结果.xlsx";\ny = feval("normalize", x);\n',
+                encoding="utf-8",
+            )
+            issues = self.sync._preprocessing_artifact_issues(
+                root,
+                {"preprocessing_matlab_script"},
+                {"preprocessing": {"decision": "project_level"}},
+            )
+            self.assertTrue(any("动态调用" in item and "feval" in item for item in issues))
+
+            script.write_text(
+                'title("证据图");\nbook = "数据预处理结果.xlsx";\nf = @normalize;\ny = f(x);\n',
+                encoding="utf-8",
+            )
+            issues = self.sync._preprocessing_artifact_issues(
+                root,
+                {"preprocessing_matlab_script"},
+                {"preprocessing": {"decision": "project_level"}},
+            )
+            self.assertTrue(any("函数句柄" in item and "normalize" in item for item in issues))
+
+    def test_project_level_code_gate_blocks_covered_raw_source_but_allows_independent_auxiliary(self):
+        config = {
+            "execution_owner": "user", "execution_profile": "full_fidelity",
+            "stage": "primary", "problem_name": "问题一",
+            "data_paths": ["数据预处理/数据预处理结果.xlsx", "data/aux.csv"],
+            "data_sha256": "b" * 64, "solver": "test", "solver_version": "1",
+            "random_seed": 2026, "tolerance": 1e-8, "iteration_or_time_limit": "full",
+            "expected_workbook": "问题一求解结果.xlsx",
+            "allow_reduced_data": False, "allow_coarser_grid": False,
+            "allow_shorter_horizon": False, "allow_fewer_repetitions": False,
+            "allow_relaxed_tolerance": False, "allow_silent_solver_fallback": False,
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "state").mkdir()
+            (root / "state/project_state.yaml").write_text(
+                yaml.safe_dump({"preprocessing": {
+                    "decision": "project_level", "status": "accepted", "quality_status": "passed",
+                    "workbook": "数据预处理/数据预处理结果.xlsx", "workbook_sha256": "b" * 64,
+                    "covered_raw_sources": ["data/raw.csv"],
+                }}, allow_unicode=True),
+                encoding="utf-8",
+            )
+            folder = root / "问题一求解"
+            folder.mkdir()
+            script = folder / "问题一求解.py"
+            script.write_text(
+                "FULL_FIDELITY_CONFIG = " + repr(config)
+                + "\nimport pandas as pd\ndef main():\n    pd.read_csv('data/raw.csv')\n    return 0"
+                + "\nif __name__ == '__main__':\n    raise SystemExit(main())\n",
+                encoding="utf-8",
+            )
+            issues, _ = self.code_gate.validate_script(root, script, "primary")
+            self.assertTrue(any("不得重新读取已覆盖共享原始数据源" in item for item in issues))
+
+            script.write_text(
+                "FULL_FIDELITY_CONFIG = " + repr(config)
+                + "\nimport pandas as pd\ndef main():\n    pd.read_csv('data/aux.csv')\n    return 0"
+                + "\nif __name__ == '__main__':\n    raise SystemExit(main())\n",
+                encoding="utf-8",
+            )
+            issues, _ = self.code_gate.validate_script(root, script, "primary")
+            self.assertFalse(any("共享原始数据源" in item for item in issues))
+
+    def test_figure_evidence_order_matches_router_stage_boundary(self):
+        text = (ROOT / "modules/04_figure_evidence.md").read_text(encoding="utf-8")
+        primary = text.index("Python 完成完整主求解")
+        analysis = text.index("Python 基于题目风险完成实际需要的结果深化分析")
+        enter_figures = text.index("只有上述数值阶段完成后才进入 Figure Evidence")
+        data_process = text.index("此时生成并人工检查 `数据预处理/data_process.m`")
+        self.assertLess(primary, analysis)
+        self.assertLess(analysis, enter_figures)
+        self.assertLess(enter_figures, data_process)
+
+
+if __name__ == "__main__":
+    unittest.main()

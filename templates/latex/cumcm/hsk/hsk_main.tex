@@ -1,0 +1,31 @@
+\documentclass{cumcmthesis}
+% 电子版提交时通常可使用：\documentclass[withoutpreface]{cumcmthesis}
+
+% main.tex 只负责编排。全局宏包、项目命令和元数据分别维护。
+\input{config/preamble}
+\input{config/commands}
+\input{config/metadata}
+
+\begin{document}
+\maketitle
+
+\input{frontmatter/abstract}
+
+\input{sections/01_problem_statement}
+\input{sections/02_problem_analysis}
+\input{sections/03_assumptions}
+\input{sections/04_symbols}
+
+% preprocessing_decision=project_level 时保留；not_needed 时删除；question_local 时通常删除并将变换写入对应问题。
+\input{sections/05_data}
+
+% 按实际小问复制/新增 07_question2.tex、08_question3.tex 等，并在此按论文顺序调用。
+\input{sections/06_question1}
+
+\input{sections/09_evaluation}
+
+\printbibliography[title={参考文献}]
+
+\input{appendices/appendices}
+
+\end{document}

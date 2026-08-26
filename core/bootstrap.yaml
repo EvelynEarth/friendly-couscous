@@ -1,0 +1,78 @@
+skill_version: 7.13.0
+bootstrap_schema_version: 1.1.0
+purpose: >-
+  Minimal startup index for the HSK mathematical-modeling workflow. Read this
+  file first, load the global policy through workflow_router.default_load, then
+  use scripts/resolve_runtime.py for the assured task-specific plan. Do not preload the
+  repository or duplicate domain contracts here.
+authoritative_sources:
+  global_policy: core/hsk_core_policy.md
+  routing: core/workflow_router.yaml
+  artifact_graph: core/module_manifest.yaml
+  task_taxonomy: core/task_taxonomy.yaml
+  project_state: core/project_state.schema.yaml
+  workbook: core/workbook_schema.yaml
+  output: core/output_contract.yaml
+  preprocessing: core/global_preprocessing_contract.yaml
+  model_approval: core/model_approval_contract.yaml
+  user_execution: core/user_execution_contract.yaml
+  code_quality: core/code_quality_contract.yaml
+  writing_reasoning: core/writing_reasoning_contract.yaml
+  semantic_governance: scripts/validate_semantic_governance.py
+  runtime_assurance: core/runtime_assurance_contract.yaml
+startup_contract:
+  principle: minimal_route_specific
+  default_policy_source: core/hsk_core_policy.md
+  resolver: scripts/resolve_runtime.py
+  rules:
+    - Bootstrap stores pointers and startup invariants only; global domain rules live in core/hsk_core_policy.md.
+    - Route-specific contracts are loaded only when the resolved task needs them.
+    - Runtime context hydration, intent provenance, artifact assurance and declarative contract dependency closure are governed by core/runtime_assurance_contract.yaml.
+    - Resolver-internal manifests and taxonomies are not user-facing preload unless the route needs their content.
+    - Current project semantics are restored from current 模型论文框架.md when available; numerical facts still come from accepted workbooks and machine state from project_state.
+hard_invariants:
+  - Global modeling, preprocessing, solving, figure, writing and review rules are governed by their authoritative sources above; bootstrap must not restate those contracts in detail.
+  - Resolve the smallest task-specific load order and stop after the user-requested deliverable; do not preload unrelated contracts or modules.
+  - Formal delivery must execute every `pre_delivery_gates` entry returned by the resolver, in resolver order; stage-specific gates such as semantic governance, project sync, and submission-package validation are examples, not a separately maintained fixed list.
+  - Current 模型论文框架.md is the assistant-readable semantic memory; accepted workbooks are numerical fact sources and project state is the machine-state source.
+  - Problem Contract freezing does not authorize task code by itself; before current model code is generated, the Model Challenge must pass and the user must explicitly approve the current semantic revision/hash under core/model_approval_contract.yaml.
+  - Task-specific preprocessing, solve and result-analysis code remains user-executed; the assistant generates, statically checks and validates returned artifacts under the existing execution contracts.
+  - legacy/ remains outside default execution; compatibility pointers are read-only bridges and may not become active dependencies.
+entrypoints:
+  resolve: python scripts/resolve_runtime.py
+  resolve_legacy: python scripts/resolve_workflow.py
+  semantic_governance: python scripts/validate_semantic_governance.py
+  model_approval: python scripts/validate_model_approval.py
+  sync: python scripts/sync_project.py
+  validate_state: python scripts/validate_project_state.py
+  validate_framework: python scripts/validate_model_paper_framework.py
+  review: python scripts/score_submission.py
+  validate_code_delivery: python scripts/validate_code_delivery.py
+  validate_user_execution: python scripts/validate_user_execution.py
+  audit_latex_project: python scripts/audit_latex_project.py
+  render_paper: python scripts/render_paper.py
+  validate_submission_package: python scripts/validate_submission_package.py
+  audit_paper_prose: python scripts/audit_paper_prose.py
+repository_maintenance:
+  governance: SKILL_CHANGE_GOVERNANCE.md
+  mandatory_before_write: true
+  read_from_ref: main
+  branch_required: true
+  pull_request_required: true
+  direct_main_write_allowed: false
+  generated_files_managed_by: scripts/generate_indexes.py
+compatibility:
+  legacy_task_labels_supported: true
+  legacy_router_single_intent_supported: true
+  deprecated_classification_capabilities_supported: true
+  deprecated_problem_types_supported: true
+  legacy_robustness_workbook_read_supported: true
+  v7_2_0_preprocessing_without_decision_read_supported: true
+  v7_0_semantic_governance_fields_optional_for_read: true
+  v6_6_single_script_question_folders_read_supported: true
+  versionless_active_documents:
+    - PROJECT_INSTRUCTIONS.md
+    - RUNTIME_ROUTER.md
+    - SKILL_FILE_INDEX.md
+    - TEMPLATE_INDEX.md
+  legacy_document_pointers_supported: true

@@ -1,0 +1,149 @@
+% HSK MCM/ICM LaTeX template v6.2.2
+% Compile with: python scripts/render_paper.py final_latex --profile mcm_icm --clean
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{newtxtext,newtxmath}
+
+\newcommand{\ContestName}{MCM/ICM}
+\newcommand{\ContestYear}{YYYY}
+\newcommand{\ProblemCode}{A}
+\newcommand{\TeamNumber}{XXXXXXX}
+\newcommand{\PaperTitle}{TITLE OF THE PAPER}
+
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0}
+}
+
+\lstset{
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    showstringspaces=false
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Team \#\TeamNumber}
+\fancyhead[R]{Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{1.2cm}
+{\LARGE\bfseries \ContestYear\ \ContestName\ Summary Sheet}\\[0.8cm]
+{\large Problem Chosen: \textbf{\ProblemCode}}\\[0.4cm]
+{\large Team Control Number: \textbf{\TeamNumber}}\\[1.5cm]
+{\Huge\bfseries \PaperTitle}\\[1.5cm]
+\end{center}
+
+\section*{Summary}
+% Keep the summary within the current competition limit. Cover the problem,
+% model architecture, quantitative results, validation, and the main decision.
+Write the one-page summary here. Replace every placeholder before submission.
+
+\vfill
+\noindent\textbf{Keywords:} keyword 1; keyword 2; keyword 3; keyword 4
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\subsection{Problem Context}
+\subsection{Problem Restatement}
+\subsection{Modeling Challenges}
+\subsection{Our Contributions}
+% Do not translate a Chinese competition-paper outline mechanically. Explain the
+% specific objects, mechanisms, constraints, and evidence used in this problem.
+
+\section{Assumptions and Justifications}
+% Retain only assumptions that materially affect the model. State the reason,
+% likely failure bias, and validation method for each assumption.
+
+\section{Notation}
+\begin{table}[H]
+\centering
+\caption{Main notation}
+\label{tab:notation}
+\begin{tabular}{llll}
+\toprule
+Symbol & Definition & Unit & Type \\
+\midrule
+$x_i$ & Example decision variable & -- & Decision \\
+$s_t$ & Example state variable & -- & State \\
+$\theta$ & Example parameter & -- & Parameter \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data and Preprocessing}
+\subsection{Data Scope and Alignment}
+\subsection{Missing Values, Outliers, and Transformations}
+
+\section{Model Development}
+\subsection{Subproblem 1}
+\subsubsection{Mechanism and Variables}
+\subsubsection{Mathematical Formulation}
+\subsubsection{Solution Method}
+\subsubsection{Results and Interpretation}
+
+% Duplicate the structure above only for the actual number of subproblems.
+
+\section{Validation and Uncertainty}
+% Select validation appropriate to the task: out-of-sample evaluation,
+% constraint residuals, boundary checks, multi-start or multi-algorithm tests,
+% confidence intervals, calibration, or spatial robustness.
+
+\section{Sensitivity and Robustness Analysis}
+% Use one-at-a-time, joint perturbation, scenario stress testing, Bootstrap,
+% Sobol, or alternative-model analysis only when supported by the problem.
+
+\section{Strengths, Limitations, and Recommendations}
+\subsection{Strengths}
+\subsection{Limitations}
+\subsection{Actionable Recommendations}
+
+\section{Conclusion}
+% Answer each requested question directly with quantitative results and scope.
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+% Enable a letter only when the current problem explicitly requires one.
+% \newpage
+% \section*{Letter to the Decision Maker}
+% \addcontentsline{toc}{section}{Letter to the Decision Maker}
+
+\appendix
+\section{Reproduction Notes}
+\section{Supplementary Tables and Figures}
+\section{Code Description}
+% Full code may be submitted separately. State the input, function, output, and
+% reproduction order rather than filling the main paper with long code blocks.
+
+\end{document}
