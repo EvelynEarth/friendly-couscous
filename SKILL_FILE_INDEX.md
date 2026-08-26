@@ -121,6 +121,7 @@
 - `scripts/validate_user_execution.py`
 - `skills/mathmodel-skill/SKILL.md`
 - `state/project_state.example.yaml`
+- `state/project_state.yaml`
 - `templates/code/hsk_pipeline/README.md`
 - `templates/code/hsk_pipeline/__init__.py`
 - `templates/code/hsk_pipeline/main_pipeline.py`
@@ -248,3 +249,4 @@
 - `tests/test_v781_algorithm_closure.py`
 - `tests/test_v790_modular_latex_source.py`
 - `tests/test_v790_runtime_closure.py`
+- `模型论文框架.md`
