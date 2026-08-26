@@ -1,0 +1,75 @@
+name: Unpack repository ZIP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/unpack-zip.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Safely unpack ZIP into repository root
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          import zipfile
+
+          repo = Path.cwd().resolve()
+          archive = repo / 'mathmodel-skill-main.zip'
+          temp = repo / '.unpack_tmp'
+
+          if not archive.exists():
+              raise SystemExit('Archive not found: mathmodel-skill-main.zip')
+
+          if temp.exists():
+              shutil.rmtree(temp)
+          temp.mkdir()
+
+          with zipfile.ZipFile(archive) as zf:
+              for info in zf.infolist():
+                  target = (temp / info.filename).resolve()
+                  if temp != target and temp not in target.parents:
+                      raise RuntimeError(f'Unsafe ZIP path: {info.filename}')
+              zf.extractall(temp)
+
+          entries = [p for p in temp.iterdir() if p.name not in {'__MACOSX'}]
+          source = entries[0] if len(entries) == 1 and entries[0].is_dir() else temp
+
+          for item in source.iterdir():
+              if item.name == '.git':
+                  continue
+              dest = repo / item.name
+              if item.is_dir():
+                  shutil.copytree(item, dest, dirs_exist_ok=True)
+              else:
+                  shutil.copy2(item, dest)
+
+          archive.unlink()
+          shutil.rmtree(temp)
+          PY
+
+      - name: Commit unpacked contents
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Deploy contents from mathmodel-skill-main.zip'
+          git push origin HEAD:main
