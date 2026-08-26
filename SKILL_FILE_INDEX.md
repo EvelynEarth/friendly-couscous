@@ -198,6 +198,7 @@
 - `tests/test_code_quality_contract.py`
 - `tests/test_content_packs.py`
 - `tests/test_contract_closure.py`
+- `tests/test_figure_iteration_governance.py`
 - `tests/test_framework_project_memory_contract.py`
 - `tests/test_latex_first_versionless_docs.py`
 - `tests/test_legacy_archive_hygiene.py`
