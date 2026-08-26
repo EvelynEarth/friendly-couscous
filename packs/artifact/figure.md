@@ -6,6 +6,72 @@
 
 本 Pack 只做阶段摘要，不重新定义 Figure Evidence 规则。布局、证据层级、数据事实源、Figure Enhancement Gate、配色和 Figure Contract 的唯一权威为 `modules/04_figure_evidence.md`；若本文件与该模块不一致，以后者为准。高级增强的实现模式集中在 `templates/figure/figure_enhancement_patterns.md`，该模板只提供实现参考，不拥有独立决策权。
 
+## 图审迭代执行约定
+
+本节只把 Module 04 已有的 Primary question、Layout Gate、Enhancement Gate 与视觉注意力预算转成可执行的图审顺序，不建立第二套绘图 Authority。
+
+### 1. 参考图先分解，后写代码
+
+当用户提供 Nature/SCI/论文截图作为视觉参考时，默认只借鉴**版式、配色职责和视觉语法**；本题数据、阈值、对象和结论仍必须来自当前 accepted workbooks。生成 MATLAB 前先记录一个轻量 Visual Contract：
+
+```text
+Primary question / Evidence level
+Reference purpose: layout / color / visual grammar / none
+Must preserve
+Must imitate
+Do not copy
+Body geometry / density / aspect ratio
+Metadata / color roles / line-point hierarchy
+Annotation budget / legend placement
+Frozen existing figures or panels
+```
+
+必须把参考图拆成“主体 geometry → metadata → 视觉编码 → 标注 → legend”几个层次，不能只因为看到了 inset、legend、Sankey、Tornado 等表面元素就机械复制。
+
+### 2. Figure Review 采用 body-first 顺序
+
+人工图审默认按以下顺序推进：
+
+```text
+A. Figure role / 图型
+→ B. 主体 geometry、密度、纵横比
+→ C. 视觉编码：颜色、点、线、metadata
+→ D. 标注与标题
+→ E. legend
+→ F. 最终润色
+```
+
+前一层未通过时，不应在后一层投入大量精修。特别是参考图模仿场景，主体版式未通过时不得把“修图例”当作主要优化。
+
+### 3. 局部反馈默认局部修改
+
+用户明确提出“只改某张 Figure / 只改主体 / 只改 legend / 这一张不要动”时，其他 Figure、panel 和已通过视觉层默认冻结。若修复当前问题必然联动其他层，必须在修改前说明依赖范围，不得静默扩大改动。
+
+单轮 redraw 原则上只调整一个主要视觉层；避免同时更换图型、panel 数、配色、annotation、legend 与文件入口，否则下一轮无法判断改善来源。
+
+### 4. 多轮不收敛先诊断
+
+同一 Figure 连续约 3 个 redraw round 仍未明显收敛时，下一步默认先停止继续编号出图，给出 Reference / Current mismatch diagnosis，至少检查：
+
+- 主体骨架与纵横比；
+- 信息密度与行/列间距；
+- metadata 与主图区关系；
+- 颜色职责与视觉焦点；
+- 点、线、带区间的比例；
+- annotation 与 legend 是否抢占版心。
+
+完成诊断后再只修最高优先级 mismatch。这里的“3轮”是升级诊断触发点，不是禁止继续修改的硬上限。
+
+### 5. 接受即冻结，项目只保留 canonical 入口
+
+用户明确说“通过 / 确定这一版 / 保留这个版本 / 不要再动”后，应立即：
+
+1. 将对应 Figure / panel / visual layer 标为 accepted/frozen；
+2. 把最终实现同步到项目唯一 canonical `问题X求解/qX_plot.m`；
+3. 在 `模型论文框架.md` 或 project state 中记录接受状态、脚本路径和 SHA-256；
+4. 从当前项目目录移除实验版 `.m`、重复 wrapper 和近似命名旧入口；实验历史若确有保留价值，只能放临时/归档位置，不得继续作为 active entry；
+5. 后续只有用户显式 reopen 才允许修改被冻结内容。
+
 ## 数据前置条件
 
 正式结果图优先读取本问 `问题X求解/` 中两个标准工作簿：

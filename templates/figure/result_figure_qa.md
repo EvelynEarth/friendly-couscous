@@ -12,6 +12,14 @@
 | DOCX/LaTeX 图注是否补充统计口径且未与 MATLAB 标题逐字重复 |  |  |
 | 中文坐标轴、单位、图例是否完整 |  |  |
 | 字号、线宽、配色和边框是否符合规范 |  |  |
+| 若用户给出参考图，是否明确区分“模仿版式/配色/视觉语法”与“本题数据/语义”，且数据仍来自 accepted workbooks |  |  |
+| 若用户给出参考图，是否在写代码前拆解主体 geometry、metadata、密度/纵横比、颜色职责、点线层级、annotation 与 legend，而非只复制表面图型元素 |  |  |
+| 是否先完成 Figure role/图型 → 主体 geometry/密度 → 视觉编码 → annotation → legend → polish 的分层图审，避免主体未通过时先精修图例 |  |  |
+| 用户明确“只改某张图/某个主体/legend/不要动某部分”后，是否只修改反馈作用域；若必须联动是否已解释依赖 |  |  |
+| 单轮 redraw 是否避免同时大改图型、panel、配色、标注、legend 与入口文件，确保反馈因果可追踪 |  |  |
+| 同一 Figure 连续约 3 轮仍未收敛时，是否先做 Reference/Current mismatch diagnosis 再继续出下一版 |  |  |
+| 用户明确“通过/确定这一版/保留”后，是否立即记录 accepted/frozen、canonical `qX_plot.m` 与 SHA-256，后续仅在显式 reopen 时修改 |  |  |
+| 当前问题目录是否只保留 canonical `qX_plot.m` 作为 active 绘图入口，并已清理实验版 `.m`、重复 wrapper 和近似命名旧入口 |  |  |
 | 若使用 Local Zoom，是否确有局部判别价值且 ROI 与主图对应清楚 |  |  |
 | 若使用 Small Multiples，跨面板比较所需坐标尺度是否一致或已明确说明差异 |  |  |
 | 若使用 Focus Highlighting，是否保留必要上下文而未选择性隐藏不利对象 |  |  |

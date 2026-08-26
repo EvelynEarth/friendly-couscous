@@ -59,6 +59,7 @@
 - `core/workflow_router.yaml`
 - `core/writing_reasoning_contract.yaml`
 - `docs/architecture/authority_duplication_matrix_v7.11.1.md`
+- `docs/figure_iteration_retrospective.md`
 - `legacy/README.md`
 - `modules/01_problem_audit.md`
 - `modules/02_model_design.md`
@@ -121,7 +122,6 @@
 - `scripts/validate_user_execution.py`
 - `skills/mathmodel-skill/SKILL.md`
 - `state/project_state.example.yaml`
-- `state/project_state.yaml`
 - `templates/code/hsk_pipeline/README.md`
 - `templates/code/hsk_pipeline/__init__.py`
 - `templates/code/hsk_pipeline/main_pipeline.py`
@@ -198,6 +198,7 @@
 - `tests/test_code_quality_contract.py`
 - `tests/test_content_packs.py`
 - `tests/test_contract_closure.py`
+- `tests/test_figure_iteration_governance.py`
 - `tests/test_framework_project_memory_contract.py`
 - `tests/test_latex_first_versionless_docs.py`
 - `tests/test_legacy_archive_hygiene.py`
@@ -249,4 +250,3 @@
 - `tests/test_v781_algorithm_closure.py`
 - `tests/test_v790_modular_latex_source.py`
 - `tests/test_v790_runtime_closure.py`
-- `模型论文框架.md`
