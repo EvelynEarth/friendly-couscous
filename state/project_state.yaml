@@ -8,7 +8,7 @@ project:
   version: v1.0-locked-model
   updated_at: '2026-08-26T23:05:00+08:00'
 requirements:
-  total: 7
+  total: 8
   completed:
   - problem_contracts
   - model_route_selection
@@ -16,21 +16,18 @@ requirements:
   - complexity_sanity
   - model_challenge
   - human_model_approval
+  - Q1_primary_code_delivery
   pending:
-  - primary_code_delivery
+  - Q1_user_execution
 data:
   sources:
-  - name: 赛题题面表1–表4
-    path: conversation_attachment:A题赛题
-    role: 需求、设施、成本与运输网络原始输入
-  - name: 赛题题面表5–表6
-    path: conversation_attachment:A题赛题
-    role: 场景概率、中断持续时间与缺货损失
-  - name: 赛题R1–R4参数
-    path: conversation_attachment:A题赛题
-    role: Q3韧性投资与应急资源输入
-  version_hashes: {}
-  locked_scope: 题面结构化参数已完成非破坏性审计；原始数据直接进入模型，年/周/阶段换算属于模型派生参数。
+  - name: A题题面参数机器可读忠实转录
+    path: A题题面参数.json
+    role: 赛题表1–表6及R1–R4参数的无变换机器可读事实源
+    sha256: 0ea62664cd82b46739c68f731072b3203f7b7a8298c27dfa01671bad68f5bd7e
+  version_hashes:
+    q1_input: 0ea62664cd82b46739c68f731072b3203f7b7a8298c27dfa01671bad68f5bd7e
+  locked_scope: A题题面参数.json为赛题表格的逐项无变换转录；Q1直接读取该raw事实源并校验SHA-256。
   active_source_mode: raw
 preprocessing:
   decision: not_needed
@@ -165,6 +162,12 @@ subproblems:
     semantic_change_categories:
     - initial_design
     framework_section: '### Q1：正常状态供应链网络设计'
+    code: 问题一求解/问题一求解.py
+    primary_code_sha256: 15305a273e7a9d3d5c800385523c267137946039054aa27c77d7b3558854a20e
+    data_hash: 0ea62664cd82b46739c68f731072b3203f7b7a8298c27dfa01671bad68f5bd7e
+    primary_execution_status: awaiting_user_execution
+    analysis_execution_status: pending
+    execution_note: Q1 full-fidelity主求解代码已交付并完成静态检查；助手未运行赛题代码，等待用户本地执行并返回问题一求解结果.xlsx。
   Q2:
     status: designed
     problem_contract_status: frozen
@@ -412,7 +415,8 @@ execution:
   dependencies: {}
   platform: 待用户本地full-fidelity执行时填写
 artifacts:
-  code: []
+  code:
+  - 问题一求解/问题一求解.py
   results: []
   figures: []
   papers:
@@ -422,4 +426,4 @@ risks:
 - R3按用户显式选择为纯运输口径；题面缺少普通运输时效/容量瓶颈，因此R3最优调用可能为0，禁止虚构货源或普通物流瓶颈。
 next_gate:
   module: solve_validate
-  condition: Q1–Q3 model_challenge_status=passed且human_model_approval_status=approved，approved revision/hash与current一致；通过semantic governance与model approval gate后生成问题X求解.py，助手只静态检查，用户本地full_fidelity运行。
+  condition: Q1主代码已交付，primary_execution_status=awaiting_user_execution；用户本地full_fidelity运行问题一求解.py并返回问题一求解/问题一求解结果.xlsx，经validate_user_execution验收accepted后才进入Q1 result_analysis及Q2主求解。
