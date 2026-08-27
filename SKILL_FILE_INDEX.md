@@ -139,6 +139,7 @@
 - `templates/figure/chart_selection.md`
 - `templates/figure/figure_enhancement_patterns.md`
 - `templates/figure/figure_failure_postmortem_2026-08.md`
+- `templates/figure/figure_iteration_control.md`
 - `templates/figure/figure_paper_closure.md`
 - `templates/figure/figure_plan.md`
 - `templates/figure/journal_figure_case_patterns.md`
