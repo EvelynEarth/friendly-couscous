@@ -135,6 +135,7 @@
 - `templates/code/starter/prediction.py`
 - `templates/code/starter/simulation.py`
 - `templates/figure/README.md`
+- `templates/figure/anti_ai_figure_gate.md`
 - `templates/figure/chart_selection.md`
 - `templates/figure/figure_enhancement_patterns.md`
 - `templates/figure/figure_paper_closure.md`
