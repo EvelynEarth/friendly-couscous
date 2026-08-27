@@ -28,6 +28,7 @@
 - `templates/figure/journal_figure_case_patterns.md`
 - `templates/figure/journal_figure_mastery_v2.md`
 - `templates/figure/journal_figure_research_notes.md`
+- `templates/figure/journal_figure_research_notes_v2_2026-08-28.md`
 - `templates/figure/mechanism_contract.md`
 - `templates/figure/mechanism_placeholder.md`
 - `templates/figure/mechanism_practical_check.md`
