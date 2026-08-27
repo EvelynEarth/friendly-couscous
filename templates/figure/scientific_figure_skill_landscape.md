@@ -1,285 +1,387 @@
-# Scientific Figure Skill Landscape（顶尖科研绘图 Skill / Tool 调研）
+# Scientific Figure Skill Landscape（高级顶刊科研绘图 Skill / 方法论调研）
 
-> 更新时间：2026-08-28  
-> 目标：不是找一个“最漂亮模板”照抄，而是拆出最值得吸收的执行机制。
+> 更新日期：2026-08-28  
+> 目标：持续吸收真正提高 publication-grade judgment 的方法，而不是寻找一个“更像 Nature 的模板”。
+
+本文件只做外部方法论与工具吸收矩阵；项目实际执行以 `top_tier_scientific_figure_skill.md` + `journal_figure_mastery_v2.md` 为准。
 
 ---
 
-## 1. 本轮最值得吸收的 6 个来源
+# 1. 顶刊编辑部 / 学术方法论：优先级最高
 
-### A. Icarus Figures — 当前最完整的“Figure judgment skill”
+## A. Nature Research Figure Guide
 
-仓库：https://github.com/TAO-QKV/Icarus-Figures
+关键来源：
+- Preparing figures — our specifications
+- Building and exporting figure panels
+- Top 10 ways to delay your paper
 
-核心价值不是 48 个 chart type，而是它把 publication-grade 定义成四轴：
-
-```text
-Depth
-Elegance
-Unimpeachable
-Visible gap
-```
-
-以及：
-- Dataset + Claim；
-- Figure Contract；
-- hero panel；
-- drop test；
-- mechanical floor + judgment pass；
-- archetype 是 floor，不是 ceiling；
-- 真实方法对象应嵌入 hero figure，而不是 generic boxes-and-arrows。
+真正值得吸收：
+- panel neat + space-efficient；
+- panel 大小由内容和可读性决定，不机械等宽；
+- 减少无意义白区；
+- axis/tick/unit 完整；
+- 避免背景 grid、drop shadow、decorative icon、overlapping text；
+- 文字尽量黑/白高对比，不靠彩色文字解释；
+- accessibility 与 CVD；
+- vector artwork、editable text；
+- final production width 约 89 / 183 mm。
 
 本项目吸收：★★★★★
 
-需要改写：
-- 它强制 N / uncertainty，更适合统计/实验论文；数学规划需替换为 threshold / scenario range / numerical tolerance / enumeration verification；
-- 最终后端仍以 MATLAB 为主。
+不机械复制：
+- Nature 5–7 pt 属于最终 production size，不直接覆盖中文 MATLAB review profile。
 
 ---
 
-### B. hanlulong/matlab-plot-skill — 当前最强 MATLAB render-review workflow
-
-仓库：https://github.com/hanlulong/matlab-plot-skill
-
-最重要的硬规则：
-
-```text
-code written != figure done
-render -> export -> read PNG -> critique -> iterate
-```
-
-同时要求：
-- 先知道 final printed width；
-- MATLAB `checkcode`；
-- vector PDF + PNG preview；
-- 读 standalone figure；
-- 能编译论文时再读 embedded page；
-- cramped panels 先增加 canvas / 改 geometry，不先缩字体；
-- legend 不应偷走 data area；
-- direct labels / marker / line style 增强 B&W 可读性。
-
-本项目吸收：★★★★★
-
----
-
-### C. PEEKPerformer/skill-publication-figures — 最强 style consistency + lint 思路
-
-仓库：https://github.com/PEEKPerformer/skill-publication-figures
-
-值得吸收：
-- **one palette per paper**；
-- style config single source of truth；
-- `lint_figure()` 检查 clipping / overlap / missing panel letters；
-- preview-only readback；
-- PDF + PNG + SVG 多格式；
-- fixed house-style 能避免半年后图风漂移。
-
-本项目吸收：★★★★☆
-
-不照搬：
-- 固定 Arial 20/22/32 pt；
-- all spines visible；
-- annotation round box；
-- 18×14 inch 默认 canvas。
-
-这些是其 lab house-style，不是普适顶刊规则。
-
----
-
-### D. gramm — 最适合 MATLAB 的 Grammar of Graphics 思路
-
-仓库：https://github.com/piermorel/gramm
-
-价值：
-- declarative grammar；
-- grouping / faceting / statistical summary / density / uncertainty；
-- publication-quality complex data visualization；
-- 图型不是“命令堆叠”，而是 data mapping + visual grammar。
-
-本项目吸收：★★★★☆
-
-原则：
-- 默认不要求用户额外安装 gramm；
-- 但 chart selection 和 panel composition 可按 grammar-of-graphics 思维组织。
-
----
-
-### E. SciencePlots — 强在 journal preset，不强在 Figure judgment
-
-仓库：https://github.com/garrettj403/SciencePlots
-
-价值：
-- publication style preset；
-- journal-specific style；
-- colorblind options；
-- CJK 支持。
-
-本项目吸收：★★★☆☆
-
-限制：
-- style sheet 只能解决 typography / line / canvas，不能解决 chart grammar / hero hierarchy / evidence depth；
-- 不能再把“套 Nature style”误认为 Figure 已 publication-grade。
-
----
-
-### F. Fabio Crameri Scientific Colour Maps + DiVA
-
-论文：Crameri, Shephard & Heron, Nature Communications 2020  
-https://www.nature.com/articles/s41467-020-19160-7
-
-DiVA: effective design for any MatLab figure  
-https://doi.org/10.5281/zenodo.3596368
-
-核心价值：
-- continuous colormap 要 perceptually uniform；
-- equal data difference 应映射成 equal perceptual difference；
-- CVD / grayscale 可读；
-- `jet / rainbow` 会制造视觉误差；
-- continuous / diverging / cyclic 必须按数据语义匹配。
-
-本项目吸收：★★★★★（连续色图部分）
-
----
-
-## 2. 学术方法论基础（比“风格模板”更重要）
-
-### Nature Methods — Bang Wong / Martin Krzywinski / Nils Gehlenborg
+## B. Nature Methods — Points of View / Points of Significance
 
 重点：
 - Design of data figures；
 - Layout；
+- Salience；
+- Salience to relevance；
 - Negative space；
 - Simplify to clarify；
-- Axes, ticks and grids；
+- Labels and callouts；
 - Plotting symbols；
-- Integrating data；
-- Unentangling complex plots。
+- Axes, ticks and grids；
+- Unentangling complex plots；
+- Bar charts and box plots；
+- Error bars；
+- Storytelling；
+- The overview figure。
 
-核心不是“Nature配色”，而是：
+项目新增吸收：
+
+### Salience → relevance
+最醒目的对象必须就是最相关对象。避免 title / baseline / context / background 比 hero data 更抢眼。
+
+### Labels are layout
+callout / label 的长度、角度、对齐、公共文本重构，本身就是 Figure geometry 的一部分。
+
+### Complex plots → small multiples
+复杂 overview 不是高级；尺度差异、线条纠缠时，按数据缩放的 carefully designed small multiples 往往更好。
+
+### Navigation ink
+axes/ticks/grid 是导航，不应抢 primary data 的 salience。
+
+### Distribution honesty
+统计样本优先 raw points / box / distribution，而不是 bar of means。
+
+本项目吸收：★★★★★
+
+---
+
+## C. Nature visual communication framework — Kelly Krause
+
+核心思想：
 
 ```text
-visual structure should match the message
+visual design depends on intended audience + communication context
 ```
 
-### Cleveland & McGill graphical perception
+同一科研内容面对：
+- 专业审稿人；
+- 跨学科读者；
+- 竞赛评委；
+- 教学展示
 
-Figure 选型应优先更精确的视觉任务：
+视觉解释深度、缩写、context 都应不同。
+
+本项目适配：
+- 数模论文默认 audience = 技术型评委 + 快速扫描；
+- 图要专业但不能依赖领域隐语；
+- Primary claim 要在 2–10 秒内可读。
+
+本项目吸收：★★★★★
+
+---
+
+## D. Cleveland–McGill / Bertin graphical perception
+
+视觉编码准确性优先：
 
 ```text
 aligned position
 > non-aligned position
 > length
-> direction / slope
+> slope/direction
 > angle
 > area
 > volume
-> hue / saturation
+> hue/saturation
 ```
 
-这解释了为什么：
-- dot / interval / forest 常比 pie / bubble 更精确；
-- 4 个方案的 exact comparison 不应靠大色块；
-- color 应辅助，而不是承担主要定量比较。
+项目影响：
+- exact comparison → forest/dot/interval；
+- composition → 只有真正需要 composition 时才用 stacked/pie/ternary；
+- color 作为辅助，不承担精确数值比较。
+
+吸收：★★★★★
 
 ---
 
-## 3. 最终采用的组合，不选择“唯一神 Skill”
+## E. Crameri Scientific Colour Maps
 
-没有一个外部 Skill 可以完整覆盖本项目。
+Nature Communications 2020 指出 rainbow/red-green 等不均匀色图会扭曲数据解释。
 
-最终组合：
+项目吸收：
+- continuous color 必须匹配 sequential / diverging / cyclic；
+- perceptually uniform；
+- grayscale / CVD 检查；
+- jet / rainbow / HSV 禁止。
+
+吸收：★★★★★
+
+---
+
+# 2. Agent / Skill / 工具：吸收执行机制，不照抄 house style
+
+## A. Icarus Figures
+
+仓库：`TAO-QKV/Icarus-Figures`
+
+当前最值得吸收的 Figure judgment framework：
 
 ```text
-Icarus Figures
-  → 判断 Figure 是否有 Depth / Elegance / Unimpeachable / Visible gap
+Dataset + Claim
+Depth
+Elegance
+Unimpeachable
+Visible gap
+mechanical floor + judgment pass
+hero panel + drop test
+```
 
-Nature Methods + Cleveland/McGill
-  → 决定视觉编码和 layout
+最新进一步吸收：
+- figure critique 明确区分“机器能检查的 floor”和“只有看真实 render 才能判断的 quality”；
+- caption-cover test；
+- generic boxes-and-arrows 不能当 hero method figure；
+- grayscale / honest axes；
+- legend ping-pong；
+- distribution 优先于 bar of means。
+
+本项目额外加两轴：
+- Salience relevance；
+- Suite coherence。
+
+吸收：★★★★★
+
+适配：
+- Icarus 强调 N / uncertainty；本项目数学规划必须按 statistical / scenario / parametric / numerical 等语义分流，不能伪造统计不确定性。
+
+---
+
+## B. hanlulong/matlab-plot-skill
+
+核心：
+
+```text
+code written != figure done
+render → export/read → critique → iterate
+```
+
+吸收：
+- MATLAB `checkcode` / static preflight 思维；
+- standalone + embedded-page 双重检查；
+- cramped geometry 先改 canvas / layout，不先缩字体；
+- vector output；
+- B&W 冗余 encoding。
+
+吸收：★★★★★
+
+---
+
+## C. dazhiyang/scientific-plotting-skill
+
+值得吸收：
+- style 参数集中在一个 parameter block；
+- final-width-first（85 / 180 mm）；
+- dense scatter 不输出百万 vector glyph；
+- map 边界简化；
+- discrete color 与 continuous color 分开；
+- no plot title 的 journal mode 思维。
+
+本项目**不照搬**：
+- Times 单字体；
+- 所有文字一个字号；
+- viridis-only；
+- continuous color 默认 quantile splits。
+
+为什么不默认 quantile splits：数模论文很多连续变量是成本、距离、容量等物理/经济量，quantile transform 会破坏“等数值差=等视觉差”的含义。只有 claim 本身是分位等级时才使用。
+
+吸收：★★★★☆
+
+---
+
+## D. PEEKPerformer/skill-publication-figures
+
+最强点：
+- one palette per paper；
+- style config single source of truth；
+- lint clipping / overlap / panel letters；
+- preview/readback；
+- vector multi-format。
+
+吸收：★★★★☆
+
+不照搬具体 house style：Arial/固定大字号/all spines/round boxes。
+
+---
+
+## E. gramm
+
+价值：Grammar of Graphics 思维。
+
+吸收：
+- data mapping；
+- grouping；
+- faceting；
+- statistical layer；
+- small multiples；
+- 不把 Figure 设计理解成一串 plot 命令。
+
+吸收：★★★★☆
+
+MATLAB 项目默认不强制用户安装 gramm，但选型方法可以借鉴。
+
+---
+
+## F. SciencePlots
+
+价值：
+- style preset；
+- journal-specific style；
+- colorblind options；
+- CJK 适配经验。
+
+局限：style preset 解决不了 claim / hero / geometry / salience。
+
+吸收：★★★☆☆
+
+---
+
+## G. 2023Anita/scientific-visual-skills — scientific-paper-figure
+
+主要面向：
+- mechanism figure；
+- graphical abstract；
+- anatomy / workflow；
+- technical route。
+
+值得吸收：
+- mechanism / causal path first；
+- 主体 + 局部放大；
+- 输入→过程→输出等叙事结构；
+- 标签短、箭头服务逻辑。
+
+不适用于：
+- accepted numerical data Figure 的自动生图。
+
+本项目明确：Data Figure 不允许 AI-generated image 作为实现基准；Mechanism Figure 可以借鉴叙事结构，但必须真实、可追溯。
+
+吸收：★★★☆☆（仅机制图部分）
+
+---
+
+# 3. 新增的高级融合结论
+
+## 3.1 Figure Suite > 单图
+
+以前关注“这一张好不好看”，现在增加整篇图组架构：
+- 不重复 claim；
+- 不无意识重复 grammar；
+- 保持 paper-family style；
+- L1/L2/L3/L4 有合理视觉资源分配。
+
+见 `figure_suite_manifest.md`。
+
+## 3.2 Salience-Relevance > 配色
+
+颜色只是显著性的一种。真正需要控制的是：
+
+```text
+reader first sees what is scientifically most important
+```
+
+这比“选哪个蓝色更高级”重要得多。
+
+## 3.3 Editorial compression > 加元素
+
+顶刊感往往来自：
+- 删除重复 panel；
+- 删除重复 title；
+- baseline residualization；
+- refactor common labels；
+- direct label；
+- hero/witness 非等权布局。
+
+## 3.4 Uncertainty semantics > 一律 error bar
+
+数学建模必须区分：
+- scenario；
+- parameter；
+- robust set；
+- numerical gap；
+- statistical；
+- forecast。
+
+不同不确定性对应不同 visual grammar。
+
+## 3.5 Thumbnail test > standalone 大图好看
+
+Figure 在大 MATLAB 窗口里好看，不代表论文里好看。
+
+缩小后如果只剩：
+- 大标题；
+- 大色块；
+- 夸张 callout
+
+而真正数据趋势消失，说明 hierarchy 失败。
+
+---
+
+# 4. 当前融合后的最强组合
+
+```text
+Nature Research Guide
+→ production + accessibility + space efficiency
+
+Nature Methods Points of View
+→ layout + salience + labels + axes + complexity decomposition
+
+Nature visual communication framework
+→ audience/context
+
+Cleveland–McGill / Bertin
+→ perceptual accuracy
+
+Icarus Figures
+→ claim + hero + four-axis + critique gate
 
 matlab-plot-skill
-  → 强制 MATLAB render-review-iterate
+→ MATLAB render-review loop
 
-skill-publication-figures
-  → style consistency + lint / preview 思维
+publication plotting skills
+→ style single-source + final-width + dense data handling
 
-gramm
-  → chart grammar / facet / statistical composition 思维
+Crameri
+→ scientific continuous color
 
-Crameri / DiVA
-  → 科学连续色图 + MATLAB 设计准确性
+HSK project rules
+→ Chinese review profile + accepted workbook + MATLAB-only-drawing + freeze/version control
 ```
 
-本仓库 `top_tier_scientific_figure_skill.md` 是以上方法论的项目适配版。
-
----
-
-## 4. 针对本项目历史失败的最重要新规则
-
-### 4.1 不再使用 AI-generated image 做数据 Figure 原型
-
-正式 Figure prototype 必须可复现，读取 accepted workbook。文生图只会强化：
-- pastel card；
-- dashboard；
-- infographic；
-- 不受数值约束的 geometry。
-
-### 4.2 “像顶刊”的第一条件不是颜色，是 evidence hierarchy
+本仓库真正的融合实现是：
 
 ```text
-hero panel
-+ threshold / mechanism / distribution / region
-+ witnesses
+top_tier_scientific_figure_skill.md
++ journal_figure_mastery_v2.md
++ figure_suite_manifest.md
++ figure_iteration_control.md
++ anti_ai_figure_gate.md
++ result_figure_qa.md
 ```
 
-比：
-
-```text
-蓝色 + 红色 + 大标题 + 两个等宽 panel
-```
-
-高级得多。
-
-### 4.3 “高级图型”只在 basic grammar 损失证据时准入
-
-- ternary：必须真正占据二维 simplex；
-- Sankey：必须真实 flow；
-- chord：必须关系矩阵值得比较；
-- 3D：必须第三维不可替代；
-- radar：默认高风险；
-- pie/donut：默认低优先级。
-
-### 4.4 一旦用户指出一张 Figure 有期刊味，它就是 figure-family anchor
-
-后续 Figure 的：
-- typography；
-- stroke；
-- palette roles；
-- marker scale；
-- annotation density；
-- whitespace rhythm
-
-优先与 anchor 对齐，而不是继续“每张图重新找风格”。
-
----
-
-## 5. 后续 Q3 重绘执行顺序
-
-```text
-F3（已被用户认为最接近期刊）= paper-family anchor
-
-F1 / F2 reopen
-→ 先做 mechanism / claim diagnosis
-→ 参考真实论文结构，不参考 AI mockup
-→ >=3 candidates
-→ four-axis quality scoring
-→ real-data prototype
-→ anti-AI gate
-→ render review #1
-→ redesign
-→ render review #2
-→ grayscale test
-→ MATLAB translation
-→ screenshot fidelity review
-```
-
-在以上步骤完成前，不再生成新的 `q3_plot_v13/v14/...`。
+没有任何一个外部 Skill 被原样照搬。
