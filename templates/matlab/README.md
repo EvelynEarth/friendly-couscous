@@ -2,10 +2,49 @@
 
 MATLAB 只读取 Python 两阶段输出的标准工作簿，不重新求解。每问唯一入口通用记为 `q{x}_plot.m`，与主求解/深化分析脚本及工作簿同处 `问题X求解/`。禁止 `q1_polt.m`、`final_plot_new.m` 等拼写变体和并行 active 入口。
 
+本模板现在不是“另起一套顶刊风格”，而是**原 HSK 绘图规范 + 高级期刊 Figure Evidence 方法的融合实现层**。
+
+融合关系：
+
+```text
+原 HSK / 项目规则（保留为底座）
+- 中文可读性与 review 字号
+- MATLAB 只绘图、不重求解
+- 标准工作簿 / 真实表头 / 单位
+- Figure Layout Gate
+- Figure Enhancement Gate
+- q{x}_plot.m 单一入口
+- 模型论文框架证据闭环
+
+        +
+
+高级期刊 Figure 方法（吸收为上层质量门）
+- Dataset + Claim
+- Graphical Perception
+- >=3 visual grammars + candidate scoring
+- hero / witness + drop test
+- Nature-style space-efficient geometry
+- paper-family anchor
+- Anti-AI gate
+- real-data render-review
+- embedded-paper QA
+- state / freeze / release control
+
+        ↓
+
+统一执行于本 MATLAB 模板
+```
+
+因此：**高级期刊 Skill 不覆盖原 HSK 规则，而是在原规则上增加选型、版式、视觉层级、迭代收敛和论文页 QA。**
+
 高阶科研绘图流程同时读取：
-- `templates/figure/top_tier_scientific_figure_skill.md`
-- `templates/figure/journal_figure_research_notes.md`
-- `templates/figure/result_figure_qa.md`
+- `modules/04_figure_evidence.md`（原项目 Figure 决策权威）
+- `templates/figure/top_tier_scientific_figure_skill.md`（顶刊级 Figure 方法）
+- `templates/figure/figure_iteration_control.md`（scope / version / release / freeze 状态机）
+- `templates/figure/anti_ai_figure_gate.md`（去 AI/PPT/dashboard 味硬门）
+- `templates/figure/figure_failure_postmortem_2026-08.md`（有历史返工时强制读取）
+- `templates/figure/journal_figure_research_notes.md`（外部方法论研究）
+- `templates/figure/result_figure_qa.md`（最终 QA）
 
 ---
 
@@ -143,6 +182,8 @@ Baseline / context    → 中性灰 / 低饱和
 
 主色不是固定 Nature/Science 色板。`hsk_apply_scientific_style.m` 只提供**非霓虹、可打印的起点**，问题脚本仍按 Figure Contract 调整。
 
+若已有用户认可的 `paper_family_anchor`，本问优先继承其：font family、stroke weight、marker scale、颜色职责、annotation density、panel gap 与 whitespace rhythm；不得重新发明一套“期刊配色”。
+
 禁止：
 - rainbow / jet；
 - 红绿作为唯一差异；
@@ -160,13 +201,18 @@ Baseline / context    → 中性灰 / 低饱和
 在正式 `q{x}_plot.m` 生成前：
 
 ```text
-accepted workbook
-→ Python/Matplotlib 视觉原型
+scope lock
+→ accepted workbook
+→ Dataset + Claim
+→ >=3 visual grammars + scoring
+→ Python/Matplotlib 真实数据视觉原型
 → render PNG
 → body geometry review
 → redesign if needed
 → second render
 → hierarchy / labels / color review
+→ Anti-AI / grayscale / clipping sanity
+→ release candidate gate
 → MATLAB translation
 ```
 
@@ -177,9 +223,54 @@ accepted workbook
 
 连续约 3 轮仍未收敛：停止出 vN，先做 Reference / Current mismatch diagnosis。
 
+**用户不是第一层 linter。** 未通过内部 real-data render-review 与 release gate，不向用户交付所谓“最终 `.m`”。
+
 ---
 
-## 8. 图窗与导出
+## 8. Version / Freeze / Naming
+
+Provisional 用户交付必须使用唯一新文件名：
+
+```text
+qX_plot_vNN_<short-note>.m
+```
+
+不得覆盖上一版，不得“名字新、内容旧”。
+
+用户明确“确定 / 通过 / 冻结”后，才生成：
+
+```text
+qX_plot.m
+```
+
+作为 canonical active entry，并记录 accepted source version、commit/hash、frozen Figure IDs 与 `paper_family_anchor`。
+
+已 frozen Figure 如需换图型、证据职责或重新配色，必须先显式 `REOPEN reason=...`。
+
+---
+
+## 9. MATLAB Preflight
+
+交付前同时过两层检查。
+
+### Semantic preflight
+- 工作簿、Sheet、Required headers 真实存在；
+- 单位与比例口径正确；
+- 不调用求解器；
+- 不写 Excel；
+- assert 只验证当前 accepted contract，不保留旧版本 stale assumption；
+- 离散扫描不擅自插值/平滑。
+
+### Lexical / compatibility preflight
+- 扫描不可见 Unicode、NBSP、smart quote、smart dash；
+- 禁止非法复制字符进入 MATLAB 语法位置；
+- 避免中文表头点索引；
+- 检查函数/变量名冲突；
+- 文件名与内部版本一致。
+
+---
+
+## 10. 图窗与导出
 
 默认：
 - 保留可见图窗；
