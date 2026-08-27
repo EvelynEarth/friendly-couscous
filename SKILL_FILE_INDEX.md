@@ -149,6 +149,7 @@
 - `templates/figure/per_question_mechanism_plan.md`
 - `templates/figure/result_figure_contract.md`
 - `templates/figure/result_figure_qa.md`
+- `templates/figure/scientific_figure_skill_landscape.md`
 - `templates/figure/top_tier_scientific_figure_skill.md`
 - `templates/latex/cumcm/cumcmthesis/.gitignore`
 - `templates/latex/cumcm/cumcmthesis/README.md`
