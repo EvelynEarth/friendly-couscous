@@ -24,7 +24,9 @@
 - `templates/figure/figure_iteration_control.md`
 - `templates/figure/figure_paper_closure.md`
 - `templates/figure/figure_plan.md`
+- `templates/figure/figure_suite_manifest.md`
 - `templates/figure/journal_figure_case_patterns.md`
+- `templates/figure/journal_figure_mastery_v2.md`
 - `templates/figure/journal_figure_research_notes.md`
 - `templates/figure/mechanism_contract.md`
 - `templates/figure/mechanism_placeholder.md`
