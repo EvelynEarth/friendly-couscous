@@ -1,49 +1,229 @@
-# 结果图型选择索引
+# 结果图型选择索引（Claim → Visual Task → Grammar）
 
-图型由“要证明的结论”、底层数据结构和信息展示效率共同决定，不按软件默认、图型新奇度或固定禁用清单选择。每张图先填写结果图 Figure Contract，确定 MATLAB 图标题与 DOCX/LaTeX 图注，再查本表。
+图型不从“软件里有什么”或“哪个看起来高级”出发，而从：
 
-## 可选视觉参考
+```text
+Core claim
+→ reader perceptual task
+→ data structure
+→ visual grammar
+→ concrete chart
+```
 
-只有图型选择或多面板布局需要外部视觉对照时，才按 `assets/figure_assets.yaml` 加载对应资产。图集不提供数据、结论或固定配色，不能替代工作簿、Figure Contract、`模型论文框架.md` 和 `q{x}_plot.m`。
+每张图先填写 `result_figure_contract.md`，并参考 `top_tier_scientific_figure_skill.md` 与 `journal_figure_mastery_v2.md`。
 
-## Figure Enhancement 快速索引
+---
 
-基础图型和布局确定后，按 `modules/04_figure_evidence.md` 的 Figure Enhancement Gate 判断是否需要增强；具体实现模式见 `templates/figure/figure_enhancement_patterns.md`。
+## 1. 一级决策表
 
-| 当前视觉问题 | 优先增强 | 典型用途 |
+| 论文 claim | 读者任务 | 首选 visual grammar | 高风险替代 |
+|---|---|---|---|
+| 谁更优 / 排名如何 | 精确比较位置/长度 | dot / interval / forest / lollipop | pie / bubble / 3D bar |
+| 改了多少 | 读取 delta | slope / dumbbell / signed delta forest | 两组并排大 bar |
+| 为什么选该方案 | 同时看结构+量化代价/收益 | metadata strip + aligned panels / Pareto | 稀疏大 scatter / radar |
+| 哪个因素主导 | 排序贡献量 | sorted contribution / tornado / signed decomposition | pie / donut |
+| 什么时候失效 | 找 threshold / boundary | regime map / threshold slice | 平滑折线假边界 |
+| 参数是否稳健 | 读取结构区域或切换距离 | actual-grid regime / small multiples / transition forest | 只画一个单点敏感性 |
+| 机制如何发生 | 追踪状态/约束/流 | real network / staged flow / mechanism object | generic boxes-and-arrows |
+| 分布怎样 | spread / skew / overlap | raw points / ECDF / violin / raincloud / box | bar of means |
+| 预测/拟合可信吗 | fit / residual / calibration | observed-vs-predicted + residual / calibration | 只给R²数字 |
+| 空间哪里异常 | 定位位置与强度 | map / field / heatmap / residual field | 表格或随机颜色块 |
+| 三组成分如何变化 | composition | ternary / stacked composition | ternary（若近共线/一项近常数） |
+| 流量如何转移 | conservation / flow | Sankey / alluvial / network flow | Sankey（若并非真实流） |
+| 多目标怎样权衡 | frontier / dominance | Pareto front + selected point | radar / weighted score only |
+| 风险来自哪里 | scenario contribution | metadata + contribution forest / weighted strip | 普通bar但丢掉概率/持续时间 |
+
+---
+
+## 2. Graphical Perception 优先级
+
+默认优先：
+
+```text
+aligned position
+> non-aligned position
+> length
+> slope/direction
+> angle
+> area
+> volume
+> hue/saturation
+```
+
+精确量化比较尽量用 position / length；颜色主要负责类别、状态、风险角色和连续场辅助表达。
+
+---
+
+## 3. 参数 / 稳健性 / 阈值
+
+### 优先候选
+- actual-grid regime map；
+- decision region；
+- threshold slice；
+- sensitivity small multiples；
+- transition forest / tornado；
+- contour / response surface（仅真实连续模型支持）。
+
+### 禁止
+- sparse grid 直接 spline 成连续相图；
+- 独立离散测试点硬连成趋势；
+- 只为了“高级感”做3D surface。
+
+### 选型提示
+若二维里一维几乎不影响结构，优先 1D slice；若二维交互本身就是结论，保留 actual-grid map。
+
+---
+
+## 4. 方案比较 / 结构差异 / 公平性
+
+### 优先候选
+- aligned forest / lollipop；
+- metadata strip + quantitative panel；
+- dumbbell / slope；
+- rank transition；
+- Pareto；
+- parallel coordinates（维度较多且语义一致）。
+
+### 高级规则
+- 没变化对象降权或正文汇总；
+- categorical structure + numerical outcome 同时重要时，metadata strip 往往比把类别塞进legend更高级；
+- 4个点如果只为“看起来二维”，不要撑一整张scatter。
+
+---
+
+## 5. 成本 / 收益 / 风险分解
+
+### 优先候选
+- signed contribution；
+- sorted contribution forest；
+- value bridge / waterfall；
+- baseline-to-optimum slope；
+- cost-service / risk-service trade-off；
+- Pareto。
+
+### Waterfall 准入
+必须同时满足：
+1. 各增量可加总闭合；
+2. 分解本身就是 Primary question；
+3. baseline 和 total 有明确业务语义。
+
+否则优先 contribution / comparison，而不是 waterfall。
+
+---
+
+## 6. 机制 / 流量 / 网络
+
+### 优先候选
+- real network flow；
+- mini-Sankey / alluvial；
+- staged response strip；
+- timeline + glyph；
+- state-transition diagram；
+- mechanism figure with real method object。
+
+### 准入
+Sankey/alluvial 必须是真实可守恒的 flow；不是“有几阶段”就画流图。
+
+机制图不能只是：
+
+```text
+Input → Model → Output
+```
+
+必须嵌入真实对象：网络拓扑、decision region、约束、actual distribution、before/after pattern 等。
+
+---
+
+## 7. 分布 / 样本 / 不确定性
+
+### Statistical
+raw points / ECDF / box / violin / raincloud / CI。
+
+### Scenario
+scenario points / weighted contribution / envelope / small multiples。
+
+### Parametric
+sensitivity curve / interval / regime / tornado。
+
+### Numerical
+residual / gap / convergence / feasibility certificate。
+
+禁止把 scenario range、numerical tolerance 和 statistical CI 混为一谈。
+
+---
+
+## 8. 复杂曲线 / 多对象
+
+出现以下任一条件优先进入 Complexity Decomposition Gate：
+- >4条高度纠缠曲线；
+- y-scale差异明显；
+- legend ping-pong；
+- ROI被全局尺度压缩；
+- 一个axes同时需要3类以上编码。
+
+优先：
+- small multiples；
+- overview + justified zoom；
+- hero + witness column；
+- context grey + focus highlight；
+- direct end labels。
+
+---
+
+## 9. Invariant Subtraction
+
+如果大分量跨比较对象不变：
+
+```text
+Total = fixed baseline + changing residual
+```
+
+优先只画 residual / delta，并把 fixed baseline 放成 reference text / metadata / caption。
+
+固定大分量不应该成为最大彩色区域。
+
+---
+
+## 10. Figure Enhancement 快速索引
+
+| 当前视觉问题 | 优先增强 | 准入标准 |
 |---|---|---|
-| 全局尺度压缩关键差异、交点或阈值 | Local Zoom | 临界点、Pareto 膝点、局部误差、关键时间窗 |
-| 多条曲线大量交叉、遮挡、图例搜索成本高 | Small Multiples | 多算法、多区域、多对象时序、参数组曲线 |
-| 对象很多但核心判断只依赖少量对象 | Focus Highlighting | 推荐方案 vs 基准、关键站点、代表性样本 |
-| 存在稳定区、风险区、可行区、阶段区间 | Semantic Background | 敏感性、鲁棒性、阈值、状态分类 |
-| 中心关系、边际分布和残差共同回答可信度 | Composite Diagnostic | 回归、预测、分类、聚类、优化诊断 |
-| 第三维具有真实结构且二维会损失信息 | Conditional 3D | 双因素响应、三目标 Pareto、空间场、约束曲面 |
+| 全局尺度压缩关键差异 | Local Zoom | zoom 新增真实可验证信息 |
+| 多曲线纠缠 | Small Multiples | 分面后比较更快且尺度说明清楚 |
+| 对象很多但只关注少量 | Focus Highlighting | context 降权不隐去例外 |
+| 有真实风险区/可行区 | Semantic Background | 背景区域来自真实阈值 |
+| 主关系+误差共同构成可信度 | Composite Diagnostic | panel 是同一claim的互补证据 |
+| 真实第三维不可替代 | Conditional 3D | 二维会丢失核心关系 |
 
-Enhancement 默认是 `none`。若增强后不能增加可验证信息、降低视觉搜索成本或强化关键证据，则不使用。
+---
 
-## 图型选择表
+## 11. 同一 Figure Suite 的 grammar 管理
 
-| 证据任务 | 常规优先图型 | 可选高级图型 | 必需底层数据 | 主要准入条件与风险控制 |
-|---|---|---|---|---|
-| 方案/类别数值比较 | 排序条形图、点图、带区间点图 | 饼图、环形图、3D 柱状图、华夫图 | 对象、指标、误差/区间、排序或占比 | 饼图仅用于少量类别和明确整体占比；3D 柱状图仅在双分类结构有额外价值时使用，并处理遮挡 |
-| 时间趋势与预测 | 折线 + 区间、真实—预测对照、残差时序 | Small Multiples、Local Zoom、流图、河流图、面积堆叠、三维时间曲面 | 时间、真实值、预测值、上下界、分组 | 多线遮挡优先分面；关键窗口被全局尺度压缩时可放大；三维或堆叠表达必须保持时间顺序清晰，不能用平滑或透视掩盖误差 |
-| 参数敏感性 | 参数—响应曲线、龙卷风图、局部热图 | Local Zoom、Semantic Background、3D 响应曲面、等高线、平行坐标、交互式参数面板 | 参数值、响应、基准点、可行状态 | 稳定/风险/失效区可用真实阈值背景带；3D 曲面要求规则或可解释网格，并附色条、单位及必要的等高线/二维投影 |
-| 鲁棒性与扰动 | 区间图、箱线 + 散点、ECDF、场景分位数图 | Small Multiples、Semantic Background、密度脊线图、雨云图、三维场景曲面 | 逐次扰动结果、分位数、失败标记 | 必须展示尾部、失败场景或原始点，不能只展示均值或光滑表面 |
-| 多算法比较 | 性能剖面、误差—时间散点、带区间点图 | Small Multiples、Focus Highlighting、雷达图、平行坐标、气泡图、三维性能面 | 算法、实例/重复、目标、时间、可行性 | 多算法曲线拥挤时优先分面；核心算法可突出但不得隐藏其他算法；雷达图指标需同向并标准化、算法数量受控；三维性能面必须避免遮挡和尺度混淆 |
-| 排名稳定性 | 名次热图、slopegraph、Top-k 重合率曲线 | Focus Highlighting、雷达图、弦图、排名流图 | 对象、扰动场景、名次/得分 | 雷达图只比较少量对象；弦图或流图必须控制连线数量并明确方向和权重 |
-| 分布差异 | ECDF、箱线/小提琴 + 原始点、直方/密度 | Composite Diagnostic、雨云图、密度脊线图、三维密度曲面 | 逐样本值、组别、统计量 | 高级分布图必须保留样本量、原始点或可核对统计量，不能用平滑掩盖小样本 |
-| 相关性与变量结构 | 相关矩阵、散点矩阵、载荷图 | Composite Diagnostic、雷达图、弦图、网络图、3D 散点/曲面 | 配对样本、相关/载荷、显著性 | 不得由相关直接宣称因果；三维图需控制视角并提供二维补充视图 |
-| 空间分布 | 分级设色图、局部统计量图、空间残差图 | Focus Highlighting、3D 地形/曲面、体素图、流线图、空间动画 | 空间键、几何、数值、缺失状态 | 投影、坐标和单位正确；3D 高度或颜色映射必须有明确物理含义 |
-| 路径与网络 | 简化网络图、路径高亮、流量宽度图、邻接热图 | Focus Highlighting、桑基图、弦图、3D 网络、流向动画 | 节点、边、权重、路径/流 | 控制节点和边数量，宽度、方向、颜色和层级含义必须明确，避免毛线团 |
-| 调度与资源占用 | 甘特图、资源占用阶梯图、冲突矩阵 | Semantic Background、3D 甘特图、桑基图、资源流图、动画 | 作业、资源、开始/结束、状态 | 高级图只在同时表达多资源或流转关系时采用，不能替代可行性检查 |
-| 多目标权衡 | Pareto 前沿、平行坐标、目标空间散点 | Local Zoom、Focus Highlighting、雷达图、3D Pareto 曲面、交互式目标空间 | 可行方案、各目标、推荐点 | 推荐点或膝点可局部放大；目标需同向化或明确方向；3D 只适用于三目标且需提供二维投影或切片 |
-| 约束与可行域 | 可行域图、违反量点图、临界边界图 | Local Zoom、Semantic Background、3D 可行域、约束曲面、体积切片 | 约束值、容差、变量/场景 | 临界边界可局部放大或背景高亮；三维可行域必须标明边界和可行侧，必要时提供截面图，不得替代约束检查表 |
-| 模型拟合与诊断 | 真实—拟合散点、残差图、QQ 图、校准图 | Composite Diagnostic、Local Zoom、3D 残差曲面、联合密度图、交互诊断面板 | 真实值、拟合值、残差、概率 | 预测可信度可将中心关系、边际分布和残差组织为一个联合诊断 Figure；高级图必须提升异质性或局部结构识别，不得只报 $R^2$ 或准确率 |
-| 构成比例与层级 | 排序条形图、堆叠条形图、矩形树图 | 饼图、环形图、旭日图、华夫图、桑基图 | 类别、数值、总量、层级或流向 | 饼图/环形图类别少且总量口径一致；层级数据优先旭日图或矩形树图 |
-| 多指标画像 | 平行坐标、标准化点图、热图 | Focus Highlighting、雷达图、星形坐标、glyph 图 | 对象、指标、方向、标准化值 | 雷达图指标应同向、标准化方法透明、对象数量受控，避免面积错觉 |
+正式全文绘图时填写 `figure_suite_manifest.md`。
 
-## 权威边界
+同一 visual grammar 可以重复，但必须说明：
+- perceptual task 相同；
+- 该 grammar 仍为最高分候选；
+- 重复强化 paper-family consistency，而非偷懒。
 
-本文件只负责候选图型与视觉问题索引，不维护通用绘图政策。通用信息效率判定、Evidence level、Primary question、Figure Layout Gate、Figure Enhancement Gate、视觉注意力预算、MATLAB 标题/`sgtitle` 与论文图注、配色、数据诚实、多面板准入、删除规则和入文闭环统一服从 `modules/04_figure_evidence.md`；Enhancement 的 MATLAB 实现模式只参考 `templates/figure/figure_enhancement_patterns.md`。
+禁止：
+- 全文都 dumbbell；
+- 全文都 bar；
+- 为了多样而乱上 ternary/Sankey/3D。
 
-表格中的“主要准入条件与风险控制”只用于提示某类候选图型的局部风险，不构成第二套通用规则。若本文件与 Module 04 存在任何不一致，以 Module 04 为准。
+---
+
+## 12. 最终选型判定
+
+每个候选最终问 6 个问题：
+
+```text
+1. 一眼能回答 Primary question 吗？
+2. 是否用尽可能准确的视觉通道？
+3. 是否隐藏了分布/例外/边界？
+4. 是否存在更直接的二维图？
+5. 最醒目的对象是不是最重要的证据？
+6. 它和整篇 Figure Suite 是否既一致又不重复？
+```
+
+若其中 2 项以上回答“不”，重新选型。
