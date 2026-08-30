@@ -1,13 +1,16 @@
-contract_version: 1.0.0
+contract_version: 1.1.0
 introduced_in_skill_version: 7.14.0
 skill_compatibility: ">=7.14.0,<8.0.0"
 status: active
 purpose: >-
   Cross-stage convergence contract for mathematical-modeling projects. It closes
   recurring handoff failures between solving, result review, result analysis,
-  figure evidence, writing, LaTeX delivery and repository maintenance without
-  changing the mathematical model, workbook schema, five-file per-question
-  contract, Python/MATLAB ownership or user full-fidelity execution.
+  figure evidence, writing, LaTeX delivery and repository maintenance, and adds
+  a competition-paper calibration layer that improves judge recoverability,
+  evidence balance, prose naturalness, final-render readability, source integrity
+  and appendix economy without copying any single benchmark paper. It does not
+  change the mathematical model, workbook schema, five-file per-question contract,
+  Python/MATLAB ownership or user full-fidelity execution.
 
 applies_to:
   - modules/03_solve_validate.md
@@ -25,6 +28,10 @@ principles:
   - "main-text figures answer the question before diagnostics explain robustness"
   - "candidate artifacts are not canonical until the user explicitly freezes them"
   - "explicit user presentation decisions are project facts unless they conflict with an official competition rule"
+  - "benchmark papers are diagnostic references, not templates to imitate"
+  - "the final paper is written for a competition judge, not for the internal workflow engine"
+  - "evidence density is optimized by claim coverage and readability, never by fixed figure/page quotas"
+  - "formal references must be verifiable sources rather than decorative bibliography"
   - "Skill-repository maintenance must never absorb competition-project data or results"
 
 question_closure_gate:
@@ -186,6 +193,206 @@ presentation_lock:
     - "pure presentation locks do not trigger model re-approval or numerical stale"
     - "if a later request conflicts with an older presentation lock, the newer explicit request replaces only the affected presentation field"
 
+benchmark_calibration_boundary:
+  purpose: >-
+    External or user-supplied competition papers may be compared with the current
+    draft to reveal differences in judge readability, narrative cadence, visual
+    evidence density, layout and prose register. They are never treated as the
+    mathematical or stylistic ground truth for a new problem.
+  allowed_comparison_dimensions:
+    - problem_to_model_narrative
+    - answer_visibility
+    - figure_and_table_role_balance
+    - visual_legibility_at_final_paper_size
+    - prose_register_and_sentence_load
+    - main_text_vs_appendix_allocation
+    - citation_and_reference_hygiene
+  forbidden_inference:
+    - "copy a benchmark's model, formula, parameter, result, citation or wording into an unrelated problem"
+    - "turn one benchmark's figure count, page count, panel count or chapter count into a global target"
+    - "assume a benchmark is correct merely because it looks like an award paper"
+    - "optimize toward journal-like density if that reduces competition-judge recoverability"
+  abstraction_rule: >-
+    Lessons learned from comparison must be expressed as task-agnostic gates or
+    defaults. Problem-specific content belongs only to the active project, never
+    to the reusable Skill repository.
+
+competition_paper_calibration_gate:
+  description: >-
+    Run once after the main draft has current figures/tables and again before
+    formal render. The gate evaluates whether the paper can be recovered quickly
+    by a mathematical-modeling judge without exposing internal workflow jargon or
+    overfitting to a benchmark style.
+  dimensions:
+    judge_recoverability:
+      checks:
+        - "the research object and each question's requested output can be located without reading the appendix"
+        - "each question exposes the decisive model relation/decision rule before implementation detail"
+        - "the direct answer is visible near its supporting figure/table rather than buried in diagnostics"
+    modeling_narrative:
+      checks:
+        - "question analysis states the real difficulty and modeling handle"
+        - "model establishment explains why each core relation is needed before giving the formula"
+        - "solver/algorithm presentation follows mathematical structure rather than software chronology"
+        - "later questions show real inheritance or explicitly state independence"
+    evidence_balance:
+      checks:
+        - "main empirical/optimization conclusions have a direct evidence carrier when a visual/table materially improves verification"
+        - "robustness and residual diagnostics do not crowd out the main answer"
+        - "exact-value comparisons use tables or concise annotations when a plot would add little"
+        - "trend/shape/spatial/temporal structure uses figures when prose or a table would be slower to interpret"
+    prose_register:
+      checks:
+        - "final prose is competition-native academic Chinese/English, not a transcription of internal agent governance"
+        - "sentences begin from concrete objects, conditions, quantities or actions before abstract evaluation nouns"
+        - "method names and English proper nouns are not stacked merely to create sophistication"
+        - "paragraphs advance object -> relation/action -> evidence/result -> implication instead of repeating meta summaries"
+    layout_economy:
+      checks:
+        - "main-text explanation is not over-compressed merely to save pages"
+        - "the paper is not padded with duplicate diagnostic figures or repeated derivations"
+        - "accepted presentation locks and competition template typography are preserved"
+    source_integrity:
+      checks:
+        - "every externally sourced core claim has a verifiable source record"
+        - "reference metadata and in-text citation mapping are checked before formal delivery"
+        - "AI tools, search engines or chat systems are not used as scientific authority for model facts, theorems or parameters"
+    appendix_economy:
+      checks:
+        - "appendix content follows official competition rules and explicit user requirements first"
+        - "only canonical code and genuinely useful reproducibility material enter the paper appendix"
+        - "debug logs, stale candidates, hashes and internal workflow metadata do not consume paper pages unless explicitly required"
+  outputs:
+    status: [passed, review_required]
+    required_fields:
+      - strongest_differences_from_competition_norm
+      - keep_as_strengths
+      - revisions_needed
+      - nonissues_not_to_copy_from_benchmarks
+  no_score_rule: >-
+    This gate deliberately has no universal page-count, figure-count, formula-count
+    or paragraph-count score. It judges information recovery and evidence coverage,
+    not resemblance to a reference paper.
+
+reader_recovery_test:
+  questions:
+    - "Can a judge state what each subproblem asks after scanning the front matter/problem analysis?"
+    - "Can a judge identify the final model or decision relation for each nontrivial subproblem?"
+    - "Can a judge find the direct numerical/structural answer and its evidence without searching the appendix?"
+    - "Can a judge distinguish model assumptions, data facts, derived quantities and validation evidence?"
+    - "Can a judge tell why a method was chosen rather than merely seeing its name?"
+  failure_action: >-
+    Reorder or rewrite the smallest affected section. Do not solve the problem again
+    or add more figures unless the missing information genuinely requires new evidence.
+
+evidence_density_and_carrier_gate:
+  principle: >-
+    The right amount of evidence is the minimum set that lets a judge verify every
+    core claim with low search cost. Neither sparse elegance nor figure abundance is
+    a quality goal by itself.
+  carrier_selection:
+    isolated_decisive_number: "sentence or compact result line; table if several comparable values exist"
+    exact_multi_case_comparison: "table first unless shape/order is the main message"
+    trend_shape_spatial_temporal_pattern: "figure first"
+    mechanism_geometry_flow: "problem-specific mechanism/scene figure when prose is inefficient"
+    model_robustness_or_diagnostic: "secondary figure/table only when it changes confidence, boundary or model choice"
+    long_algorithm_control_flow: "stepwise/pseudocode only when it reduces cognitive load"
+  coverage_rules:
+    - "every core answer must have at least one explicit evidence anchor"
+    - "do not create a figure merely because a workbook has another diagnostic sheet"
+    - "do not omit a direct result visual when the reader otherwise has to reconstruct a pattern from prose"
+    - "do not split one coherent reader task into several near-duplicate figures"
+    - "do not merge unrelated reader tasks only to reduce the figure count"
+
+paper_prose_register_gate:
+  internal_terms_to_translate_when_they_are_only_workflow_metadata:
+    - current
+    - accepted
+    - frozen
+    - gate
+    - stale
+    - semantic_revision
+    - semantic_hash
+    - Model Challenge
+    - evidence_map
+    - project_state
+  translation_principle: >-
+    Keep the underlying mathematical meaning but rewrite internal state language as
+    natural paper prose. For example, report that a result remains stable under a
+    stated test, rather than saying an artifact is accepted/current. Internal terms
+    may remain in appendices or reproducibility documentation when they are actually
+    needed there.
+  abstract_noun_warning_patterns:
+    - "multiple consecutive sentences led by generic words such as framework/closure/layer/governance/evidence without naming the studied object"
+    - "sentence contains several method names but does not state what quantity each method obtains or tests"
+    - "paragraph repeatedly summarizes that a chain is complete instead of presenting the mathematics/results that make it complete"
+  target_voice: >-
+    Clear undergraduate academic writing with rigorous mathematics: specific,
+    restrained and readable. Do not manufacture colloquial errors, and do not
+    imitate journal-review language merely to sound advanced.
+
+title_abstract_calibration_gate:
+  title:
+    rules:
+      - "lead with the research object/problem or the actual unifying mechanism when possible"
+      - "include named methods only when they materially organize the paper"
+      - "avoid chains of multiple branded/English method names when a plain mathematical description is clearer"
+      - "software names are implementation details unless software itself is the research object"
+  abstract:
+    information_order:
+      - research_object_and_core_conflict
+      - unified_or_questionwise_modeling_route
+      - decisive_results_or_thresholds
+      - direct_answer_and_main_boundary
+    rules:
+      - "first sentence should not carry every method name and every validation device"
+      - "each named method must be tied to the quantity, decision or uncertainty it produces"
+      - "report enough decisive numbers to answer the problem, but do not turn the abstract into a diagnostics list"
+      - "high-precision answer display still follows the Numeric Profile and official scoring requirements"
+
+citation_source_integrity_gate:
+  required_before_formal_delivery:
+    - "verify source existence"
+    - "verify author/title/venue-or-publisher/year metadata"
+    - "verify journal volume/issue/pages or book publisher/place when required by competition format"
+    - "verify URL and access date for online resources when the competition format uses them"
+    - "verify that the cited location in the paper actually needs the source"
+  source_quality_rules:
+    - "prefer original research, official standards/data and authoritative books over secondary summaries"
+    - "do not cite an AI assistant as authority for a theorem, empirical constant, algorithm origin or domain fact"
+    - "do not keep a reference solely to make the bibliography look longer"
+  failure_behavior: >-
+    Unverified or mismatched references remain pending/review_required and must not
+    be presented as verified formal bibliography.
+
+appendix_allocation_gate:
+  precedence:
+    - official_competition_submission_and_appendix_rules
+    - explicit_user_requirement
+    - reproducibility_need
+    - default_paper_economy
+  rules:
+    - "keep only canonical, current code in the paper appendix"
+    - "do not print stale candidates, duplicated analysis scripts or debug experiments"
+    - "when full code is not required in the paper, move complete implementation to the reproducibility package and keep only the algorithm/file manifest or essential excerpt needed for reading"
+    - "when full code is required or explicitly requested, prefer a compact file manifest plus canonical source rather than including internal logs/hashes/config dumps as prose"
+    - "the main body must not be shortened unnaturally just so that a long code appendix fits an arbitrary total-page target"
+
+final_pdf_readability_gate:
+  description: >-
+    A figure/table or layout is not accepted merely because its source artifact was
+    accepted. It must remain readable after insertion into the actual competition PDF.
+  checks:
+    - "figure axis labels, legends, annotations and panel labels remain legible at final insertion size"
+    - "multi-panel figures do not become miniature plots whose evidence can only be read by zooming excessively"
+    - "captions identify the reader task and statistical/physical scope without repeating the whole paragraph"
+    - "heading hierarchy, paragraph spacing, equation breaks, table width and white space remain visually stable"
+    - "important equations/tables/figures are not separated from the text that first interprets them without a clear reason"
+    - "there are no clipped labels, overlapping objects, broken fonts, orphaned heading blocks or empty layout artifacts"
+  reroute_rules:
+    - "if a dense figure fails at final size, split/recompose the figure before shrinking fonts"
+    - "if prose pages become visually dense, improve sectioning/paragraphing or use the correct evidence carrier before reducing font/spacing"
+
 writing_result_paragraph_contract:
   sequence:
     - "identify what the figure/table is"
@@ -198,6 +405,7 @@ writing_result_paragraph_contract:
     - "concise transitions between model establishment, solution and evidence"
     - "avoid repeated '由图可知/结果表明/因此' templates"
     - "do not restate every plotted number"
+    - "prefer concrete object/quantity/action subjects over repeated abstract audit nouns"
 
 latex_expected_artifact_gate:
   description: >-
@@ -217,6 +425,9 @@ latex_expected_artifact_gate:
     - "required figure labels/files remain included after subsequent LaTeX revisions"
     - "appendix contains only canonical requested code artifacts, not obsolete candidate scripts"
     - "formal delivery binds source bundle, expected-artifact manifest and compiled PDF hash"
+    - "competition_paper_calibration_gate.status == passed or every review_required item has an explicit accepted justification"
+    - "final_pdf_readability_gate passed on the rendered paper, not only on source figures"
+    - "citation_source_integrity_gate has no unresolved formal-reference mismatch"
   rule: "a newer PDF is not 'latest valid' if an expected accepted artifact disappeared during a later revision"
 
 skill_repository_project_artifact_isolation:
