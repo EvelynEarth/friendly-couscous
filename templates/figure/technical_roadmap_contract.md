@@ -18,13 +18,13 @@ If the competition template or an explicit user presentation lock specifies anot
 
 ## 2. Content compression
 
-Each node should normally contain a short noun/verb phrase rather than a sentence. Prefer problem-specific phrases such as:
+Each node should normally contain a short noun/verb phrase rather than a sentence. Prefer project-specific but compact phrases such as:
 
 ```text
-宏观极值识别
-Fresnel 折射率恢复
-双角稳健融合
-Airy 模型判别
+关键结构识别
+局部参数反演
+多场景稳健融合
+候选模型判别
 条件性回查
 ```
 
