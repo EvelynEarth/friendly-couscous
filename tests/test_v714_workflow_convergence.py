@@ -1,6 +1,5 @@
 from pathlib import Path
 import json
-import re
 import unittest
 
 
@@ -89,17 +88,18 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
             top_level_binary_data.extend(ROOT.glob(suffix))
         self.assertEqual(top_level_binary_data, [], f"competition data leaked at repo root: {top_level_binary_data}")
 
-    def test_no_project_specific_result_numbers_in_new_contracts(self):
+    def test_new_contracts_remain_generic(self):
         paths = [
             ROOT / "core" / "workflow_convergence_contract.yaml",
             ROOT / "templates" / "figure" / "technical_roadmap_contract.md",
             ROOT / "templates" / "writing" / "presentation_lock.md",
         ]
         text = "\n".join(p.read_text(encoding="utf-8") for p in paths)
-        # Privacy regression sentinel: contracts should contain generic rules,
-        # not copied project-specific result values.
-        for value in ("7.400640", "3.566807"):
-            self.assertNotIn(value, text)
+        # Contracts may describe generic project patterns but must not contain
+        # copied project result workbooks or literal task-output directories.
+        self.assertNotIn("问题一求解结果.xlsx", text)
+        self.assertNotIn("问题二求解结果.xlsx", text)
+        self.assertNotIn("问题三求解结果.xlsx", text)
 
 
 if __name__ == "__main__":
