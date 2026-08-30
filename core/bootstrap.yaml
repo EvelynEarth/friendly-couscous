@@ -1,4 +1,4 @@
-skill_version: 7.13.0
+skill_version: 7.14.0
 bootstrap_schema_version: 1.1.0
 purpose: >-
   Minimal startup index for the HSK mathematical-modeling workflow. Read this
@@ -18,6 +18,7 @@ authoritative_sources:
   user_execution: core/user_execution_contract.yaml
   code_quality: core/code_quality_contract.yaml
   writing_reasoning: core/writing_reasoning_contract.yaml
+  workflow_convergence: core/workflow_convergence_contract.yaml
   semantic_governance: scripts/validate_semantic_governance.py
   runtime_assurance: core/runtime_assurance_contract.yaml
 startup_contract:
@@ -27,16 +28,19 @@ startup_contract:
   rules:
     - Bootstrap stores pointers and startup invariants only; global domain rules live in core/hsk_core_policy.md.
     - Route-specific contracts are loaded only when the resolved task needs them.
+    - For any project route that consumes a returned runtime artifact, changes stage/question, generates/reviews figures, writes/compiles the paper, or maintains this Skill repository, load authoritative_sources.workflow_convergence in addition to the resolved route-specific authorities.
     - Runtime context hydration, intent provenance, artifact assurance and declarative contract dependency closure are governed by core/runtime_assurance_contract.yaml.
     - Resolver-internal manifests and taxonomies are not user-facing preload unless the route needs their content.
     - Current project semantics are restored from current 模型论文框架.md when available; numerical facts still come from accepted workbooks and machine state from project_state.
 hard_invariants:
   - Global modeling, preprocessing, solving, figure, writing and review rules are governed by their authoritative sources above; bootstrap must not restate those contracts in detail.
+  - Cross-stage question closure, returned-result plausibility review, observed project-path binding, figure candidate convergence, presentation locks, expected-artifact preservation and Skill-repository project-artifact isolation are governed by core/workflow_convergence_contract.yaml.
   - Resolve the smallest task-specific load order and stop after the user-requested deliverable; do not preload unrelated contracts or modules.
   - Formal delivery must execute every `pre_delivery_gates` entry returned by the resolver, in resolver order; stage-specific gates such as semantic governance, project sync, and submission-package validation are examples, not a separately maintained fixed list.
   - Current 模型论文框架.md is the assistant-readable semantic memory; accepted workbooks are numerical fact sources and project state is the machine-state source.
   - Problem Contract freezing does not authorize task code by itself; before current model code is generated, the Model Challenge must pass and the user must explicitly approve the current semantic revision/hash under core/model_approval_contract.yaml.
   - Task-specific preprocessing, solve and result-analysis code remains user-executed; the assistant generates, statically checks and validates returned artifacts under the existing execution contracts.
+  - Repository-maintenance changes may abstract lessons from a project but must not commit the user's competition statement, data, workbooks, project memory, task-specific code, figures, compiled paper or result values into the reusable Skill repository unless the user explicitly designates a separate project repository.
   - legacy/ remains outside default execution; compatibility pointers are read-only bridges and may not become active dependencies.
 entrypoints:
   resolve: python scripts/resolve_runtime.py
@@ -60,6 +64,7 @@ repository_maintenance:
   branch_required: true
   pull_request_required: true
   direct_main_write_allowed: false
+  project_artifact_isolation: core/workflow_convergence_contract.yaml
   generated_files_managed_by: scripts/generate_indexes.py
 compatibility:
   legacy_task_labels_supported: true
