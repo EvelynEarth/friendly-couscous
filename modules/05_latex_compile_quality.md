@@ -2,6 +2,8 @@
 
 本模块只处理已经完成 AI Cleanup 的 `latex_source`。正式入口统一为 `scripts/render_paper.py`：它先执行项目级 LaTeX 审计并生成 `latex_audit_report.yaml`，审计通过后才按当前 compile profile 编译，最终输出 `compiled_pdf` 与机器生成的 v3 `compile_report.yaml`。
 
+跨版本布局收敛、Presentation Lock 和“已接受内容不能在后续编译中悄然消失”统一服从 `core/workflow_convergence_contract.yaml` 的 `latex_expected_artifact_gate`。因此“编译通过”只是必要条件，不等价于“当前 PDF 仍是完整有效版本”。
+
 ## 工程与配置
 
 - Windows 工程放纯英文路径，项目主文件使用 Profile 的 `project_main`；
@@ -15,6 +17,20 @@
 - `--template-smoke` 仅供仓库模板 CI。该模式产生的 attestation 明确标记为 `template_smoke`，不得满足用户项目的正式交付门。
 
 CUMCM 工程若尚未包含 `cumcmthesis.cls`，`render_paper.py` 从仓库已审计的上游 class 资源自动 materialize 到当前工程，并仅执行既有的窄范围、幂等字体回退补丁；不得要求用户靠隐藏的手工复制步骤才能进入正式编译。
+
+## Expected Artifact Manifest
+
+若当前项目已经接受或锁定了展示结构，在首次正式成稿或每次展示变更后建立轻量 expected-artifact manifest。它不是新的数值事实源，只记录“当前 PDF 必须仍包含什么”。至少按项目实际记录：
+
+- 摘要分页策略；
+- 一级/二级标题编号与已锁定命名；
+- 正文必须出现的 Figure/表格 label；
+- technical roadmap 是否启用及其位置；
+- 附录是否先有三线文件说明表；
+- 附录应包含的 canonical 求解/绘图代码；
+- 是否要求代码高亮。
+
+纯写作或排版修改不得擅自重置该 manifest。用户显式改变其中某项时，只更新受影响字段。
 
 ## 竞赛编译链
 
@@ -39,4 +55,13 @@ Times New Roman 缺失时回退 TeX Gyre Termes；SimSun 缺失时回退 FandolS
 
 ## 终稿检查
 
-无 Error、未定义引用、缺失文献、缺图、字体错误、不可接受的 Overfull box 和表格越界；目录页码正确；摘要、图表、命题和附录编号正确；PDF 必须逐页检查。正式交付时以 `latex_audit_report.yaml + compile_report.yaml + 当前 PDF` 的哈希证明链为机器证据，不以“文件存在”代替当前性检查。
+先做机器编译与引用检查，再做 expected-artifact 与视觉检查：
+
+1. 无 Error、未定义引用、缺失文献、缺图、字体错误、不可接受的 Overfull box 和表格越界；
+2. 目录页码正确；摘要、图表、命题和附录编号正确；
+3. 对照 current Presentation Lock / expected-artifact manifest，确认锁定的一级标题、编号方式、摘要分页、路线图位置、附录表与 canonical 代码仍在；
+4. 对本次修改涉及的页面必须实际渲染/逐页目视检查，不得只看 `.tex` 或编译日志；
+5. 若某张此前 accepted 的 Figure 在后续 LaTeX 改版中丢失，即使 PDF 无编译错误也判为 delivery regression，修复后重新生成审计/编译证明；
+6. 正式交付时以 `latex_audit_report.yaml + compile_report.yaml + 当前 PDF` 的哈希证明链为机器证据，不以“文件存在”代替当前性检查。
+
+PDF 必须逐页检查；当论文很长时至少保证所有改动页面、图表页、摘要页、章节边界和附录入口被人工检查，并由正式 review/delivery 模块补充全篇抽查或逐页审阅。
