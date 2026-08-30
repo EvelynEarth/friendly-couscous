@@ -1,10 +1,11 @@
-version: 7.13.0
+version: 7.14.0
 schema: core/workbook_schema.yaml
 preprocessing_contract: core/global_preprocessing_contract.yaml
 model_approval_contract: core/model_approval_contract.yaml
 user_execution_contract: core/user_execution_contract.yaml
 code_quality_contract: core/code_quality_contract.yaml
 writing_reasoning_contract: core/writing_reasoning_contract.yaml
+workflow_convergence_contract: core/workflow_convergence_contract.yaml
 bootstrap: core/bootstrap.yaml
 taxonomy: core/task_taxonomy.yaml
 scope_boundary:
@@ -18,6 +19,7 @@ scope_boundary:
     result_workbook_and_quality: core/workbook_schema.yaml
     code_quality: core/code_quality_contract.yaml
     writing_reasoning: core/writing_reasoning_contract.yaml
+    workflow_convergence: core/workflow_convergence_contract.yaml
     prose_structure: modules/05_writing/latex.md
   rule: Delegated sections below are integration pointers/switches only; they must not become parallel policy authorities.
 project_root:
@@ -42,6 +44,10 @@ writing_policy:
   docx_is_latex_prerequisite: false
   expression_authority: modules/05_writing/latex.md
   reasoning_contract: core/writing_reasoning_contract.yaml
+  workflow_convergence_contract: core/workflow_convergence_contract.yaml
+  presentation_lock_template: templates/writing/presentation_lock.md
+  expected_artifact_contract: core/workflow_convergence_contract.yaml#latex_expected_artifact_gate
+  technical_roadmap_contract: templates/figure/technical_roadmap_contract.md
   rule_governance: core/writing_reasoning_contract.yaml#rule_governance
   citation_evidence_contract: core/writing_reasoning_contract.yaml#citation_evidence
   terminology_contract: core/writing_reasoning_contract.yaml#terminology_governance
@@ -79,6 +85,7 @@ delivery_attestation:
   compile_role: v3 compile_report绑定正式审计报告哈希、当前compile-profile fingerprint、实际编译序列、有效日志、source bundle与PDF哈希。
   missing_log_policy: failed
   profile_drift_policy: stale_recompile_required
+  expected_artifact_policy: 每次布局或源码结构变更后对照current Presentation Lock/expected-artifact manifest与渲染PDF复核；accepted artifact丢失时即使编译成功也不得称为current valid PDF。
   official_package_policy: 只有当届edition_rules=verified且verified_at/source/submission_files完整时才允许自动生成official package；内容必须精确等于verified allowlist。
   reproducibility_package_policy: 与官方包显式分流；允许包含项目内部复现材料，但仍须通过manifest和当前产物哈希验证。
   package_manifest: submission_manifest.yaml
@@ -91,6 +98,7 @@ execution_policy:
   model_approval_authority: core/model_approval_contract.yaml
   semantic_governance_authority: scripts/validate_semantic_governance.py
   code_quality_authority: core/code_quality_contract.yaml
+  workflow_convergence_authority: core/workflow_convergence_contract.yaml
   default_owner: user
   default_profile: full_fidelity
   assistant_task_code_execution_allowed: false
@@ -107,7 +115,11 @@ result_policy:
   workbook_authority: core/workbook_schema.yaml
   preprocessing_authority: core/global_preprocessing_contract.yaml
   result_analysis_disposition_authority: core/writing_reasoning_contract.yaml#analysis_evidence_disposition
+  workflow_convergence_authority: core/workflow_convergence_contract.yaml
   primary_quality_gate_required: true
+  post_execution_review_required: true
+  post_analysis_review_required_when_analysis_runs: true
+  question_closure_gate_required_before_dependent_question: true
   failed_quality_evidence_persisted: true
   downstream_admission_requires_quality_passed: true
   result_analysis_outcomes: [passed, failed, redo_required]
@@ -154,6 +166,7 @@ model_paper_framework:
   authoritative_boundaries:
     model_semantics_and_paper_structure: 模型论文框架.md
     writing_rules: modules/05_writing/latex.md + core/writing_reasoning_contract.yaml
+    presentation_lock_and_expected_artifacts: core/workflow_convergence_contract.yaml + templates/writing/presentation_lock.md
     preprocessing_decision_and_active_data_source: state/project_state.yaml + core/global_preprocessing_contract.yaml
     preprocessing_workbook_when_project_level: 数据预处理结果.xlsx
     preprocessing_figure_script_when_project_level: 数据预处理/data_process.m
@@ -376,6 +389,7 @@ project_sync:
   - 只允许设置或保持stale；清除stale必须由适用的数据质量门、主结果质量门、结果分析流程或对应论文片段重写复核显式完成
   - 对DOCX、LaTeX与提交scope检查真实文件、编译报告、图片引用和提交ZIP内容
   - LaTeX与提交scope重算当前active source bundle；必须与正式latex_audit_report、compile_report.compiled_from_source_sha256及PDF哈希一致；任一active .tex/.bib/.cls/.sty/正式图片、模型论文框架或compile profile变化后旧证明链均须重新生成
+  - 对照current Presentation Lock/expected-artifact manifest检查已接受标题编号、摘要分页、路线图、正文图表和附录结构未在后续修订中丢失；必要页面以渲染PDF复核
   - submission scope的project_sync只检查项目内正式产物与ZIP存在/基础状态；ZIP内容与当前项目/竞赛allowlist的最终证明由submission_package_validation gate负责
   forbidden:
   - 自动生成模型语义或preprocessing_decision
@@ -384,6 +398,7 @@ project_sync:
   - 自动填写结果数值
   - 自动把preprocessing_quality_status、result_quality_status或result_analysis_status提升为passed
   - 以文件存在代替数据质量、可行性、精度、预处理验证、编译证明或提交包当前性验证
+  - 以PDF可编译代替accepted presentation artifact完整性检查
   artifact_hash_semantics:
     global_framework: paper_framework.sha256记录完整模型论文框架文件哈希
     preprocessing_decision: 项目级预处理判定本身属于数据/模型语义层
@@ -485,10 +500,12 @@ per_question:
   - q{阿拉伯序号}_plot.m
   two_python_stage_policy:
     primary: 主求解阶段交付问题X求解.py；数据入口由preprocessing_decision决定，主工作簿accepted后冻结该脚本。
-    result_analysis: 主工作簿accepted后单独生成问题X结果深化分析.py；该脚本继承同一preprocessing_decision与数据事实源并形成深化分析工作簿。
+    result_analysis: 主工作簿accepted后单独生成问题X求解/问题X结果深化分析.py；该脚本继承同一preprocessing_decision与数据事实源并形成深化分析工作簿。
     no_backwrite: 深化分析不得通过改写问题X求解.py实现；若主模型确需修改，则明确回退solve_validate并重新验收主结果。
     raw_shared_data_read: 只有decision=project_level时禁止两个小问Python直接读取对应共享原始数据源。
   no_auxiliary_files_by_default: true
+  candidate_plot_scripts_not_final_files: true
+  canonical_plot_freeze_authority: core/workflow_convergence_contract.yaml#figure_candidate_governance
   legacy_compatibility:
     result_directory: 结果数据表/问题{中文序号}/
     single_evolving_python: v6.6.x仅问题X求解.py的四文件项目可只读兼容
@@ -513,16 +530,20 @@ matlab_figure_contract:
   preprocessing_export_stem: data_process
   preprocessing_source_workbook: 数据预处理/数据预处理结果.xlsx
   preprocessing_matlab_must_not_reprocess: true
+  figure_purpose_gate: core/workflow_convergence_contract.yaml#figure_purpose_gate
+  candidate_governance: core/workflow_convergence_contract.yaml#figure_candidate_governance
+  static_gate: core/workflow_convergence_contract.yaml#matlab_figure_static_gate
+  technical_roadmap_contract: templates/figure/technical_roadmap_contract.md
   handoff_alternative: matlab_figure_handoff.json/yaml
   provenance_record: null
   mtime_role: 仅作辅助警告
-  default_output: 每问交付同目录qX_plot.m；project_level另交付数据预处理/data_process.m；图窗由用户人工检查和按需导出
+  default_output: 每问交付同目录canonical qX_plot.m；project_level另交付数据预处理/data_process.m；图窗由用户人工检查和按需导出
 ownership:
   Python_preprocessing: 仅preprocessing_decision=project_level时生成；负责共享原始数据的公共审计与已批准处理、论文方法/验证证据和绘图底层数据并输出统一工作簿，不求解小问核心模型。
   MATLAB_preprocessing: 仅project_level时由data_process.m读取统一工作簿绘制处理前后与验证证据；不重新清洗、插值、滤波、重采样或估计参数。
   Python: 每问维护同目录两个题目专属脚本；not_needed/question_local可读取原始数据，project_level读取统一工作簿。问题X求解.py负责主求解，问题X结果深化分析.py负责主结果验收后的独立深化分析。
-  MATLAB: 同目录qX_plot.m精确读取本问两个标准工作簿，并仅在图确实需要底层数据时按preprocessing_decision读取原始数据或统一预处理工作簿；不重新计算核心结果，默认不自动导出图片
-  other_figure_tools: GeoGebra、PPT、draw.io、SVG、TikZ可用于非数据驱动机理图
+  MATLAB: 同目录qX_plot.m精确读取本问两个标准工作簿，并仅在图确实需要底层数据时按preprocessing_decision读取原始数据或统一预处理工作簿；原始数据仅作显示上下文时不得重检峰谷、重拟合、重分类或重求核心结果；默认不自动导出图片
+  other_figure_tools: GeoGebra、PPT、draw.io、SVG、TikZ可用于非数据驱动机理图和technical roadmap；用户要求Draw.io时按technical_roadmap_contract交付可编辑XML
 filenames:
   preprocessing_script: 数据预处理/数据预处理.py（仅project_level）
   preprocessing_workbook: 数据预处理/数据预处理结果.xlsx（仅project_level）
@@ -556,13 +577,21 @@ rules:
 - 缺失填补、预测填补、异常删除、插值、平滑、滤波、去趋势、归一化、标准化和重采样等操作必须有数据/机理/模型必要性证据；有缺失不等于必须插值，赛题本身要求的预测结果不得包装为预处理。
 - 只要实际预处理参与后续模型，论文必须闭合问题证据、数学公式/确定性映射、参数依据、方法验证、处理前后证据、图和模型接口；形式证明仅在数学上适用时使用。
 - project_level进入figure_evidence时必须生成data_process.m，并至少形成一张预处理必要性或有效性证据图；MATLAB不得重新执行预处理。
-- 新项目每问只创建一个问题X求解目录，默认最终恰好包含两个Python脚本、两个Excel工作簿和一个qX_plot.m。
+- 新项目每问只创建一个问题X求解目录，默认最终恰好包含两个Python脚本、两个Excel工作簿和一个canonical qX_plot.m；Figure redesign候选在人工审图期间与canonical隔离，冻结后移出active目录。
 - Problem Contract、preprocessing_decision、语义闭环与复杂度复审先于正式模型和代码交付，不能用运行成功或结果合理替代语义正确性。
+- 生成本地数据读取代码前先按真实项目树绑定project_path_contract；不得把示例目录结构当作当前项目事实，FileNotFoundError后不得原样重复同一错误路径假设。
 - 主工作簿accepted后冻结问题X求解.py，并单独生成问题X结果深化分析.py；不得为深化分析覆盖改写主求解脚本。
+- 主工作簿accepted后还必须完成post_execution_review；执行深化分析时，深化工作簿accepted后还必须完成post_analysis_review。跨依赖小问前必须通过question_closure_gate。
 - 默认不生成独立完整运行配置、运行说明、code_delivery_report、user_execution_validation_report、semantic_governance_report、figure_evidence或图表子目录。
 - 实际生成的项目级预处理脚本和两个正式小问Python脚本都必须通过静态工程质量检查且不得由助手执行；校验结果在聊天或标准输出中返回，不额外落盘。
 - 用户返回的适用预处理工作簿和小问工作簿均必须先通过对应质量门；代码交付本身不得把状态提升为solved或analyzed。
-- 同步器只做发现、校验、哈希和stale传播，不替代语义治理、条件式预处理质量门、主求解质量门与结果深化分析。
+- Figure Evidence先执行Figure Purpose Gate，主结果/机制证据优先于仅能说明后台稳健性的诊断图；candidate通过fingerprint和用户截图核验后才可冻结为canonical。
+- MATLAB candidate交付用户运行前必须通过静态gate，包括字符串转义/解释器、递增tick、类别轴、worksheet/header等基本渲染与数据接口检查。
+- technical roadmap按需放在问题分析后、模型建立与求解前；默认不用公式，节点短语化，线条不得穿过文本框或彼此交叉；用户要求Draw.io时同时交付可编辑XML。
+- 用户显式锁定的一级标题命名、编号体系、摘要分页、路线图位置、附录结构和代码高亮方式按Presentation Lock保持，除非官方模板规则或用户后续明确变更。
+- 每次LaTeX/排版修订后必须按expected-artifact gate确认此前accepted的图、路线图、标题编号、摘要分页和附录内容仍存在；可编译但丢失accepted artifact的PDF不是current valid deliverable。
+- 同步器只做发现、校验、哈希和stale传播，不替代语义治理、条件式预处理质量门、主求解质量门、结果深化分析或人工结果合理性复核。
+- v7.14 reusable Skill仓库维护必须隔离用户赛题项目产物；只能提交抽象合同、模板和不可还原真实项目的合成测试，禁止把当前赛题数据、工作簿、题目专属代码、图、论文、项目状态或结果值提交到Skill仓库。
 - v7.10正式LaTeX交付必须形成current的latex_audit_report + v3 compile_report + PDF证明链；缺日志、审计过期、profile变化或源码/框架变化均不得继续复用旧passed状态。
 - v7.10提交包显式分为official/reproducibility；official必须来自已核验当届allowlist，任一包都必须由submission_manifest和当前项目哈希验证后才可视为validated。
 - v7.8算法流程呈现按not_needed/stepwise/pseudocode自适应；只有真实多阶段或控制流有信息价值时单列，并由Algorithm Trace连接模型/命题、Python实现与工作簿结果。
