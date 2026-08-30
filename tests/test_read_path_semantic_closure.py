@@ -60,7 +60,7 @@ class TestReadPathSemanticClosure(unittest.TestCase):
         self.assertIn("modules/04_figure_evidence.md", plan["modules"])
         self.assertIn("packs/artifact/figure.md", plan["packs"])
 
-    def test_latex_route_loads_reasoning_but_not_code_or_preprocessing_contracts(self):
+    def test_latex_route_loads_reasoning_and_convergence_but_not_code_or_preprocessing_contracts(self):
         plan = self.resolve("latex")
         contracts = set(plan["contracts"])
         self.assertEqual(
@@ -69,6 +69,7 @@ class TestReadPathSemanticClosure(unittest.TestCase):
                 "core/bootstrap.yaml",
                 "core/hsk_core_policy.md",
                 "core/writing_reasoning_contract.yaml",
+                "core/workflow_convergence_contract.yaml",
             },
         )
         self.assertNotIn("core/user_execution_contract.yaml", contracts)
