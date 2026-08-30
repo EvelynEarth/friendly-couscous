@@ -1,6 +1,20 @@
-# mathmodel-skill v7.13.0
+# mathmodel-skill v7.14.0
 
-HSK 数学建模工作流：**审题与 Problem Contract 冻结 → 非破坏性数据审计 + 模型路线/数据需求比较 → `preprocessing_decision` → 语义闭环与复杂度复审 → 结构化简与 Algorithm Trace → `proposed_model_spec` → Model Reviewer + Devil's Advocate → Model Approval Brief → `awaiting_model_approval` → 用户明确批准当前 `semantic_revision/hash` → `locked_model_spec` → 条件式预处理 → 用户本地 full-fidelity Python 主求解 → 独立结果深化分析 → MATLAB Figure Evidence + 按需 Figure Enhancement → LaTeX 终稿 → AI cleanup → LaTeX project audit attestation → profile-bound compile attestation → 评委式终审 → submission package generation → resolver-returned `pre_delivery_gates` → validated submission package**。
+HSK 数学建模工作流：**审题与 Problem Contract 冻结 → 非破坏性数据审计 + 模型路线/数据需求比较 → `preprocessing_decision` → 语义闭环与复杂度复审 → 结构化简与 Algorithm Trace → `proposed_model_spec` → Model Reviewer + Devil's Advocate → Model Approval Brief → `awaiting_model_approval` → 用户明确批准当前 `semantic_revision/hash` → `locked_model_spec` → 条件式预处理 → 用户本地 full-fidelity Python 主求解 → 结果合理性复核 → 独立结果深化分析 → Question Closure → MATLAB Figure Evidence + Figure Purpose/Enhancement/Freeze → 竞赛论文质量校准 → LaTeX 终稿 → AI cleanup → Expected Artifact + final-PDF readability → LaTeX project audit attestation → profile-bound compile attestation → 评委式终审 → submission package generation → resolver-returned `pre_delivery_gates` → validated submission package**。
+
+## v7.14.0：Cross-stage Convergence & Competition-paper Calibration
+
+本版本把长流程中最容易“看似完成、实际未闭合”的环节收口为跨赛题通用治理层，并新增竞赛论文质量校准。它不改变数学模型、Workbook Schema、Project State Schema、Python/MATLAB 职责、每问五文件接口或用户 full-fidelity 执行边界。
+
+- 新增 `core/workflow_convergence_contract.yaml`：统一 Question Closure、用户运行后结果合理性复核、真实项目路径绑定、Figure Purpose、candidate→accepted→frozen、MATLAB 静态门、Presentation Lock、Expected Artifact 与 reusable Skill repository 项目数据隔离。
+- 结果阶段不再把“程序退出码为 0”当成结果可信；进入下一问前按当前 runtime plan 检查主结果、必要深化分析、图证据与项目记忆是否闭合。
+- Figure Evidence 从题目主结论和 reader task 出发，优先机理/场景与直接主结果；BIC、残差、Jackknife、敏感性等诊断只在它们确实改变可信度、边界或模型选择时占用正文视觉资源。
+- 图形重设计使用唯一 candidate fingerprint，只有用户明确接受后才提升为 canonical `qX_plot.m`；最终 Figure 还必须在真实论文插入尺寸下通过可读性检查，不能只在 MATLAB 大图窗中“看起来好看”。
+- 新增竞赛论文 calibration：检查评委可恢复性、模型叙事、证据载体平衡、竞赛原生语言、标题/摘要方法名负荷、版面经济、引用源完整性和附录经济；benchmark 论文只作为诊断参照，禁止复制固定图数、页数、算法、模型、参数或句式。
+- 最终论文将内部工作流元数据与正文语言隔离；`current/accepted/frozen/gate/stale/revision/hash` 等词只有在确有数学/复现含义时进入正文，否则转写为自然的模型、数据与证据叙述。
+- 正式参考文献增加来源完整性门：核验来源存在、作者/题名/期刊或出版社/年份/页码及适用的 URL/访问时间；AI 助手或搜索工具不作为定理、算法来源、经验参数或领域事实的正式权威。
+- 附录分配服从“官方规则 → 用户明确要求 → 复现需要 → 默认论文经济”；只保留 canonical 当前代码与真正有用的复现材料，不把历史候选、调试日志、哈希和内部运行元数据塞入论文正文/附录。
+- 新增 v7.14 回归测试，明确 Skill 仓库不得吸收具体竞赛 PDF、数据、工作簿、题目专属脚本、图、论文 PDF、项目状态或具体答案数字。
 
 ## v7.13.0：Evidence-driven Figure Enhancement
 
@@ -322,6 +336,7 @@ route-specific contracts / modules / packs / templates
 - `core/code_quality_contract.yaml`：Python 工程质量；
 - `core/user_execution_contract.yaml`：用户本地执行与工作簿验收；
 - `core/writing_reasoning_contract.yaml`：推理、Algorithm Trace、术语、数值、Title Claim、规则等级和 Citation Evidence；
+- `core/workflow_convergence_contract.yaml`：跨阶段 Question Closure、路径/候选产物收敛、论文校准与项目产物隔离；
 - `modules/05_writing/latex.md`：正文结构与表达；
 - `core/output_contract.yaml`：目录、产物和正式交付；
 - `core/project_state.schema.yaml`：机器状态；
@@ -343,6 +358,6 @@ python scripts/validate_submission_package.py . --strict
 
 ## 兼容与历史
 
-`legacy/` 只读，不进入默认执行链。v7.12 及更早项目保持只读兼容；Figure Enhancement 与 Algorithm Trace 都是按需能力，不要求历史项目反向补写。Model Approval 同样不要求历史项目倒填，只有重新进入当前模型设计、项目级预处理、主求解或语义变化后的重算时迁入新门。历史版本说明保留在 Git 历史和 `CHANGELOG.md`。
+`legacy/` 只读，不进入默认执行链。v7.13 及更早项目保持只读兼容；v7.14 新增的 Question Closure、competition-paper calibration、Presentation Lock、final-PDF readability 与 project-artifact isolation 只在重新进入当前相关阶段时按需应用，不要求历史项目反向补写。Figure Enhancement 与 Algorithm Trace 仍是按需能力。历史版本说明保留在 Git 历史和 `CHANGELOG.md`。
 
 许可证与第三方声明见 `LICENSE`、`THIRD_PARTY_NOTICES.md`。
