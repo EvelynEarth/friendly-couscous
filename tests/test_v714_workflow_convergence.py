@@ -37,6 +37,15 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
             "matlab_figure_static_gate:",
             "technical_roadmap_contract:",
             "presentation_lock:",
+            "benchmark_calibration_boundary:",
+            "competition_paper_calibration_gate:",
+            "reader_recovery_test:",
+            "evidence_density_and_carrier_gate:",
+            "paper_prose_register_gate:",
+            "title_abstract_calibration_gate:",
+            "citation_source_integrity_gate:",
+            "appendix_allocation_gate:",
+            "final_pdf_readability_gate:",
             "latex_expected_artifact_gate:",
             "skill_repository_project_artifact_isolation:",
         ]
@@ -48,9 +57,20 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("\\m", text)
         self.assertIn("strictly increasing", text)
 
+    def test_paper_calibration_is_non_imitation_and_non_quota(self):
+        text = (ROOT / "core" / "workflow_convergence_contract.yaml").read_text(encoding="utf-8")
+        self.assertIn("benchmark papers are diagnostic references, not templates to imitate", text)
+        self.assertIn("no universal page-count, figure-count, formula-count", text)
+        self.assertIn("competition judge", text)
+        self.assertIn("internal workflow jargon", text)
+        self.assertIn("AI assistant", text)
+        self.assertIn("final insertion size", text)
+        self.assertIn("canonical, current code", text)
+
     def test_stage_modules_reference_convergence_contract(self):
         solve = (ROOT / "modules" / "03_solve_validate.md").read_text(encoding="utf-8")
         analysis = (ROOT / "modules" / "03_result_analysis.md").read_text(encoding="utf-8")
+        figure = (ROOT / "modules" / "04_figure_evidence.md").read_text(encoding="utf-8")
         compile_quality = (ROOT / "modules" / "05_latex_compile_quality.md").read_text(encoding="utf-8")
 
         self.assertIn("core/workflow_convergence_contract.yaml", solve)
@@ -58,6 +78,8 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("post_execution_review", solve)
         self.assertIn("core/workflow_convergence_contract.yaml", analysis)
         self.assertIn("post_analysis_review", analysis)
+        self.assertIn("core/workflow_convergence_contract.yaml", figure)
+        self.assertIn("Figure Purpose Gate", figure)
         self.assertIn("latex_expected_artifact_gate", compile_quality)
         self.assertIn("Expected Artifact Manifest", compile_quality)
 
@@ -96,10 +118,13 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         ]
         text = "\n".join(p.read_text(encoding="utf-8") for p in paths)
         # Contracts may describe generic project patterns but must not contain
-        # copied project result workbooks or literal task-output directories.
+        # copied project result workbooks, benchmark identifiers or literal task-output directories.
         self.assertNotIn("问题一求解结果.xlsx", text)
         self.assertNotIn("问题二求解结果.xlsx", text)
         self.assertNotIn("问题三求解结果.xlsx", text)
+        self.assertNotIn("2025B157", text)
+        self.assertNotIn("paper_complete.pdf", text)
+        self.assertNotIn("碳化硅", text)
 
 
 if __name__ == "__main__":
