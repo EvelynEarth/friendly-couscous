@@ -56,6 +56,7 @@
 - `core/task_taxonomy.yaml`
 - `core/user_execution_contract.yaml`
 - `core/workbook_schema.yaml`
+- `core/workflow_convergence_contract.yaml`
 - `core/workflow_router.yaml`
 - `core/writing_reasoning_contract.yaml`
 - `docs/architecture/authority_duplication_matrix_v7.11.1.md`
