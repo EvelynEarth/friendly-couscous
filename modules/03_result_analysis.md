@@ -8,10 +8,13 @@
 - `question_local`：可读取必要原始数据，并仅复现本问数学层已经定义的局部变换；
 - `project_level`：读取 `数据预处理/数据预处理结果.xlsx` + 已验收主工作簿，禁止再次直接读取对应共享原始数据。
 
+本模块的跨阶段 handoff、用户返回深化结果后的合理性复核和当前问题 closure 统一服从 `core/workflow_convergence_contract.yaml`。深化分析工作簿 accepted 并不自动授权进入 MATLAB 或下一问。
+
 ## 一、执行规则
 
 ```text
 主工作簿accepted
+→ 主结果 post_execution_review passed
 → 冻结问题X求解.py
 → 继承preprocessing_decision与当前数据事实源
 → 建立result_analysis_plan
@@ -23,6 +26,8 @@
 → 同目录问题X结果深化分析.xlsx
 → validate_user_execution.py验收
 → 对每项证据给出support / modify / reject
+→ post_analysis_review：检查分析结论、范围、异常与对核心答案的影响
+→ passed 后才允许进入 Figure Evidence / question_closure_gate
 → analyzed或redo_required
 ```
 
@@ -50,7 +55,19 @@ Evidence ID
 
 禁止只写“通过敏感性分析验证了模型稳定性”而不说明：分析了什么、支持/修改/否决了哪个主张、变化范围多大以及正文应怎样处理。
 
-## 三、数据与模型边界
+## 三、Post-analysis Review 与跨问关闭
+
+用户返回深化分析结果后，在规划 Figure Evidence 或下一问前必须执行 `workflow_convergence_contract.post_execution_review` 的 analysis 变体，至少回答：
+
+1. 是否存在异常范围、符号、单位、约束或边界行为；
+2. 各项 `support / modify / reject` 是否与工作簿证据一致；
+3. 是否有某个 `modify/reject` 尚未同步到主张、框架、图表或正文；
+4. 核心答案是否仍保持；
+5. 下一步允许进入 Figure Evidence、回退重算，还是当前问题已经满足 closure 条件。
+
+只有 `post_analysis_review.status=passed` 且无未处理的核心 `reject`，当前 analysis 阶段才算闭合。若用户询问“结果是否合理”，本模块应先完成此审查，不得把问题直接推进到下一问。
+
+## 四、数据与模型边界
 
 数据处理边界：
 
