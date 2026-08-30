@@ -1,25 +1,54 @@
 # Module 04：MATLAB 结果图、预处理图证据与机理图精修
 
+本模块的图型、数据追溯和视觉证据规则仍由本文件负责；跨阶段 Question Closure、Figure Purpose Gate、candidate/canonical 收敛、MATLAB 静态渲染门、technical roadmap 与 Presentation Lock 统一服从 `core/workflow_convergence_contract.yaml`。本模块不复制第二套跨阶段规则，只把它们落实到绘图执行。
+
 ## 正确顺序
 
 进入本模块时先读取 current `模型论文框架.md` 中的当前有效口径、相关小问结果摘要、待办缺口和既有图表映射，用于确定“哪些结论需要图证据”；随后再从真实工作簿读取具体数值和底层序列。不得仅凭聊天记忆或框架摘要数字反推图数据。
 
 1. 继承已经锁定的 `preprocessing_decision`；若为 `project_level`，确认 `数据预处理结果.xlsx` 已 accepted 且预处理质量门通过，但此时不要求先生成 `data_process.m`；
-2. Python 完成完整主求解并通过主结果质量门；
-3. Python 基于题目风险完成实际需要的结果深化分析，并验收 `问题X求解/` 中两个标准工作簿；
+2. Python 完成完整主求解并通过主结果质量门与 `post_execution_review`；
+3. Python 基于题目风险完成实际需要的结果深化分析，并验收 `问题X求解/` 中两个标准工作簿；若执行了深化分析，还必须通过 `post_analysis_review`；
 4. 只有上述数值阶段完成后才进入 Figure Evidence；先明确每张图读取原始数据、统一预处理工作簿或结果工作簿中的哪一种事实源；
-5. 若为 `project_level`，此时生成并人工检查 `数据预处理/data_process.m`，只把已验收预处理工作簿中的底层证据转成图；
-6. 为各问结果图先写 Core conclusion、Evidence level 和 Primary question，再通过 Figure Layout Gate 动态选择单图、1×2、2×1、1×3、2×2 或拆分为多张 Figure；不得先决定版式再硬塞证据；
-7. 基础布局确定后执行 Figure Enhancement Gate；仅在局部差异、曲线遮挡、视觉主次、阈值区域、联合诊断或真实双因素结构确实需要时增加增强表达；
-8. 生成 MATLAB 代码前实际读取工作簿，锁定工作簿名、工作表名、真实表头、单位和数据类型；
-9. 设置简洁 `title` 或一个整体 `sgtitle`，拟定不逐字重复的论文图注；
-10. 将各问 `q{x}_plot.m` 与两类 Python 脚本、两类结果工作簿放在同一 `问题X求解/`；项目级预处理图脚本固定为 `数据预处理/data_process.m`；
-11. 检查核心结论是否有图或表证据，并同步 `模型论文框架.md`；
-12. 默认只保留图窗供人工检查，不自动创建图表子目录或批量导出图片。
+5. 先执行 Figure Purpose Gate：判断当前缺的是机理/场景图、L1 主结果图、支持诊断图还是 technical roadmap；不得因为分析工作簿里有 BIC、Jackknife、IQR 等指标就默认先画诊断图；
+6. 若为 `project_level`，此时生成并人工检查 `数据预处理/data_process.m`，只把已验收预处理工作簿中的底层证据转成图；
+7. 为各问结果图先写 Core conclusion、Evidence level、Primary question 和 Figure role，再通过 Figure Layout Gate 动态选择单图、1×2、2×1、1×3、2×2 或拆分为多张 Figure；不得先决定版式再硬塞证据；
+8. 基础布局确定后执行 Figure Enhancement Gate；仅在局部差异、曲线遮挡、视觉主次、阈值区域、联合诊断或真实双因素结构确实需要时增加增强表达；
+9. 生成 MATLAB 代码前实际读取工作簿，锁定工作簿名、工作表名、真实表头、单位和数据类型；若当前数据事实源允许原始数据仅用于显示上下文，可读取真实序列绘制，但不得在 MATLAB 中重检峰谷、重拟合或重求解；
+10. 生成 candidate 前执行 MATLAB Figure Static Gate；candidate 必须带可核验 runtime fingerprint；
+11. 设置简洁 `title` 或一个整体 `sgtitle`，拟定不逐字重复的论文图注；
+12. candidate 图窗交由用户人工检查；不得仅根据“脚本已生成”宣称 Figure 通过；
+13. 用户明确接受/冻结后，才把最终实现同步为唯一 canonical `q{x}_plot.m`；superseded candidates 移出 active `问题X求解/`；
+14. 将 canonical `q{x}_plot.m` 与两类 Python 脚本、两类结果工作簿放在同一 `问题X求解/`；项目级预处理图脚本固定为 `数据预处理/data_process.m`；
+15. 检查核心结论是否有图或表证据，并同步 `模型论文框架.md` 与当前 Figure Contract；
+16. 默认只保留图窗供人工检查，不自动创建图表子目录或批量导出图片。
+
+## Figure Purpose Gate：先回答问题，再补诊断
+
+绘图前必须先写：
+
+```text
+Primary question
+→ Core claim
+→ Figure role
+→ Evidence source
+→ Reader task
+```
+
+Figure role 至少区分：
+
+- `mechanism_or_scene`：解释本题专属对象、几何、物理/统计机制与公式来源；
+- `main_result`：直接回答本问主要数值、结构或决策；
+- `supporting_diagnostic`：解释稳健性、敏感性、残差、阈值或数值合法性；
+- `technical_roadmap`：概括问题分析到模型求解的逻辑，不属于数值结果证据。
+
+正文主图默认先保证 `mechanism_or_scene`（若理解模型需要）和 `main_result` 可读，再决定是否加入后台诊断。BIC、候选排名、Jackknife、IQR、残差等不能仅因为“有结果”就取代更直接的实测数据/模型结果图。若读者必须先解释多个后端统计量才能知道本问答案，说明主图职责可能选错。
 
 ## A 类：机理与推导图
 
 优先表达公式来源、约束来源、临界状态和策略机制。图内只放对象、变量、方向、边界、距离、角度、流向和临界状态，完整推导留在正文。禁止用通用“输入—模型—输出”流程图替代题目专属机理图。
+
+机理图还必须通过 physical/mechanism closure：图中每条箭头都对应真实机制；模型结论依赖的出射、反馈、流入/流出或观察路径必须实际画出，不能只用文字补一个缺失的物理过程。例如，多束干涉若来自每次到达界面后出射的多束反射光，则不能只画内部 zig-zag 而省略最终参与相干叠加的出射束。
 
 ## B 类：项目级预处理证据图
 
@@ -70,7 +99,7 @@ data_process_<evidence>
 
 ## C 类：各问结果图合同
 
-每张结果图记录：Core conclusion、Evidence level、Primary question、Figure role、MATLAB title、论文 caption、Panel map、Layout decision、Split decision、Panel necessity、Enhancement、Enhancement rationale、Source workbook、Worksheet、Required headers、Expected positions（可选）、MATLAB script、Export files、Statistics/error、Reviewer risk、Paper location 和 Caption duty。
+每张结果图记录：Core conclusion、Evidence level、Primary question、Figure role、Reader task、MATLAB title、论文 caption、Panel map、Layout decision、Split decision、Panel necessity、Enhancement、Enhancement rationale、Source workbook、Worksheet、Required headers、Expected positions（可选）、MATLAB script、Candidate id/fingerprint、Canonical status、Export files、Statistics/error、Reviewer risk、Paper location 和 Caption duty。
 
 结果证据优先来自本问主求解工作簿或结果深化分析工作簿：
 
@@ -84,6 +113,8 @@ data_process_<evidence>
 - `project_level`：各问需要底层公共数据时读取 `数据预处理结果.xlsx`，不得绕回共享原始附件；公共预处理本身的前后对比优先集中在 `data_process.m`。
 
 不得为了统一脚本结构而强制所有 `qX_plot.m` 读取 `数据预处理结果.xlsx`。若图只依赖标准结果工作簿，则不额外加载任何原始或预处理数据。
+
+当 `not_needed/question_local` 允许读取原始数据且图需要真实观测曲线作为上下文时，MATLAB 可以只为显示读取原始序列；宏观极值、模型选择、参数、拟合、分类、优化和最终答案必须来自 Python 已验收事实源。显示原始数据的权限不等价于重新求解权限。
 
 不得在 MATLAB 中重新求解，不得从摘要数字反推绘图序列。图型必须提高信息展示或比较效率，否则降级为更直接的二维图。
 
@@ -99,6 +130,8 @@ L4 数值合法性证据   → 收敛、频带、残差、可行性、预处理�
 ```
 
 同一 Figure 可以包含多个 panel，但默认应属于同一 Evidence level 并共同回答一个 Primary question。跨层级合图只有在“必须同屏直接比较”或多个统计视角共同完成同一可信度判断、且拆分会明显损失证据关系时才允许，并须在 Figure Contract 中写明原因。
+
+L3/L4 证据默认不抢占 L1 主结果图的位置。若正文首先需要回答“数据是什么、模型是否捕捉到目标结构、最终答案是什么”，优先画真实观测/模型结果；稳定性证据可作为第二张 Figure、同一强关联 panel 或表格。
 
 ## Figure Layout Gate：单图 / 1×2 / 2×2 动态判断
 
@@ -228,6 +261,39 @@ Figure Enhancement 不得改变底层结果。对离散实验点、独立场景�
 - panel 数量少但视觉编码冲突严重时仍应拆图；panel 数量多但本身构成规则矩阵或 small-multiple 结构时可保留；
 - 信息密度可以高，但读者不应为理解不同 panel 反复学习新的颜色、线型和指标语法。
 
+## Candidate / Canonical 收敛
+
+Figure redesign、review 和 freeze 必须有明确状态：
+
+```text
+candidate → accepted → frozen canonical
+          ↘ superseded
+```
+
+- redesign 期间使用唯一 candidate id/文件名，不覆盖 canonical；
+- candidate MATLAB 脚本启动时打印版本/候选 fingerprint，并尽量把相同 fingerprint 放进 figure window name；
+- 用户返回截图时，只有 screenshot/window title/stdout 与 fingerprint 匹配才能确认“跑的是这一版”；
+- 用户说“最终确定/冻结/保留这一版”后，才把该版同步为 `qX_plot.m`；
+- active `问题X求解/` 最终只保留 canonical `qX_plot.m`，旧 candidate 移出 active 目录；
+- 纯 TeX/单位/刻度等 rendering bug 若不改变 accepted 证据结构和视觉语义，可披露后修复 canonical；改变 panel/证据职责属于 redesign，必须重新 candidate review。
+
+## MATLAB Figure Static Gate
+
+交给用户运行前至少静态检查：
+
+- `sprintf` / `compose` 中不得出现意外转义如 `\m`；单位优先直接使用 Unicode `μm`，或正确转义；
+- 使用 `\sqrt` 等完整 LaTeX 公式时显式设置 `'Interpreter','latex'`；默认 `tex` 中不要把 `\DeltaBIC` 等拼接成不存在的命令；
+- `xticks/yticks` 接收的数值向量必须严格递增；需要逆序类别时使用 `XDir/YDir='reverse'`；
+- 类别/来源型 forest plot 的纵轴优先用真实类别标签，不用 1、2、3… 等无物理意义的假数轴；
+- 所有 required worksheet/header 均先精确核验；
+- figure title、legend、text annotation 不遮挡核心曲线或彼此重叠。
+
+静态门失败时先修脚本，不把已知 MATLAB 运行错误留给用户截图阶段。
+
+## Technical Roadmap
+
+问题分析阶段需要总技术路线图时，使用 `templates/figure/technical_roadmap_contract.md`。它不是 L1--L4 数值证据，默认放在“问题分析”末尾、正式模型建立与求解之前；文字短、基本无公式，突出逐问继承与最终汇合。线条不得穿过文本框，箭头之间不得交叉。用户要求 Draw.io 时，同时交付可编辑 XML 与预览图。
+
 ## 实表读取规则
 
 正式脚本必须：
@@ -291,4 +357,4 @@ end
 
 ## 入文闭环
 
-预处理图后正文必须解释原始问题、处理机制、关键参数、验证误差或信息保留情况，以及处理后数据为何可以进入后续模型；结果图后解释趋势、关键数值、机制、稳定范围或失效边界。正式图片进入 LaTeX 时按需人工导出。
+预处理图后正文必须解释原始问题、处理机制、关键参数、验证误差或信息保留情况，以及处理后数据为何可以进入后续模型；结果图后按“图是什么 → 决定性数据特征 → 与当前设问的关系 → 有证据支持的机制/原因 → 直接答案或边界”组织，避免逐点复述全部数值和机械重复“由图可知”。technical roadmap 后只需一段简短衔接，说明三问如何递进到模型建立与求解。正式图片进入 LaTeX 时按需人工导出。
