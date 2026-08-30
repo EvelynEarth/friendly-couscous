@@ -1,0 +1,256 @@
+contract_version: 1.0.0
+introduced_in_skill_version: 7.14.0
+skill_compatibility: ">=7.14.0,<8.0.0"
+status: active
+purpose: >-
+  Cross-stage convergence contract for mathematical-modeling projects. It closes
+  recurring handoff failures between solving, result review, result analysis,
+  figure evidence, writing, LaTeX delivery and repository maintenance without
+  changing the mathematical model, workbook schema, five-file per-question
+  contract, Python/MATLAB ownership or user full-fidelity execution.
+
+applies_to:
+  - modules/03_solve_validate.md
+  - modules/03_result_analysis.md
+  - modules/04_figure_evidence.md
+  - modules/05_writing/latex.md
+  - modules/05_latex_compile_quality.md
+  - modules/06_review_delivery.md
+  - repository_maintenance
+
+principles:
+  - "stage transition is an explicit gate, not an inferred conversational continuation"
+  - "user-returned runtime output must be reviewed before the next stage is entered"
+  - "project paths are observed facts, never guessed from a conventional directory layout"
+  - "main-text figures answer the question before diagnostics explain robustness"
+  - "candidate artifacts are not canonical until the user explicitly freezes them"
+  - "explicit user presentation decisions are project facts unless they conflict with an official competition rule"
+  - "Skill-repository maintenance must never absorb competition-project data or results"
+
+question_closure_gate:
+  description: >-
+    A later question may not start merely because the previous question produced a
+    workbook. Before advancing from question X to question X+1, close every stage
+    that is required for X by the current runtime plan.
+  required_checks:
+    - id: primary_result
+      condition: "main solve is required"
+      require:
+        - "问题X求解结果.xlsx accepted"
+        - "main result quality gate passed"
+        - "post_execution_review.status == passed"
+    - id: result_analysis
+      condition: "result analysis is required by risk/claim plan"
+      require:
+        - "问题X结果深化分析.xlsx accepted"
+        - "all analysis evidence has support/modify/reject disposition"
+        - "no unresolved reject on a core claim"
+        - "post_analysis_review.status == passed"
+    - id: figure_evidence
+      condition: "the current question requires a figure/table evidence deliverable before progression"
+      require:
+        - "main-text evidence role decided"
+        - "candidate visually reviewed by user"
+        - "accepted candidate frozen as canonical qX_plot.m or explicit no-figure decision recorded"
+    - id: project_memory_sync
+      require:
+        - "current 模型论文框架.md synchronized"
+        - "project state synchronized when state exists"
+  forbidden:
+    - "start X+1 while X is awaiting result plausibility review"
+    - "skip required Figure Evidence because numerical solve already passed"
+    - "treat a user message such as '继续' as permission to bypass an unresolved gate"
+
+post_execution_review:
+  description: >-
+    After the user executes primary or result-analysis code and returns stdout,
+    workbook summaries, screenshots or selected tables, the assistant performs a
+    structured plausibility review before proposing the next stage.
+  primary_review_dimensions:
+    - "range and unit plausibility"
+    - "constraint/feasibility satisfaction"
+    - "cross-angle, cross-scenario, cross-method or replicate consistency when applicable"
+    - "physical/statistical mechanism consistency"
+    - "boundary or degenerate-solution check"
+    - "whether key assumptions are contradicted by the returned evidence"
+  outputs:
+    status: [passed, review_required, redo_required]
+    required_fields:
+      - key_findings
+      - anomalies
+      - effect_on_core_answer
+      - next_allowed_stage
+  rule: >-
+    A zero exit code means only that the program ran; it does not satisfy this
+    review. Conversely, local dispersion or sensitivity does not imply failure
+    unless it changes a core claim or violates a declared acceptance criterion.
+
+project_path_contract:
+  description: >-
+    Before generating or regenerating task code that reads local files, bind a
+    project path contract from the user's actual project tree, uploaded file
+    metadata or an already accepted project-state path. Never infer a file path
+    solely from a conventional example.
+  required_fields:
+    - project_root
+    - question_directory
+    - data_source_paths_or_resolution_rules
+    - output_workbook_path
+    - operating_system_path_semantics
+  rules:
+    - "prefer project-root-relative resolution over machine-specific absolute paths"
+    - "if attachments are under a subdirectory such as 附件/, preserve that observed layout"
+    - "candidate fallback paths must be deterministic, explicit and logged"
+    - "before rewriting code after FileNotFoundError, re-check the observed project tree; do not resend the same path assumption"
+    - "a path fix is implementation-only unless it changes the actual data source or model semantics"
+  code_delivery_check:
+    - "print or persist resolved project root/data path summary"
+    - "fail fast with a message that reports every checked candidate path"
+
+figure_purpose_gate:
+  description: >-
+    Figure selection starts from the question and claim, not from the set of
+    available diagnostics. Main-text figures prioritize direct problem evidence;
+    robustness diagnostics are secondary unless the question itself asks for them.
+  roles:
+    mechanism_or_scene:
+      purpose: "explain the problem-specific physical/statistical mechanism or object geometry"
+      priority: "before abstract diagnostics when mechanism is needed to understand the model"
+    main_result:
+      purpose: "directly answer the question with observed/model-derived evidence"
+      priority: highest
+    supporting_diagnostic:
+      purpose: "explain robustness, sensitivity, residuals, thresholds or numerical legality"
+      priority: secondary
+    technical_roadmap:
+      purpose: "summarize the problem-analysis-to-solution logic without formulas"
+      priority: "problem-analysis artifact, not numerical evidence"
+  rules:
+    - "do not let BIC, ranking, Jackknife or IQR plots replace a more direct main-result figure when real observed/model output can answer the question"
+    - "a main-result figure should be interpretable without reconstructing the conclusion from multiple backend diagnostics"
+    - "when raw data are needed only as visual context and preprocessing_decision permits it, MATLAB may read them for display but may not re-detect, refit, optimize or re-solve"
+    - "diagnostics may move to a secondary figure/table/appendix when they do not carry the first-order answer"
+
+mechanism_figure_closure:
+  required:
+    - "every arrow has a physical/statistical meaning"
+    - "every emitted/received flow needed for the claimed mechanism is actually drawn"
+    - "interfaces, sources, outputs and feedback paths are visually distinguishable"
+    - "text labels do not substitute for a missing causal path"
+  forbidden:
+    - "generic input-model-output flowchart used as a substitute for a problem-specific mechanism"
+    - "internal zig-zag paths shown without the outgoing/observed contribution when the conclusion depends on interference of outgoing beams"
+
+figure_candidate_governance:
+  states: [candidate, accepted, frozen, superseded]
+  candidate_rules:
+    - "use a unique candidate filename during redesign/review"
+    - "print a runtime fingerprint/banner containing candidate id or version"
+    - "put the same fingerprint in figure window names when practical"
+    - "record candidate SHA-256 in current project memory when the figure is under active review"
+  acceptance_rules:
+    - "do not claim that a candidate was executed unless returned stdout/window title/screenshot matches its fingerprint"
+    - "only explicit user acceptance/freeze promotes a candidate to canonical qX_plot.m"
+    - "after freeze, move or archive superseded candidates outside the active question directory"
+    - "pure rendering bug fixes that preserve accepted visual/evidence semantics may patch canonical after disclosure; semantic redesign requires a new candidate"
+
+matlab_figure_static_gate:
+  checks:
+    - "sprintf/compose strings do not contain accidental escape sequences such as \\m; prefer Unicode units like μm or explicitly escaped backslashes"
+    - "full LaTeX commands such as \\sqrt are paired with Interpreter='latex'"
+    - "default TeX strings do not concatenate unsupported commands such as \\DeltaBIC"
+    - "numeric tick vectors supplied to xticks/yticks are strictly increasing; reverse display with XDir/YDir instead"
+    - "categorical axes use semantic category labels rather than fake numeric coordinates when the numeric axis has no meaning"
+    - "required worksheet/header names are checked before plotting"
+  failure_behavior: "stop candidate delivery and fix the static/rendering defect before asking the user to review screenshots"
+
+technical_roadmap_contract:
+  authoritative_template: templates/figure/technical_roadmap_contract.md
+  placement_default: "end of 问题分析, before 模型假设/符号说明/模型建立与求解, when the roadmap is used"
+  content_rules:
+    - "no derivation formulas"
+    - "use short problem-specific phrases"
+    - "show inheritance and convergence across questions"
+    - "arrow/text-box crossings and arrow/arrow crossings are not acceptable"
+    - "when the user requests editable Draw.io, deliver valid editable XML in addition to the rendered figure"
+
+presentation_lock:
+  authoritative_template: templates/writing/presentation_lock.md
+  precedence:
+    - "official competition/template hard rules"
+    - "explicit current-project user presentation decisions"
+    - "Skill defaults/recommendations"
+  rules:
+    - "once a top-level chapter naming pattern is explicitly locked, do not creatively rename it during polishing"
+    - "record numbering, abstract pagination, roadmap placement, appendix structure and code-display decisions that the user explicitly locks"
+    - "pure presentation locks do not trigger model re-approval or numerical stale"
+    - "if a later request conflicts with an older presentation lock, the newer explicit request replaces only the affected presentation field"
+
+writing_result_paragraph_contract:
+  sequence:
+    - "identify what the figure/table is"
+    - "state only the decisive data pattern"
+    - "connect that pattern to the question being answered"
+    - "give a concise mechanism/reason for the pattern when supported"
+    - "state the resulting answer, boundary or decision"
+  style:
+    - "professional mathematical-modeling prose"
+    - "concise transitions between model establishment, solution and evidence"
+    - "avoid repeated '由图可知/结果表明/因此' templates"
+    - "do not restate every plotted number"
+
+latex_expected_artifact_gate:
+  description: >-
+    Every layout or source revision must rebuild from the current canonical source
+    bundle and verify that previously accepted required artifacts remain present.
+  expected_manifest_fields:
+    - abstract_page_policy
+    - heading_numbering_policy
+    - required_main_text_figures
+    - roadmap_placement_if_any
+    - appendix_manifest_table_required
+    - appendix_code_files
+    - code_highlighting_required
+  checks:
+    - "compile succeeds with zero undefined references/citations"
+    - "rendered pages are visually inspected at the pages containing changed layout artifacts"
+    - "required figure labels/files remain included after subsequent LaTeX revisions"
+    - "appendix contains only canonical requested code artifacts, not obsolete candidate scripts"
+    - "formal delivery binds source bundle, expected-artifact manifest and compiled PDF hash"
+  rule: "a newer PDF is not 'latest valid' if an expected accepted artifact disappeared during a later revision"
+
+skill_repository_project_artifact_isolation:
+  description: >-
+    The Skill repository is a reusable framework repository, not a competition
+    project repository. Repository maintenance must abstract lessons learned and
+    must not upload a user's active competition data, results or project memory.
+  forbidden_unless_user_explicitly_designates_a_separate_project_repo:
+    - "competition statement PDFs or screenshots"
+    - "raw/processed competition CSV/XLS/XLSX/TXT/MAT data"
+    - "accepted or candidate result workbooks"
+    - "task-specific generated Python/MATLAB solve scripts"
+    - "task-specific figures or compiled paper PDFs"
+    - "current 模型论文框架.md or state/project_state.yaml from a user competition project"
+    - "task-specific answer numbers copied into Skill docs/tests"
+  allowed:
+    - "generic contracts, templates and tests"
+    - "synthetic fixtures that cannot reconstruct a user's competition data/results"
+    - "abstracted failure patterns with no identifying task values"
+  maintenance_preflight:
+    - "inspect changed filenames before PR creation"
+    - "scan for common project artifact extensions and root-level 问题X求解/ or 数据预处理/ directories"
+    - "scan new docs/tests for copied task-specific paths, filenames and unique result values"
+    - "if task artifacts are detected, stop the PR and remove them before review"
+  historical_rule: >-
+    Existing historical branches are not silently rewritten by a Skill-optimization
+    PR. Report discovered task artifacts and handle cleanup in a separate, explicit
+    privacy/hygiene task if the user requests it.
+
+next_stage_decision:
+  order:
+    - "resolve current question and current required stage"
+    - "check returned runtime artifact review status"
+    - "check question_closure_gate"
+    - "check explicit user request"
+    - "only then choose the next module/question"
+  rule: "never select the next question solely because it is numerically next in the statement"
