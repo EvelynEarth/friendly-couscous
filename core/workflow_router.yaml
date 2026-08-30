@@ -1,4 +1,4 @@
-version: 7.13.0
+version: 7.14.0
 bootstrap: core/bootstrap.yaml
 
 # 默认只加载全局硬规则。其余核心合同按 route 显式加载，避免绘图/写作等阶段
@@ -16,6 +16,7 @@ load_policy:
   - Load model_approval_contract for model-design routes that can propose/lock a model and for task-code routes that must verify current Human Model Approval.
   - Load user_execution_contract and code_quality_contract only for code-generation or returned-workbook execution boundaries.
   - Load writing_reasoning_contract only for model-design/proposition/algorithm-presentation/writing/review routes that create, revise or formally inspect mathematical reasoning; do not make it a global preload for figures, workbook validation or unrelated utilities.
+  - Load workflow_convergence_contract for user-returned runtime review, primary/analysis handoff, Figure Evidence, writing/compile/review and other routes that can advance stage/question or mutate accepted presentation artifacts.
   - Writing and final-review routes that create or inspect prose load modules/05_writing/latex.md as the expression authority; figure and workbook routes do not preload it.
   - Writing and figure routes inherit current project semantics from 模型论文框架.md and their stage authority; do not preload unrelated code/preprocessing contracts.
 
@@ -64,10 +65,11 @@ execution_contract:
   - If preprocessing_decision=project_level, pause before solve_validate, complete data_preprocessing, accept the unified workbook, then forbid dependent downstream code from rereading the corresponding shared raw sources.
   - Project-level preprocessing must persist paper method/validation/before-after plotting evidence in the unified workbook; figure_evidence then creates 数据预处理/data_process.m, which may only read that workbook and may not redo preprocessing.
   - Generate full-fidelity task code and stop at the applicable user-execution boundary; never execute task-specific preprocessing, solve or analysis code.
-  - Primary user-produced workbook must be accepted before final result-analysis code is generated.
+  - Primary user-produced workbook must be accepted and post-execution plausibility review must pass before result-analysis/Figure Evidence/next-question progression.
   - Accepted primary workbooks freeze the primary solve script; result-analysis code is a separate stage-specific Python file.
-  - Accepted result-analysis workbooks precede figures and writing.
+  - Accepted result-analysis workbooks plus post-analysis review precede figures and writing.
   - Result analysis may send the workflow back to model_design, conditionally to data_preprocessing, or to solve_validate when the locked result is not stable enough; paper-facing analysis evidence records support/modify/reject against a target claim.
+  - Question progression must satisfy workflow_convergence_contract.question_closure_gate; numerical question order alone does not authorize moving to the next question.
   - Semantic or preprocessing-decision changes must propagate stale through typed cross-question dependencies before downstream work continues; paper fragments propagate only through explicit local dependencies.
   - Merge multiple intents in workflow order and remove duplicate modules, packs and outputs.
   - Reuse current project state, framework and artifacts before recomputing; when a current 模型论文框架.md exists, apply project_memory_contract and read the relevant sections before downstream work.
@@ -123,7 +125,7 @@ runtime_segments:
 
   full_workflow_resume:
     role: full_workflow_resume
-    final_load: [modules/04_figure_evidence.md, packs/artifact/figure.md, templates/figure/chart_selection.md, templates/figure/figure_enhancement_patterns.md, modules/05_writing/latex.md, packs/artifact/latex.md, modules/05_writing/ai_cleanup.md, modules/05_latex_compile_quality.md, modules/06_review_delivery.md, packs/artifact/review.md, packs/artifact/full_submission.md]
+    final_load: [core/workflow_convergence_contract.yaml, modules/04_figure_evidence.md, packs/artifact/figure.md, templates/figure/chart_selection.md, templates/figure/figure_enhancement_patterns.md, modules/05_writing/latex.md, packs/artifact/latex.md, modules/05_writing/ai_cleanup.md, modules/05_latex_compile_quality.md, modules/06_review_delivery.md, packs/artifact/review.md, packs/artifact/full_submission.md]
     terminal_outputs: [approved_figures, latex_source, latex_audit_report, compiled_pdf, compile_report, review_report, submission_package, model_paper_framework]
     delivery_scope: submission
     pre_delivery_gates: [semantic_governance, project_sync, submission_package_validation]
@@ -191,7 +193,7 @@ routing:
     boundary_roles: [model_approval, preprocessing, primary_execution]
     triggers: [完整求解, 全部计算, 求出各问, 完成求解]
     infer_keywords: [完整求解, 全部计算, 求出各问, 完成求解]
-    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/model_approval_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/writing_reasoning_contract.yaml, modules/01_problem_audit.md, packs/task/classifier.md]
+    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/model_approval_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/writing_reasoning_contract.yaml, core/workflow_convergence_contract.yaml, modules/01_problem_audit.md, packs/task/classifier.md]
     then: [modules/02_model_design.md, modules/03_solve_validate.md, packs/artifact/code.md]
     load_classified_task_packs: true
     load_competition_pack: true
@@ -210,7 +212,7 @@ routing:
     boundary_roles: [model_approval, preprocessing, primary_execution, full_workflow_resume]
     triggers: [全流程, 完整论文, 全套成果, 完整交付]
     infer_keywords: [全流程, 完整论文, 全套成果, 完整交付]
-    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/writing_reasoning_contract.yaml, modules/01_problem_audit.md, packs/task/classifier.md, packs/artifact/algorithm_flow.md]
+    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/writing_reasoning_contract.yaml, core/workflow_convergence_contract.yaml, modules/01_problem_audit.md, packs/task/classifier.md, packs/artifact/algorithm_flow.md]
     then: [modules/02_model_design.md, modules/03_solve_validate.md, packs/artifact/code.md]
     load_classified_task_packs: true
     load_competition_pack: true
@@ -256,7 +258,7 @@ routing:
     boundary_roles: [model_approval, preprocessing, primary_execution]
     triggers: [代码, Python, 求解, 算法, 最优解]
     infer_keywords: [Python代码, 求解代码, 开始求解, 求解, 继续求解, 重新求解, 重算, 算法实现, 最优解]
-    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/model_approval_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, modules/03_solve_validate.md, packs/artifact/code.md, packs/task/classifier.md]
+    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/model_approval_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/workflow_convergence_contract.yaml, modules/03_solve_validate.md, packs/artifact/code.md, packs/task/classifier.md]
     load_classified_task_packs: true
     terminal_outputs: [preprocessing_decision, python_code, full_run_config, execution_instructions, code_delivery_report, awaiting_user_execution, model_paper_framework]
     conditional_stage:
@@ -273,7 +275,7 @@ routing:
     boundary_roles: [model_approval, analysis_execution]
     triggers: [结果分析, 深化分析, 敏感性, 鲁棒性, 多算法, 稳健性, 阈值分析, 结构稳健性, 异质性]
     infer_keywords: [结果分析, 敏感性分析, 鲁棒性分析, 多算法验证, 稳健性分析, 阈值分析, 结构稳健性, 异质性分析]
-    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, modules/03_result_analysis.md, packs/artifact/code.md, packs/task/classifier.md]
+    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/workflow_convergence_contract.yaml, modules/03_result_analysis.md, packs/artifact/code.md, packs/task/classifier.md]
     load_classified_task_packs: true
     terminal_outputs: [result_analysis_plan, result_analysis_code, full_run_config, execution_instructions, code_delivery_report, awaiting_user_execution, model_paper_framework]
     pre_delivery_gates: [semantic_governance, model_approval, code_delivery]
@@ -284,7 +286,7 @@ routing:
   returned_workbook_validation:
     triggers: [返回工作簿, 验收工作簿, 校验求解结果, 校验结果深化分析, 本地运行完成]
     infer_keywords: [返回工作簿, 验收工作簿, 本地运行完成, 校验求解结果]
-    load: [core/user_execution_contract.yaml, scripts/validate_user_execution.py]
+    load: [core/user_execution_contract.yaml, core/workflow_convergence_contract.yaml, scripts/validate_user_execution.py]
     pre_delivery_gates: [semantic_governance, user_execution_receipt]
     terminal_outputs: [semantic_governance_report, user_execution_validation_report, project_state]
     formal_delivery: false
@@ -293,7 +295,7 @@ routing:
     boundary_roles: [model_approval, analysis_execution]
     triggers: [检验, 多算法, 全局最优, 敏感性, 鲁棒性, 误差, 稳健性]
     infer_keywords: [多算法, 全局最优, 敏感性, 鲁棒性, 稳健性, 误差分析, 模型检验]
-    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, modules/03_result_analysis.md, packs/task/classifier.md]
+    load: [core/task_taxonomy.yaml, core/global_preprocessing_contract.yaml, core/user_execution_contract.yaml, core/code_quality_contract.yaml, core/workflow_convergence_contract.yaml, modules/03_result_analysis.md, packs/task/classifier.md]
     load_classified_task_packs: true
     terminal_outputs: [result_analysis_code, full_run_config, execution_instructions, awaiting_user_execution, model_paper_framework]
     pre_delivery_gates: [semantic_governance, model_approval, code_delivery]
@@ -302,9 +304,9 @@ routing:
     pause_for_user_execution: true
 
   figures:
-    triggers: [图表, 可视化, 机理图, 推导图, Nature, SCI, MATLAB图标题, 数据预处理图, 处理前后对比图, 局部放大, 分面图, 联合诊断图]
-    infer_keywords: [MATLAB绘图, MATLAB, 结果图, 敏感性图, 鲁棒性图, 机理图, 推导图, 可视化, 图表, data_process, 预处理图, 局部放大, inset, small multiples, 分面图, 联合诊断]
-    load: [modules/04_figure_evidence.md, packs/artifact/figure.md, templates/figure/chart_selection.md, templates/figure/figure_enhancement_patterns.md]
+    triggers: [图表, 可视化, 机理图, 推导图, Nature, SCI, MATLAB图标题, 数据预处理图, 处理前后对比图, 局部放大, 分面图, 联合诊断图, 技术路线图, 思维导图, Draw.io]
+    infer_keywords: [MATLAB绘图, MATLAB, 结果图, 敏感性图, 鲁棒性图, 机理图, 推导图, 可视化, 图表, data_process, 预处理图, 局部放大, inset, small multiples, 分面图, 联合诊断, 技术路线图, 思维导图, Draw.io]
+    load: [core/workflow_convergence_contract.yaml, modules/04_figure_evidence.md, packs/artifact/figure.md, templates/figure/chart_selection.md, templates/figure/figure_enhancement_patterns.md, templates/figure/technical_roadmap_contract.md]
     terminal_outputs: [preprocessing_matlab_script, preprocessing_figures, matlab_scripts, figure_contracts, approved_figures, model_paper_framework]
     formal_delivery: true
     delivery_scope: figures
@@ -312,7 +314,7 @@ routing:
   docx:
     triggers: [DOCX, Word, 草稿论文]
     infer_keywords: [DOCX, Word, 草稿论文, 论文草稿]
-    load: [core/writing_reasoning_contract.yaml, modules/05_writing/latex.md, modules/05_writing/docx.md, packs/artifact/docx.md, packs/artifact/algorithm_flow.md]
+    load: [core/writing_reasoning_contract.yaml, core/workflow_convergence_contract.yaml, modules/05_writing/latex.md, modules/05_writing/docx.md, packs/artifact/docx.md, packs/artifact/algorithm_flow.md, templates/writing/presentation_lock.md]
     terminal_outputs: [docx_draft, latex_migration_notes]
     formal_delivery: true
     delivery_scope: docx
@@ -320,7 +322,7 @@ routing:
   latex:
     triggers: [LaTeX, PDF终稿, cumcmthesis, 终稿论文]
     infer_keywords: [LaTeX, PDF终稿, cumcmthesis, 终稿论文, 编译论文]
-    load: [core/writing_reasoning_contract.yaml, modules/05_writing/latex.md, modules/05_writing/ai_cleanup.md, modules/05_latex_compile_quality.md, packs/artifact/latex.md, packs/artifact/algorithm_flow.md]
+    load: [core/writing_reasoning_contract.yaml, core/workflow_convergence_contract.yaml, modules/05_writing/latex.md, modules/05_writing/ai_cleanup.md, modules/05_latex_compile_quality.md, packs/artifact/latex.md, packs/artifact/algorithm_flow.md, templates/writing/presentation_lock.md]
     load_competition_pack: true
     terminal_outputs: [latex_source, latex_audit_report, compiled_pdf, compile_report]
     formal_delivery: true
@@ -329,7 +331,7 @@ routing:
   full_submission:
     triggers: [复现包, 提交压缩包, 提交包]
     infer_keywords: [复现包, 提交压缩包, 提交包]
-    load: [core/writing_reasoning_contract.yaml, modules/05_writing/latex.md, modules/06_review_delivery.md, packs/artifact/full_submission.md, packs/artifact/algorithm_flow.md]
+    load: [core/writing_reasoning_contract.yaml, core/workflow_convergence_contract.yaml, modules/05_writing/latex.md, modules/06_review_delivery.md, packs/artifact/full_submission.md, packs/artifact/algorithm_flow.md, templates/writing/presentation_lock.md]
     load_competition_pack: true
     terminal_outputs: [validated_submission_package]
     pre_delivery_gates: [semantic_governance, project_sync, submission_package_validation]
@@ -339,6 +341,6 @@ routing:
   review:
     triggers: [评分, 审稿, 终审, 检查, 提交包检查]
     infer_keywords: [评分, 审稿, 终审, 提交包检查, 论文检查]
-    load: [core/writing_reasoning_contract.yaml, modules/05_writing/latex.md, modules/06_review_delivery.md, packs/artifact/review.md, packs/artifact/algorithm_flow.md]
+    load: [core/writing_reasoning_contract.yaml, core/workflow_convergence_contract.yaml, modules/05_writing/latex.md, modules/06_review_delivery.md, packs/artifact/review.md, packs/artifact/algorithm_flow.md, templates/writing/presentation_lock.md]
     load_competition_pack: true
     terminal_outputs: [review_report]
