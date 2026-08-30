@@ -1,6 +1,6 @@
-# HSK Core Policy v7.13.0
+# HSK Core Policy v7.14.0
 
-本文件只保存全局硬规则。题意口径、语义闭环和语义变更状态以 `模型论文框架.md`、`core/project_state.schema.yaml` 与 `scripts/validate_semantic_governance.py` 为准；模型挑战与人工锁模以 `core/model_approval_contract.yaml` 与 `scripts/validate_model_approval.py` 为准；目录与交付文件以 `core/output_contract.yaml` 为准；数据审计、`preprocessing_decision`、条件式统一数据预处理、预处理论文数学证据与 `data_process.m` 图证据以 `core/global_preprocessing_contract.yaml` 为准；用户本地执行与工作簿验收以 `core/user_execution_contract.yaml` 为准；题目专属 Python 工程质量以 `core/code_quality_contract.yaml` 为准；跨竞赛写作推理、Algorithm Trace、术语、数值展示、标题主张与证据治理以 `core/writing_reasoning_contract.yaml` 为准，正文结构与表达以 `modules/05_writing/latex.md` 为准。本文件不复制这些合同的完整字段。
+本文件只保存全局硬规则。题意口径、语义闭环和语义变更状态以 `模型论文框架.md`、`core/project_state.schema.yaml` 与 `scripts/validate_semantic_governance.py` 为准；模型挑战与人工锁模以 `core/model_approval_contract.yaml` 与 `scripts/validate_model_approval.py` 为准；目录与交付文件以 `core/output_contract.yaml` 为准；数据审计、`preprocessing_decision`、条件式统一数据预处理、预处理论文数学证据与 `data_process.m` 图证据以 `core/global_preprocessing_contract.yaml` 为准；用户本地执行与工作簿验收以 `core/user_execution_contract.yaml` 为准；题目专属 Python 工程质量以 `core/code_quality_contract.yaml` 为准；跨竞赛写作推理、Algorithm Trace、术语、数值展示、标题主张与证据治理以 `core/writing_reasoning_contract.yaml` 为准，正文结构与表达以 `modules/05_writing/latex.md` 为准；跨阶段结果复核、Question Closure、真实项目路径绑定、Figure candidate 收敛、Presentation Lock、LaTeX expected-artifact preservation 与 Skill 仓库项目产物隔离以 `core/workflow_convergence_contract.yaml` 为准。本文件不复制这些合同的完整字段。
 
 ## 1. 总目标与优先级
 
@@ -66,6 +66,14 @@ Challenge passed 后必须向用户提供 Model Approval Brief，并停在 `awai
 
 因此，框架是“当前项目事实与语义索引”，工作簿是数值事实源，project state 是机器状态源，写作规则由 writing Authority 管理；四者不得互相替代。
 
+### 2.7 Cross-stage Convergence：阶段与跨问关闭
+
+数值工作簿 accepted 只代表对应执行与质量门通过，不自动代表结果已经在本题语境中完成合理性复核，也不自动授权进入下一问。凡用户返回主求解或深化分析结果，必须先按 `core/workflow_convergence_contract.yaml` 完成 post-execution/post-analysis review；至少检查范围与单位、约束/可行性、跨角度/场景/方法一致性（适用时）、机制合理性、边界/退化行为以及对核心答案的影响。
+
+进入依赖后问前必须通过当前问题的 `question_closure_gate`：主结果、必要深化分析、已要求的 Figure Evidence、项目记忆/状态同步等适用环节均已闭合。用户说“继续”不能绕过未完成的当前问题 gate；用户问“结果是否合理”时应先审结果而不是直接规划下一问。
+
+生成会读取本地数据的代码前还必须按真实项目树绑定 `project_path_contract`，不得把示例目录结构当作当前项目事实。FileNotFoundError 后先重新核对项目树，禁止原样重复同一错误路径假设。
+
 ## 3. 数据审计、条件式预处理与论文证据
 
 **所有数据题先审计，但不是所有数据题都要清洗或建立统一预处理工作簿。**
@@ -121,6 +129,8 @@ project_level
 
 `data_process.m` 属于项目级预处理目录，不计入每问五文件合同。
 
+Figure redesign 期间的候选脚本不属于最终五文件。candidate 必须使用唯一标识并在人工审图期间与 canonical 隔离；用户明确冻结后只保留最终 `qX_plot.m` 在 active 问题目录，旧 candidate 移出 active 目录。
+
 ## 5. 用户执行与质量门
 
 实际生成的 `数据预处理.py`、`问题X求解.py` 与 `问题X结果深化分析.py` 均由助手生成和静态检查、由用户本地 full-fidelity 执行。正式项目级预处理或主求解代码前，当前模型必须同时通过 semantic governance 与 model approval gate；旧审批不得覆盖新的 semantic revision/hash。
@@ -128,7 +138,9 @@ project_level
 - `project_level`：预处理工作簿 accepted 且 `预处理质量门` passed 后才能进入依赖主求解；工作簿还必须持久化论文方法证据、处理前后对比和 `data_process.m` 绘图底层数据；
 - `not_needed/question_local`：没有统一预处理工作簿门槛；
 - 主工作簿通过当前语义、运行配置、代码/数据哈希与 `主结果质量门` 后才进入 `solved`；
-- 深化工作簿通过运行配置、代码/数据哈希、`分析设计` 与 `结论稳定性汇总` 后才进入 `analyzed`。
+- 主结果在进入下游前必须额外通过 `post_execution_review`；零退出码不能替代合理性审查；
+- 深化工作簿通过运行配置、代码/数据哈希、`分析设计` 与 `结论稳定性汇总` 后才进入 `analyzed`；
+- 深化结果进入 Figure Evidence 或 question closure 前必须通过 `post_analysis_review`，并且所有核心 `modify/reject` 已处理。
 
 助手不得运行、导入或间接执行题目专属预处理、主求解或深化分析脚本，不得自动缩减数据、网格、时域、场景、重复次数、迭代次数或放宽容差，也不得静默切换求解器或轻量近似。
 
@@ -138,8 +150,8 @@ project_level
 - MATLAB `data_process.m`：仅 `project_level` 时读取 `数据预处理结果.xlsx` 绘制预处理证据图，不重新处理数据；
 - Python 主求解：按 `preprocessing_decision` 读取原始数据或统一工作簿，完成模型求解、质量门和主工作簿；
 - Python 深化分析：继承同一数据事实源，读取已验收主结果与必要前问结果，完成题目专属深化分析；
-- MATLAB `qX_plot.m`：读取本问标准结果工作簿及必要数据事实源绘制各问结果图，不重新求解；完整图形规则以 `modules/04_figure_evidence.md` 为准；
-- LaTeX：默认论文主链；正文结构与表达唯一权威为 `modules/05_writing/latex.md`；
+- MATLAB `qX_plot.m`：读取本问标准结果工作簿及必要数据事实源绘制各问结果图，不重新求解；完整图形规则以 `modules/04_figure_evidence.md` 为准；Figure Purpose Gate、candidate fingerprint/canonical freeze、technical roadmap 与 MATLAB static gate 由 `core/workflow_convergence_contract.yaml` 补充治理；
+- LaTeX：默认论文主链；正文结构与表达唯一权威为 `modules/05_writing/latex.md`；用户显式展示选择按 Presentation Lock 持久化，后续排版不得静默丢失；
 - DOCX：仅用户明确要求时加载，不是 LaTeX 前置。
 
 写作阶段这里只保留 Hard 边界，Default 与 Recommendation 不在全局政策重复定义：
@@ -150,8 +162,10 @@ project_level
 4. 有限数值实验、交叉验证、算法一致性或求解器状态不能替代数学证明，也不能无依据把局部/启发式结果写成全局最优；
 5. 外部经验参数、外部数据、领域事实、非显然标准定理和既有研究比较等需要外部来源的核心 claim，必须按 `writing_reasoning_contract.citation_evidence` 形成 Citation Evidence；本文自己的推导和工作簿结果不得用外部引用替代；
 6. 正式 LaTeX 中 citation key、label/ref、图表与文献引用必须可解析，结构性缺失在交付前修复；机器不得仅凭关键词或 citation 存在推断数学正确性、定理适用性或文献是否真正支持 claim；
-7. 命题 0--4 仅为默认正文阅读预算，不是 Hard 上限；优点与缺点无强制数量关系；核心模型收束按 `required / inline / not_applicable` 自适应，不能把这些经验规则升级为自动否决条件；
-8. AI cleanup 只清除模板化、空泛、重复和呈现风险，不建立第二套正文规则；成稿机器审计按 `blocking / review_required / warning` 分级，warning 不阻断交付。
+7. 用户明确锁定的一级标题命名、编号体系、摘要分页、路线图位置、附录结构和代码显示方式，在不违反官方模板的前提下属于当前项目 Presentation Lock；后续润色/编译不得擅自改名或丢失；
+8. 每次 LaTeX 布局/结构变更后必须对照 expected-artifact manifest 和渲染 PDF 复核已接受 Figure/路线图/附录等仍存在；“无编译错误但丢了 accepted artifact”仍是交付失败；
+9. 命题 0--4 仅为默认正文阅读预算，不是 Hard 上限；优点与缺点无强制数量关系；核心模型收束按 `required / inline / not_applicable` 自适应，不能把这些经验规则升级为自动否决条件；
+10. AI cleanup 只清除模板化、空泛、重复和呈现风险，不建立第二套正文规则；成稿机器审计按 `blocking / review_required / warning` 分级，warning 不阻断交付。
 
 MATLAB 默认只保留图窗，不自动创建图表目录或批量导出正式图片。
 
@@ -161,12 +175,15 @@ MATLAB 默认只保留图窗，不自动创建图表目录或批量导出正式�
 
 v7.7 及更早项目继续只读兼容；Algorithm Trace 与算法流程呈现是可选写作能力，不要求历史交付反向补写。v7.6 的 `v0.7-project-memory` 和 semantic-governance 1.0.0 仍保持只读兼容；项目重新进入当前 writing/review 流程时再按 current 框架补充需要的 Terminology/Numeric/Title/Paper Fragment/Algorithm Trace 信息。v7.2.0--7.2.2 项目重新进入模型设计、预处理、绘图或写作时，应按当前规则补齐适用的论文证据与 `data_process.m` 图证据；更早项目继续只读兼容，重新进入当前流程时先审计数据并形成判定。
 
+v7.14.0 的 workflow convergence 为向后兼容的流程门：不改变旧工作簿、目录、Schema 或数值结果。旧项目只有重新进入主求解返回、深化分析、Figure redesign、写作/编译或跨问推进时，才按当前阶段补充相应 review/lock/expected-artifact 信息，不要求历史项目重算。
+
 ## 8. 正式交付同步
 
 - 语义治理：`scripts/validate_semantic_governance.py`；
 - 条件式项目级数据预处理：`modules/03_data_preprocessing.md` + `core/global_preprocessing_contract.yaml`；
 - 代码交付：`scripts/validate_code_delivery.py`；
 - 用户返回工作簿：`scripts/validate_user_execution.py`；
+- 跨阶段收敛、Question Closure、Presentation Lock 与 expected-artifact preservation：`core/workflow_convergence_contract.yaml`；
 - 图表、论文和提交包：`scripts/sync_project.py`。
 
 同步器必须根据 `preprocessing_decision` 判断数据事实源和条件产物：`project_level` 才要求预处理脚本/工作簿/`data_process.m`；`not_needed/question_local` 不得因不存在预处理目录而失败。同步器只做发现、校验、哈希与 stale 传播，不自动生成模型语义、数据处理决策、数值结果或 passed 状态。
