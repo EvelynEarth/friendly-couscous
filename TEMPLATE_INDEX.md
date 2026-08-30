@@ -85,3 +85,4 @@
 - `templates/writing/caption_explanation.md`
 - `templates/writing/code_appendix_description.md`
 - `templates/writing/docx_check.md`
+- `templates/writing/presentation_lock.md`
