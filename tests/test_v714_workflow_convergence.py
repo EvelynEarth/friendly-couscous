@@ -16,7 +16,7 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
 
         for path in [ROOT / "SKILL.md", ROOT / "skills" / "mathmodel-skill" / "SKILL.md"]:
             text = path.read_text(encoding="utf-8")
-            self.assertRegex(text, r"(?m)^version: 7\.14\.0$")
+            self.assertRegex(text, r"(?m)^version: 7\.14.0$")
             self.assertIn("HSK 数学建模模块化工作流 v7.14.0", text)
 
     def test_bootstrap_points_to_convergence_authority(self):
@@ -137,9 +137,12 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("高级图只因复杂而准入", evals)
         self.assertIn("23/23", evals)
 
-    def test_roadmap_and_presentation_templates_exist(self):
+    def test_roadmap_presentation_and_reference_integrity_templates_exist(self):
         roadmap = (ROOT / "templates" / "figure" / "technical_roadmap_contract.md").read_text(encoding="utf-8")
         presentation = (ROOT / "templates" / "writing" / "presentation_lock.md").read_text(encoding="utf-8")
+        references = (ROOT / "templates" / "writing" / "reference_integrity_check.md").read_text(encoding="utf-8")
+        router = (ROOT / "core" / "workflow_router.yaml").read_text(encoding="utf-8")
+
         self.assertIn("no connector may cross a text box", roadmap)
         self.assertIn("Draw.io", roadmap)
         self.assertIn("official competition/template hard rule", presentation)
@@ -147,7 +150,17 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("reference_style:", presentation)
         self.assertIn("book_page_locator_required", presentation)
         self.assertIn("web_access_date_required", presentation)
-        self.assertIn("Source existence", presentation.replace("source existence", "Source existence"))
+        self.assertIn("reference_integrity_check.md", presentation)
+
+        self.assertIn("Source existence gate", references)
+        self.assertIn("Claim-support gate", references)
+        self.assertIn("two-way audit", references)
+        self.assertIn("Page locator / access-date semantics", references)
+        self.assertIn("AI 助手、搜索结果页和聚合摘要不能作为", references)
+
+        self.assertIn("templates/figure/mechanism_figure_contract.md", router)
+        self.assertIn("templates/figure/anti_ai_figure_gate.md", router)
+        self.assertIn("templates/writing/reference_integrity_check.md", router)
 
     def test_skill_repository_has_no_root_project_artifacts(self):
         # Reusable Skill repository roots must not accidentally absorb a user's
@@ -175,6 +188,7 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
             ROOT / "templates" / "figure" / "technical_roadmap_contract.md",
             ROOT / "templates" / "figure" / "mechanism_figure_contract.md",
             ROOT / "templates" / "writing" / "presentation_lock.md",
+            ROOT / "templates" / "writing" / "reference_integrity_check.md",
         ]
         text = "\n".join(p.read_text(encoding="utf-8") for p in paths)
         # Contracts may describe generic project patterns but must not contain
