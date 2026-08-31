@@ -1,16 +1,42 @@
 # 结果图型选择索引（Claim → Visual Task → Grammar）
 
-图型不从“软件里有什么”或“哪个看起来高级”出发，而从：
+图型不从“软件里有什么”出发，而从：
 
 ```text
 Core claim
 → reader perceptual task
 → data structure
+→ advanced candidate search
 → visual grammar
 → concrete chart
 ```
 
 每张图先填写 `result_figure_contract.md`，并参考 `top_tier_scientific_figure_skill.md` 与 `journal_figure_mastery_v2.md`。
+
+---
+
+## 0. Advanced-first, evidence-governed
+
+重要结果图默认**主动寻找高级 grammar**，而不是先画普通 bar/line 再决定要不要“升级”。这里的“高级”指：能用更高信息密度、更准确的视觉通道、更低搜索成本回答 Primary question，而不是图型更复杂。
+
+每张正文候选至少记录：
+
+```text
+best advanced candidate
+why it improves the reader task
+simpler fallback
+reviewer risk
+```
+
+选择原则：
+
+- advanced candidate 对 reader task 有明显增益 → **优先采用**；
+- advanced 与 simpler fallback 表达效率相当 → 选更直接、更稳健者；
+- advanced 会造成伪连续、伪统计、不必要三维、遮挡或 legend tax → 淘汰；
+- 不设“高级图数量配额”，也不设“高级图越少越好”的保守规则；
+- 全文允许多种 grammar，只要每张图的 perceptual task 不同且 Figure Suite 风格仍一致。
+
+因此既要避免“为了高级而复杂”，也要避免“明明 forest/regime/raincloud/Pareto 更合适却机械退回柱状/折线”。
 
 ---
 
@@ -32,6 +58,9 @@ Core claim
 | 流量如何转移 | conservation / flow | Sankey / alluvial / network flow | Sankey（若并非真实流） |
 | 多目标怎样权衡 | frontier / dominance | Pareto front + selected point | radar / weighted score only |
 | 风险来自哪里 | scenario contribution | metadata + contribution forest / weighted strip | 普通bar但丢掉概率/持续时间 |
+| 样本很多且关注二维密度 | density / cluster / tail | hexbin / 2D density / rasterized scatter | 百万矢量散点 |
+| 空间方向/速度如何变化 | direction + magnitude | quiver / streamline / vector field | 单纯热图丢失方向 |
+| 方案顺序是否改变 | rank change | rank transition / slope / alluvial（真实流转时） | 多组柱状图 |
 
 ---
 
@@ -64,6 +93,9 @@ aligned position
 - transition forest / tornado；
 - contour / response surface（仅真实连续模型支持）。
 
+### 主动高级搜索
+若结果存在离散策略切换、可行/失效区域、最优—次优间隙或稳定集合，优先检查 regime / decision map、threshold slice、transition forest，而不是默认多条扰动折线。
+
 ### 禁止
 - sparse grid 直接 spline 成连续相图；
 - 独立离散测试点硬连成趋势；
@@ -87,7 +119,8 @@ aligned position
 ### 高级规则
 - 没变化对象降权或正文汇总；
 - categorical structure + numerical outcome 同时重要时，metadata strip 往往比把类别塞进legend更高级；
-- 4个点如果只为“看起来二维”，不要撑一整张scatter。
+- 4个点如果只为“看起来二维”，不要撑一整张scatter；
+- 但若二维 trade-off / dominance 本身就是 claim，少量点也可以使用 Pareto/scatter，并用紧凑坐标域与直接标签提高密度。
 
 ---
 
@@ -121,6 +154,8 @@ aligned position
 - state-transition diagram；
 - mechanism figure with real method object。
 
+机制/物理图的具体实现工具、短标签、图标预算、Draw.io 与 image-generation 路由另见 `mechanism_figure_contract.md`。
+
 ### 准入
 Sankey/alluvial 必须是真实可守恒的 flow；不是“有几阶段”就画流图。
 
@@ -149,6 +184,8 @@ sensitivity curve / interval / regime / tornado。
 residual / gap / convergence / feasibility certificate。
 
 禁止把 scenario range、numerical tolerance 和 statistical CI 混为一谈。
+
+若样本量和分布结构足够，优先 raincloud/violin+raw/ECDF 等能展示分布的 grammar，而不是 bar of means。
 
 ---
 
@@ -209,21 +246,24 @@ Total = fixed baseline + changing residual
 禁止：
 - 全文都 dumbbell；
 - 全文都 bar；
-- 为了多样而乱上 ternary/Sankey/3D。
+- 为了多样而乱上 ternary/Sankey/3D；
+- 为了“稳妥”又把全篇高级候选都降级成普通 bar/line。
 
 ---
 
 ## 12. 最终选型判定
 
-每个候选最终问 6 个问题：
+每个候选最终问 8 个问题：
 
 ```text
 1. 一眼能回答 Primary question 吗？
 2. 是否用尽可能准确的视觉通道？
 3. 是否隐藏了分布/例外/边界？
-4. 是否存在更直接的二维图？
-5. 最醒目的对象是不是最重要的证据？
-6. 它和整篇 Figure Suite 是否既一致又不重复？
+4. 是否存在更有信息增益的高级 grammar？
+5. 若用了高级 grammar，它是否真的比 simpler fallback 更快读？
+6. 最醒目的对象是不是最重要的证据？
+7. 数据语义（连续/离散/守恒/不确定性）是否诚实？
+8. 它和整篇 Figure Suite 是否既一致又不重复？
 ```
 
-若其中 2 项以上回答“不”，重新选型。
+若第4项为“有”却未评估，或其余任意2项明显回答“不”，重新选型。
