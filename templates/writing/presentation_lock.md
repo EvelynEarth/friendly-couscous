@@ -2,6 +2,8 @@
 
 This file is a project-memory template for **explicit user presentation decisions**. It does not override official competition/template hard rules and it does not contain mathematical or numerical facts.
 
+Reference truth/metadata verification is separate and must use `templates/writing/reference_integrity_check.md`; this lock records only the chosen presentation format.
+
 ## Precedence
 
 ```text
@@ -48,7 +50,7 @@ Do not invent values for unset fields.
 - Pure presentation changes do not make mathematical models, workbooks or Human Model Approval stale.
 - If a user says “最终确定/保留这一版/就用这个”, treat that as a presentation freeze only for the artifact/aspect being discussed.
 - If the user supplies an exact competition bibliography/citation format, record it under `reference_style` and preserve it through later writing/LaTeX cleanup. Do not silently replace it with APA/IEEE/GB-T or another house style.
-- A locked citation format controls **format only**. Source existence, metadata truth, claim relevance and in-text↔bibliography mapping still have to pass source-integrity verification.
+- A locked citation format controls **format only**. Source existence, metadata truth, claim relevance and in-text↔bibliography mapping still have to pass `reference_integrity_check.md` / source-integrity verification.
 - When a layout revision is compiled, verify all current presentation-lock fields against the rendered PDF, not only the LaTeX source.
 - If an official template conflicts with a lock, report the conflict and follow the official rule rather than silently changing either one.
 
