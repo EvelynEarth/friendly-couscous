@@ -87,3 +87,4 @@
 - `templates/writing/code_appendix_description.md`
 - `templates/writing/docx_check.md`
 - `templates/writing/presentation_lock.md`
+- `templates/writing/reference_integrity_check.md`
