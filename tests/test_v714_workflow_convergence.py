@@ -67,21 +67,75 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("final insertion size", text)
         self.assertIn("canonical, current code", text)
 
-    def test_stage_modules_reference_convergence_contract(self):
+    def test_stage_modules_reference_convergence_and_identity_contracts(self):
         solve = (ROOT / "modules" / "03_solve_validate.md").read_text(encoding="utf-8")
         analysis = (ROOT / "modules" / "03_result_analysis.md").read_text(encoding="utf-8")
         figure = (ROOT / "modules" / "04_figure_evidence.md").read_text(encoding="utf-8")
         compile_quality = (ROOT / "modules" / "05_latex_compile_quality.md").read_text(encoding="utf-8")
+        code_quality = (ROOT / "core" / "code_quality_contract.yaml").read_text(encoding="utf-8")
 
         self.assertIn("core/workflow_convergence_contract.yaml", solve)
         self.assertIn("project_path_contract", solve)
         self.assertIn("post_execution_review", solve)
+        self.assertIn("candidate_vNN", solve)
+        self.assertIn("不得仅因 `Path(__file__).name`", solve)
+        self.assertIn("root-cause diagnosis", solve)
+
         self.assertIn("core/workflow_convergence_contract.yaml", analysis)
         self.assertIn("post_analysis_review", analysis)
+        self.assertIn("actual worksheet names", analysis)
+        self.assertIn("exact tie", analysis)
+        self.assertIn("small nonzero gap", analysis)
+
         self.assertIn("core/workflow_convergence_contract.yaml", figure)
         self.assertIn("Figure Purpose Gate", figure)
         self.assertIn("latex_expected_artifact_gate", compile_quality)
         self.assertIn("Expected Artifact Manifest", compile_quality)
+
+        self.assertIn("artifact_identity_contract:", code_quality)
+        self.assertIn("filename_policy:", code_quality)
+        self.assertIn("consumer_binding:", code_quality)
+        self.assertIn("result_semantics_contract:", code_quality)
+        self.assertIn("不得仅因用户本地重命名脚本而RuntimeError", code_quality)
+
+    def test_mechanism_router_and_sparse_contract_exist(self):
+        mechanism = (ROOT / "templates" / "figure" / "mechanism_figure_contract.md").read_text(encoding="utf-8")
+        anti_ai = (ROOT / "templates" / "figure" / "anti_ai_figure_gate.md").read_text(encoding="utf-8")
+        figure_index = (ROOT / "templates" / "figure" / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("image generation first", mechanism)
+        self.assertIn("Draw.io first", mechanism)
+        self.assertIn("MATLAB/Python **不是复杂机制图默认工具**", mechanism)
+        self.assertIn("每节点原则上 1–2 行短标签", mechanism)
+        self.assertIn("connector crossing = 0", mechanism)
+        self.assertIn("connector-through-text = 0", mechanism)
+        self.assertIn("Legend Gate", mechanism)
+        self.assertIn("uncompressed XML", mechanism)
+
+        self.assertIn("Mechanism Figure **允许少量语义图标**", anti_ai)
+        self.assertIn("connector crossing > 0 → FAIL", anti_ai)
+        self.assertIn("mechanism_figure_contract.md", figure_index)
+
+    def test_advanced_chart_search_is_proactive_but_evidence_governed(self):
+        chart = (ROOT / "templates" / "figure" / "chart_selection.md").read_text(encoding="utf-8")
+        evals = (ROOT / "templates" / "figure" / "figure_skill_evals.md").read_text(encoding="utf-8")
+
+        self.assertIn("Advanced-first, evidence-governed", chart)
+        self.assertIn("best advanced candidate", chart)
+        self.assertIn("simpler fallback", chart)
+        self.assertIn("reviewer risk", chart)
+        self.assertIn("明明 forest/regime/raincloud/Pareto 更合适", chart)
+        for grammar in [
+            "forest", "raincloud", "hexbin", "regime", "Pareto", "tornado",
+            "waterfall", "Sankey", "ternary", "quiver", "streamline",
+        ]:
+            self.assertIn(grammar, chart)
+
+        self.assertIn("Eval 21", evals)
+        self.assertIn("明明高级图更好却机械退回普通图", evals)
+        self.assertIn("Eval 22", evals)
+        self.assertIn("高级图只因复杂而准入", evals)
+        self.assertIn("23/23", evals)
 
     def test_roadmap_and_presentation_templates_exist(self):
         roadmap = (ROOT / "templates" / "figure" / "technical_roadmap_contract.md").read_text(encoding="utf-8")
@@ -90,6 +144,10 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("Draw.io", roadmap)
         self.assertIn("official competition/template hard rule", presentation)
         self.assertIn("appendix", presentation)
+        self.assertIn("reference_style:", presentation)
+        self.assertIn("book_page_locator_required", presentation)
+        self.assertIn("web_access_date_required", presentation)
+        self.assertIn("Source existence", presentation.replace("source existence", "Source existence"))
 
     def test_skill_repository_has_no_root_project_artifacts(self):
         # Reusable Skill repository roots must not accidentally absorb a user's
@@ -113,7 +171,9 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
     def test_new_contracts_remain_generic(self):
         paths = [
             ROOT / "core" / "workflow_convergence_contract.yaml",
+            ROOT / "core" / "code_quality_contract.yaml",
             ROOT / "templates" / "figure" / "technical_roadmap_contract.md",
+            ROOT / "templates" / "figure" / "mechanism_figure_contract.md",
             ROOT / "templates" / "writing" / "presentation_lock.md",
         ]
         text = "\n".join(p.read_text(encoding="utf-8") for p in paths)
