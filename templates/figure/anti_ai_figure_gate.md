@@ -1,7 +1,7 @@
 # Anti-AI Scientific Figure Gate（去 AI 味科研图硬门）
 
 > 目的：专门拦截“看起来整洁，但像 AI 信息图 / 咨询 dashboard / PPT”的 Figure。  
-> 适用：所有准备进入数学建模论文正文的结果图。
+> 适用：准备进入数学建模论文正文的 **Data Figure 与 Mechanism Figure**；二者允许的视觉元素不同，但都必须让科学对象/证据而不是装饰成为主体。
 
 ---
 
@@ -13,7 +13,7 @@
 - 每个结论都用彩色文字喊出来；
 - 四处强调、没有视觉主次；
 - panel 机械等宽；
-- 图看起来“精致”，但数据主体反而小；
+- 图看起来“精致”，但数据/机制主体反而小；
 - 配色像产品 dashboard，而不是论文 Figure。
 
 这些设计在演示稿/信息图中可能成立，但在科研正文中通常降低可信度、信息密度和可复现感。
@@ -33,37 +33,46 @@
 ### 2.2 Pastel washing
 - 大面积浅蓝 / 浅紫 / 浅粉背景；
 - 全图用 20–40% alpha 的大色块铺底；
-- 背景色比数据本身更有存在感。
+- 背景色比数据/机制本身更有存在感。
 
 ### 2.3 Neon role drift
 - 亮蓝 + 亮红 + 亮绿 + 亮橙同时出现；
 - 同一语义跨 Figure 换色；
-- 颜色只为“丰富”，没有数据角色。
+- 颜色只为“丰富”，没有数据/机制角色。
 
 ### 2.4 Title-heavy
 - 顶部标题占据明显大块版心；
 - `sgtitle + panel title + subtitle + annotation box` 同时存在；
-- 标题字号远大于数据，第一眼先读标题而不是数据。
+- 标题字号远大于数据/对象，第一眼先读标题而不是证据。
 
 ### 2.5 Equal-grid template look
 - 1×2 / 2×2 panel 机械等宽；
 - supporting panel 明显数据更少却占同面积；
 - panel 间 gap 过大，像网页卡片。
 
-### 2.6 Text-as-data
-- 用大段文字解释本应由图直接显示的趋势；
-- 彩色文字代替 threshold / region / point / line；
-- 每个点/柱都打数值标签，视觉变成“数字海报”。
+### 2.6 Text-as-data / text-as-mechanism
+- 用大段文字解释本应由图直接显示的趋势或机制；
+- 彩色文字代替 threshold / region / point / line / physical path；
+- 每个点/柱都打数值标签，视觉变成“数字海报”；
+- 机制图把“模型映射/公式解释/长段落”塞进大框，而真实对象流和反馈路径反而不清楚。
 
 ### 2.7 Decorative UI cues
+Data Figure 默认禁止：
 - 阴影；
 - 发光；
 - 渐变；
-- 图标；
 - emoji；
 - ribbon header；
 - dashboard 分隔卡；
 - progress-bar 风格但没有真正比例语义。
+
+Mechanism Figure **允许少量语义图标**，但必须满足：
+- 图标直接对应真实对象/动作；
+- 删除图标仍能完整读懂机制；
+- 图标数量很少、风格统一、尺寸从属于节点与箭头；
+- 不出现 icon wall、人物贴纸、营销插画堆叠。
+
+图标一旦比路径/对象更抢眼，默认 FAIL。
 
 ---
 
@@ -81,33 +90,50 @@
 | every value labelled | only key extrema / threshold / optimum labelled |
 | colored explanation text | encode with position / shape / region |
 | infographic arrows | real mechanism path / flow / threshold / trajectory |
+| long mechanism text boxes | short object/action labels + caption explanation |
+| icon-rich mechanism | real objects + sparse labels + few semantic icons |
 | big empty panel | reduce axis domain / combine with aligned metadata |
 
 ---
 
-## 4. Paper-family Anchor Rule
+## 4. Data Figure vs Mechanism Figure
 
-如果用户明确指出某张图“有期刊味”，立即将其登记为 `paper_family_anchor`。
+### Data Figure
+第一视觉对象应是：数据模式、比较、边界、区间、残差或空间场。
 
-后续 Figure 必须优先继承 anchor 的：
-- font family；
-- axis weight；
-- marker scale；
-- primary / risk / context 颜色角色；
-- panel gap；
-- title weight；
-- annotation density；
-- whitespace rhythm。
+允许较强的科研主色，只要颜色有稳定数据角色；高级 chart grammar 可以积极使用，但不能靠 UI 装饰制造“高级感”。
 
-**不得**每张 Figure 重新选择一套“Nature风 / Science风 / AI风”。
+### Mechanism / Physical Figure
+第一视觉对象应是：真实对象、作用方向、因果/状态路径、反馈、边界或物理关系。
+
+默认更朴素：白底、黑/深灰主路径、至多一个风险/回流强调色；少字、少图标。具体工具/布局规则见 `mechanism_figure_contract.md`。
 
 ---
 
-## 5. 0.5 秒视觉分类测试
+## 5. Paper-family Anchor Rule
+
+如果用户明确指出某张图“有期刊味 / 这张可以 / 保留”，立即将其登记为 `paper_family_anchor`。
+
+后续 Figure 必须优先继承 anchor 的：
+- font family；
+- axis / connector weight；
+- marker / node scale；
+- primary / risk / context 颜色角色；
+- panel/node gap；
+- title weight；
+- annotation density；
+- whitespace rhythm；
+- legend strategy。
+
+**不得**每张 Figure 重新选择一套“Nature风 / Science风 / AI风”。继承的是视觉家族，不是把所有图都画成同一种 grammar。
+
+---
+
+## 6. 0.5 秒视觉分类测试
 
 把 Figure 缩小到论文页大致尺寸，看 0.5 秒：
 
-### PASS
+### PASS — Data Figure
 - 第一眼先看到数据模式；
 - 能判断 hero panel；
 - 页面密度像论文；
@@ -115,11 +141,18 @@
 - 配色稳定且克制；
 - 文字从属于数据。
 
+### PASS — Mechanism Figure
+- 第一眼先看到对象与路径；
+- 主流/反馈/异常路径可区分；
+- 没有大段文字和图标墙；
+- 线条不穿框、不压字、不交叉；
+- 图例（需要时）很短。
+
 ### FAIL — AI infographic
-- 第一眼先看到颜色块 / 卡片 / 标题；
-- 看不出哪一个数据对象最重要；
-- 像咨询报告 / BI dashboard；
-- 看起来“漂亮”，但无法快速说出证据是什么。
+- 第一眼先看到颜色块 / 卡片 / 图标 / 标题；
+- 看不出哪一个数据对象或机制路径最重要；
+- 像咨询报告 / BI dashboard / 营销信息图；
+- 看起来“漂亮”，但无法快速说出证据/机制是什么。
 
 ### FAIL — homework
 - MATLAB 默认感；
@@ -130,7 +163,7 @@
 
 ---
 
-## 6. Color Restraint Test
+## 7. Color Restraint Test
 
 把整图转灰度：
 - 若主要结论消失 → FAIL；
@@ -138,30 +171,32 @@
 - 若风险/失效只靠红色文字表达 → FAIL。
 
 类别图：color + marker / fill / line style 至少两种通道。  
-连续图：使用 perceptually uniform colormap；不能用 qualitative palette 冒充连续梯度。
+连续图：使用 perceptually uniform colormap；不能用 qualitative palette 冒充连续梯度。  
+机制图：主路径/异常/回流若使用颜色区分，线型/位置/图例至少再提供一种冗余语义。
 
 ---
 
-## 7. Annotation Restraint Test
+## 8. Annotation / Text Restraint Test
 
-每个 axes 统计：
-- text objects；
-- arrows；
-- boxes；
-- direct value labels。
+Data axes 统计：text objects、arrows、boxes、direct value labels。
 
 一般情况下：
 - 1–4 个 key annotations 合理；
 - >6 个需要解释；
 - >10 个默认 FAIL，除非本身就是 annotated matrix / forest label table。
 
-若删除 50% annotation 仍不损失一级结论，应删。
+Mechanism Figure 统计节点文本：
+- 节点原则上 1–2 行短标签；
+- 若长句/解释段落占据主体，FAIL；
+- 完整推导与“模型映射”类说明优先移到 caption/正文。
+
+若删除 50% annotation/text 仍不损失一级结论，应删。
 
 ---
 
-## 8. Geometry Test
+## 9. Geometry Test
 
-计算/目测：
+Data Figure 计算/目测：
 
 ```text
 data body area / figure usable area
@@ -172,9 +207,15 @@ data body area / figure usable area
 - title + legend + note + white space 合计 > data body → FAIL；
 - support panel 大面积为空 → 调整 panel ratio 或删除。
 
+Mechanism Figure：
+- connector crossing > 0 → FAIL；
+- connector-through-node/text > 0 → FAIL；
+- arrow overlap / ambiguous path > 0 → FAIL；
+- 先改节点层级/路径 corridor，再考虑缩字体。
+
 ---
 
-## 9. 禁止“靠风格救结构”
+## 10. 禁止“靠风格救结构”
 
 如果用户评价：
 - 丑；
@@ -183,11 +224,11 @@ data body area / figure usable area
 - 不像期刊；
 
 首先诊断：
-1. chart grammar；
-2. hero/witness hierarchy；
-3. panel ratio；
-4. axis domain；
-5. annotation burden；
+1. chart/mechanism grammar；
+2. hero / main-path hierarchy；
+3. panel/node ratio；
+4. axis domain / connector routing；
+5. annotation/text burden；
 6. legend tax；
 7. typography；
 8. 最后才是 color。
@@ -196,18 +237,19 @@ data body area / figure usable area
 
 ---
 
-## 10. 最终交付声明
+## 11. 最终交付声明
 
 正式交付 Figure 时必须能回答：
 
 ```text
 这张图为什么不像 AI 信息图？
-- hero data object 是什么？
+- hero data object / main mechanism path 是什么？
 - 哪些颜色有科学职责？
-- 哪些 annotation 被主动删掉？
+- 哪些 annotation/text/icon 被主动删掉？
 - 是否通过灰度测试？
-- 是否通过 drop test？
+- 是否通过 drop test / mechanism closure？
 - 是否在论文页尺度看过？
+- 是否有任何线条穿框、压字或交叉？
 ```
 
 答不上来 → 不得称为“最终科研图”。
