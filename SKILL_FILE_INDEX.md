@@ -150,6 +150,7 @@
 - `templates/figure/journal_figure_research_notes.md`
 - `templates/figure/journal_figure_research_notes_v2_2026-08-28.md`
 - `templates/figure/mechanism_contract.md`
+- `templates/figure/mechanism_figure_contract.md`
 - `templates/figure/mechanism_placeholder.md`
 - `templates/figure/mechanism_practical_check.md`
 - `templates/figure/mechanism_qa.md`
