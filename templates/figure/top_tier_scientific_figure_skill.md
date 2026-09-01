@@ -26,6 +26,7 @@ Module 04 负责：
 
 高级方法细节继续读取：
 - `templates/figure/journal_figure_mastery_v2.md`
+- `templates/figure/journal_palette_contract.md`
 - `templates/figure/figure_suite_manifest.md`
 - `templates/figure/scientific_figure_skill_landscape.md`
 - `templates/figure/journal_figure_research_notes.md`
@@ -51,9 +52,10 @@ Module 04 负责：
 + 数据诚实
 + 整篇图组一致
 + 可复现与最终版面可读
++ 用户指定修改范围得到尊重
 ```
 
-本项目保留 Icarus Figures 的四轴质量条，并增加两项项目级门：
+本项目保留 Icarus Figures 的四轴质量条，并增加三项项目级门：
 
 ```text
 Depth
@@ -62,9 +64,10 @@ Unimpeachable
 Visible gap
 Salience relevance
 Suite coherence
+Scope fidelity
 ```
 
-6 项都过，才进入正式 MATLAB delivery。
+7 项都过，才进入正式 MATLAB delivery。
 
 ---
 
@@ -157,6 +160,8 @@ aligned position
 # 4. Candidate Grammar Gate（至少 3 类）
 
 `redesign` 模式下，每个 Primary question 至少比较 3 个**不同 visual grammar**。
+
+注意：若用户当前 feedback 的 mutation scope 已锁为 `palette_only / rendering_only / annotation_only`，则**不重新开启 grammar 候选搜索**，除非用户明确批准 redesign。
 
 Candidate scoring：0–2 分。
 
@@ -437,27 +442,17 @@ threshold = rule/boundary
 
 # 15. Color System
 
-## Discrete
+颜色由 `templates/figure/journal_palette_contract.md` 统一管理。本文件只保留上层原则：
 
-先定义角色：
-- Primary；
-- Risk/Failure；
-- Baseline/Reference；
-- Secondary（必要时）；
-- Context。
-
-同一对象跨 Figure 保持职责一致。
-
-## Continuous
-
-先判断：
-- sequential；
-- diverging；
-- cyclic。
-
-使用 perceptually uniform scientific maps；禁止 jet/rainbow/HSV。
-
-不默认使用 quantile recoloring，因为数模论文常需要保留绝对物理/经济量的数值距离。只有“分位等级”本身是 claim 时才允许 quantile transform。
+- 先判断 categorical / ordinal / sequential / diverging / cyclic / semantic region；
+- 顶刊配色不是固定“Nature蓝”，也不是默认全灰或低饱和；
+- 用户要求“顶刊配色”时，必须比较 publisher guideline、journal-inspired palette、scientific colormap 三类来源；
+- 大面积 fill、marker、line 的同一 Hex 视觉重量不同，必须 area-aware；
+- 防止两个极端：pastel washing 与 over-dark；
+- 用户确认“这套颜色还行”后建立 `palette_anchor`；
+- `palette_only` 时严禁改 chart grammar / layout / axis / annotation / data；
+- continuous/ordinal map 使用 perceptually uniform scientific maps，禁止 jet/rainbow/HSV；
+- 不默认 quantile recoloring，除非分位等级本身是 claim。
 
 ---
 
@@ -516,6 +511,8 @@ Mechanism / Framework：可示意，但不能 generic boxes-and-arrows。必须�
 
 “高级机制图”来自真实方法对象，不来自发光、科技蓝和装饰箭头。
 
+具体工具优先级、image generation / Draw.io fallback、短文字、少图标、零交叉和图例规则服从 `mechanism_figure_contract.md`。
+
 ---
 
 # 19. Render–Review–Iterate（硬门）
@@ -540,7 +537,7 @@ geometry 失败 → redesign，禁止只换色。
 加入：
 - typography；
 - direct labels；
-- minimal color；
+- palette contract；
 - critical annotation。
 
 检查：
@@ -551,6 +548,8 @@ geometry 失败 → redesign，禁止只换色。
 - thumbnail；
 - overlap/clipping；
 - anti-AI gate。
+
+收到用户反馈后必须先确定 `mutation_scope`。若为 `palette_only`，后续迭代跳过 grammar/geometry redesign，只做 palette benchmark 与代码安全修改。
 
 只有通过才允许 MATLAB translation。
 
@@ -570,11 +569,13 @@ geometry 失败 → redesign，禁止只换色。
 - no clipping/overlap；
 - no rainbow；
 - unique provisional filename；
-- final vector plan。
+- final vector plan；
+- palette-only 修改无结构漂移；
+- MATLAB static preflight 无括号/字符串/token 明显错误。
 
 ## Judgment Pass 2.0
 
-回答六问：
+回答七问：
 
 1. Depth：遮住 caption，机制/阈值/结论还能读出吗？
 2. Elegance：Drop test 后还有冗余吗？
@@ -582,6 +583,7 @@ geometry 失败 → redesign，禁止只换色。
 4. Visible gap：0.5 秒像论文正文还是 PPT/dashboard/AI？
 5. Salience relevance：第一眼看到的是最重要证据吗？
 6. Suite coherence：它和全文 Figure 是一家人，而且不重复吗？
+7. Scope fidelity：本轮是否只改了用户授权的内容？
 
 任一明显失败，不交付 `.m`。
 
@@ -618,6 +620,15 @@ Do not copy
 
 禁止只学色号、点、图例位置。
 
+若用户给的是“配色参考”，必须区分：
+- 颜色本身；
+- 颜色面积；
+- alpha；
+- 背景与文字 contrast；
+- primary/context 比例。
+
+同一 Hex 离开原来的面积和背景可能完全不像原图。
+
 ---
 
 # 22. 最终执行链
@@ -627,7 +638,7 @@ Paper-level Figure Suite
 → Scope / Source / Claim lock
 → Skeptical reviewer question
 → Claim-to-visual-task
-→ >=3 grammar candidates
+→ >=3 grammar candidates (redesign only)
 → Candidate scoring
 → Salience-relevance plan
 → Invariant subtraction
@@ -636,6 +647,7 @@ Paper-level Figure Suite
 → Real-data prototype v0
 → Render review: body / complexity
 → Prototype v1
+→ Palette contract / benchmark
 → Grayscale / CVD / thumbnail
 → Anti-AI gate
 → Mechanical lint
@@ -647,4 +659,4 @@ Paper-level Figure Suite
 → accepted / frozen
 ```
 
-这条链优先于任何“Nature风 / Science风 / Cell风”的表面模仿。
+这条链优先于任何“Nature风 / Science风 / Cell风”的表面模仿；用户明确锁定 mutation scope 后，必须在授权范围内迭代。
