@@ -1,11 +1,12 @@
-version: 1.3.0
+version: 1.4.0
 introduced_in_skill_version: 7.4.2
 skill_compatibility: '>=7.4.2,<8.0.0'
-purpose: 约束条件启用的项目级数据预处理、题目专属Python主求解与结果深化分析代码的规模、可读性、反过度工程和静态工程质量；不替代Problem Contract、模型语义正确性、preprocessing_decision、预处理质量门、论文预处理证据与数值结果质量门。
+purpose: 约束条件启用的项目级数据预处理、题目专属Python主求解与结果深化分析代码的规模、可读性、反过度工程、跨产物身份一致性和静态工程质量；不替代Problem Contract、模型语义正确性、preprocessing_decision、预处理质量门、论文预处理证据与数值结果质量门。
 scope:
 - 数据预处理/数据预处理.py
 - 问题X求解/问题X求解.py
 - 问题X求解/问题X结果深化分析.py
+- repair/redesign期间尚未冻结的题目专属候选Python脚本
 line_count:
   metric: nonblank_physical_lines
   target_max: 500
@@ -40,6 +41,34 @@ hard_antipatterns:
 warning_antipatterns:
   unused_import: true
   any_print_call: true
+artifact_identity_contract:
+  required_runtime_identity:
+    - question_id
+    - stage
+    - artifact_version_or_candidate_id
+    - semantic_revision_or_bound_model_hash_when_available
+    - resolved_input_path_summary
+    - output_workbook_path
+  consumer_binding:
+    - 结果深化分析脚本只能绑定已验收主工作簿；绑定至少包含实际路径、文件身份或哈希、实际工作表名和需要字段。
+    - 绘图/分析消费者不得凭模板猜测上游工作簿存在某个工作表或字段；生成消费者前必须先实际核验上游接口。
+    - 如果工作簿实际工作表/字段与已绑定合同不一致，fail-fast并报告actual vs required；不得静默搜索相似表名、切换另一工作簿或自动补造缺失sheet。
+    - 同一问题的主求解、深化分析与绘图必须携带一致question_id；发现上一问/另一问身份时直接停止。
+  filename_policy:
+    - 脚本可以打印期望canonical文件名作为提示，但不得仅因用户本地重命名脚本而RuntimeError；正式身份由内部stage/question/candidate fingerprint与输入输出合同决定。
+    - 只有官方外部协议明确要求固定文件名时才允许把文件名不匹配作为硬失败，并必须在代码交付前说明该外部要求。
+    - repair/redesign期间每次实质修改使用新的candidate/version后缀，不覆盖用户正在比较的上一版；用户明确接受后再同步唯一canonical文件名。
+  failure_recovery:
+    - FileNotFoundError后重新观察项目树和实际候选路径，不得原样重复同一错误路径假设。
+    - 缺sheet/header后先列出实际sheet/header，再重新绑定接口；不得用另一阶段的“标准工作表”清单强压当前上游工作簿。
+    - 同一根因连续两次失败时必须停止机械改名/改路径，先给出root-cause diagnosis和最小修复范围。
+result_semantics_contract:
+  ties_and_near_ties:
+    - 优化/枚举结果若存在精确并列或在声明容差内并列，必须保留完整并列最优集合；不得为了给出单一方案而任意选一个写成“唯一最优”。
+    - 必须区分exact tie、tolerance tie和small-but-nonzero gap；三者在正文、工作簿和图中不得混写。
+    - 若最优方案对参数变化存在切换，稳健性表述应报告切换边界、利润/目标gap或稳定区，而不是只说“敏感性分析通过”。
+  plausibility:
+    - 主结果质量门通过后仍需结合单位、边界、约束、退化情形和题意机制做post-execution review；程序成功运行不等于结果合理。
 principles:
 - 成熟科学计算库优先，不手写无必要的低质量替代实现。
 - 代码工程质量门必须位于semantic_governance gate之后；代码不能静默引入数学层没有定义的核心变量、目标项、约束、阈值或预处理语义。
@@ -52,6 +81,8 @@ principles:
 - 赛题本身要求预测未来值、未知类别、需求、风险或其他最终结果时，该预测属于核心模型，不得写入数据预处理脚本提前生成答案。
 - 主求解脚本只保留当前数据事实源读取与字段检查、模型求解、约束/残差或题型质量检查、主结果整理、主工作簿输出和主入口。
 - 结果深化分析脚本只保留当前数据事实源和已验收主结果读取、题目专属深化分析、稳定性判定、深化工作簿输出和主入口；不得复制主求解主链。
+- 主求解、深化分析和后续绘图之间的接口必须以实际文件/工作表/字段合同绑定，禁止consumer凭记忆或旧版本假设上游结构。
+- 题目专属脚本的身份不能只靠物理文件名；用户本地改名不应触发与数学无关的硬失败，使用内部question/stage/version fingerprint进行身份确认。
 - 删除无用import、调试print、重复逻辑、死代码、伪抽象和未来脚手架。
 - Python不承担论文结果图绘制；project_level预处理图由data_process.m读取统一工作簿，各问结果图由qX_plot.m读取标准结果工作簿。MATLAB不得重新计算核心预处理或求解结果。
 - 代码长度是工程质量门，不得为了压行数删除随机种子、目标函数、约束、质量检查、结果输出、预处理验证或复现信息。

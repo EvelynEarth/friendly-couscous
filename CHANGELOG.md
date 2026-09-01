@@ -1,6 +1,18 @@
 # Changelog
 
-## Current release: 7.13.0
+## Current release: 7.14.0
+
+- Added `core/workflow_convergence_contract.yaml` as the cross-stage authority for Question Closure, user-returned result plausibility review, observed project-path binding, figure candidate convergence, Presentation Lock, Expected Artifact preservation and reusable-Skill project-artifact isolation.
+- Added a benchmark-calibration boundary: competition papers may be used to diagnose judge readability, evidence balance, layout and prose register, but may not impose their model, wording, page count, figure count, algorithm count or result-specific choices on another problem.
+- Added `competition_paper_calibration_gate`, `reader_recovery_test` and evidence-carrier governance so each core answer is easy to recover, direct evidence is not displaced by backend diagnostics, and figures/tables/prose are selected by reader task rather than quota.
+- Added a paper-prose register gate that translates internal workflow metadata such as current/accepted/frozen/gate/stale/revision/hash into natural competition-paper language unless the metadata is genuinely required for reproducibility.
+- Added title/abstract calibration, formal source-integrity checks and appendix allocation rules. AI assistants/search tools are not accepted as scientific authority for theorem, algorithm-origin, empirical-parameter or domain-fact citations.
+- Added final-PDF readability checks so accepted source figures/tables must remain legible at actual insertion size; dense panels are split/recomposed before fonts are shrunk below useful reading size.
+- Strengthened MATLAB Figure Purpose, candidate fingerprint/freeze, mechanism closure and static-render checks while preserving the existing Figure Evidence authority and evidence-driven enhancement model.
+- Added regression coverage for v7.14 convergence, paper calibration, non-imitation/no-quota behavior and Skill-repository isolation from active competition PDFs, data, workbooks, task-specific scripts, figures, project state and answer values.
+- Preserved Workbook Schema, Project State Schema, conditional preprocessing, Python/MATLAB ownership, per-question five-file layout, user full-fidelity execution, LaTeX attestation v3, submission provenance and v7 read compatibility.
+
+## Previous release: 7.13.0
 
 - Added an evidence-driven Figure Enhancement Gate after Figure Layout Gate, with default `none` and conditional Local Zoom, Small Multiples, Focus Highlighting, Semantic Background, Composite Diagnostic, and Conditional 3D.
 - Added `templates/figure/figure_enhancement_patterns.md` for reusable enhancement implementations while keeping `modules/04_figure_evidence.md` the sole plotting decision authority.

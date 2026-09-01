@@ -1,6 +1,6 @@
 # HSK Active Template Index
 
-当前 Skill 版本：7.13.0
+当前 Skill 版本：7.14.0
 
 本索引仅覆盖活动 Skill；历史文件通过 `legacy/README.md` 追溯。
 
@@ -30,7 +30,9 @@
 - `templates/figure/journal_figure_mastery_v2.md`
 - `templates/figure/journal_figure_research_notes.md`
 - `templates/figure/journal_figure_research_notes_v2_2026-08-28.md`
+- `templates/figure/journal_palette_contract.md`
 - `templates/figure/mechanism_contract.md`
+- `templates/figure/mechanism_figure_contract.md`
 - `templates/figure/mechanism_placeholder.md`
 - `templates/figure/mechanism_practical_check.md`
 - `templates/figure/mechanism_qa.md`
@@ -38,6 +40,7 @@
 - `templates/figure/result_figure_contract.md`
 - `templates/figure/result_figure_qa.md`
 - `templates/figure/scientific_figure_skill_landscape.md`
+- `templates/figure/technical_roadmap_contract.md`
 - `templates/figure/top_tier_scientific_figure_skill.md`
 - `templates/latex/cumcm/cumcmthesis/.gitignore`
 - `templates/latex/cumcm/cumcmthesis/README.md`
@@ -84,3 +87,5 @@
 - `templates/writing/caption_explanation.md`
 - `templates/writing/code_appendix_description.md`
 - `templates/writing/docx_check.md`
+- `templates/writing/presentation_lock.md`
+- `templates/writing/reference_integrity_check.md`

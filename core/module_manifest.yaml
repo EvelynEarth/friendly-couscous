@@ -1,4 +1,4 @@
-version: 7.13.0
+version: 7.14.0
 routing_authority: core/workflow_router.yaml
 workflow_profile_compatibility:
   authority: core/workflow_router.yaml
@@ -18,6 +18,7 @@ contracts:
   user_execution: core/user_execution_contract.yaml
   code_quality: core/code_quality_contract.yaml
   writing_reasoning: core/writing_reasoning_contract.yaml
+  workflow_convergence: core/workflow_convergence_contract.yaml
   framework_template: templates/model/model_paper_framework.md
   compile_profiles: core/compile_profiles.yaml
 external_artifacts:

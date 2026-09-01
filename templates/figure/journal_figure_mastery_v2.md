@@ -15,7 +15,8 @@
 - Icarus Figures：Dataset + Claim、四轴质量条、mechanical floor + judgment pass、hero/drop test；
 - scientific-publication-plotter：style 参数集中管理、final-width 思维、dense scatter / map 简化；
 - Crameri scientific colour maps：连续色图的感知均匀性与 CVD/grayscale 可读；
-- 本项目 Q1–Q3 的长期返工经验。
+- `journal_palette_contract.md`：期刊配色、palette-only mutation scope、paper-family palette anchor；
+- 本项目跨题目的长期返工经验。
 
 核心定义：
 
@@ -29,7 +30,7 @@ Publication-grade Figure
 + Paper-family consistency
 ```
 
-颜色、字体、线宽只是最后一层。
+颜色、字体、线宽只是最后一层，但一旦用户进入 `palette_only` 反馈，必须尊重修改范围，不能借风格优化擅自重构图型。
 
 ---
 
@@ -316,7 +317,70 @@ B&W 测试时，应通过 fill / marker / line style 保持可区分。
 
 ---
 
-# 11. Continuous Color Gate
+# 11. Visual Mutation Scope Gate
+
+用户返回截图后的第一步不是自动 redesign，而是判断本轮允许改什么：
+
+```text
+palette_only
+rendering_only
+annotation_only
+geometry_only
+grammar_redesign
+full_redesign
+```
+
+### 11.1 palette_only
+
+用户明确说“只改颜色 / 配色不行但图型保留 / 布局别动”时：
+- grammar frozen；
+- panel count frozen；
+- layout / geometry frozen；
+- axis domain frozen；
+- annotation content frozen；
+- source data frozen。
+
+只允许改 palette token / colormap / alpha / contrast-dependent text 或 marker edge。
+
+若发现结构问题，可单独提出但不得实施。**用户授权边界高于内部 redesign 冲动。**
+
+### 11.2 vague style feedback
+
+如果用户只说“丑 / AI感 / 不像期刊”，没有指定范围，才执行结构→层级→文字→颜色的完整诊断。
+
+详细规则见 `anti_ai_figure_gate.md` 与 `journal_palette_contract.md`。
+
+---
+
+# 12. Palette Research & Aesthetic Gate
+
+“顶刊配色”不是一个固定色板。
+
+当用户要求深度搜集配色时，至少区分：
+1. publisher readability/accessibility guideline；
+2. journal-inspired qualitative palettes；
+3. scientific sequential/diverging colormaps。
+
+不得：
+- 把 Okabe–Ito/Wong 蓝橙直接称为“Nature唯一官方配色”；
+- 因为 CVD 友好就把所有大色块机械混白成 pastel；
+- 把 JAMA/NPG/AAAS 等 inspired palette 冒充出版社强制色号；
+- 只看色卡、不把颜色放到当前真实 Figure 面积上测试。
+
+用户说“太浅、AI味”时，默认先检查：
+- white-mix 是否过高；
+- context gray 是否过浅；
+- 大面积 fill 是否奶油化；
+- primary 是否缺乏墨色；
+- 是否需要换成更成熟的 paper-family palette。
+
+不要自动改成全灰；也不要自动删除区域填色。除非用户允许 redesign。
+
+完整 palette benchmark、JAMA/Okabe-Ito/Crameri/ColorBrewer 使用边界见 `journal_palette_contract.md`。
+
+---
+
+# 13. Continuous Color Gate
 
 连续色图必须先确认数据语义：
 - sequential；
@@ -333,9 +397,11 @@ B&W 测试时，应通过 fill / marker / line style 保持可区分。
 
 注意：外部 `scientific-publication-plotter` 提倡 quantile color split；本项目**不默认采纳**，因为数模图常需要保留物理/经济量的绝对间距。只有 Primary question 明确是“分位等级”时才允许 quantile transform。
 
+若 sequential map 最浅端在白底上接近消失，应裁剪 colormap 范围或选择更合适的 map，而不是用 qualitative hue 替代顺序。
+
 ---
 
-# 12. Final-width-first + Dual-scale Review
+# 14. Final-width-first + Dual-scale Review
 
 顶刊最终版面是 89/183 mm 级别，而 MATLAB Review window 通常更大。因此必须同时检查两种尺度：
 
@@ -357,7 +423,7 @@ accepted 后：
 
 ---
 
-# 13. Dense Scatter / Large-N Gate
+# 15. Dense Scatter / Large-N Gate
 
 大 N 点图：
 - 不直接把数十万点全部矢量化；
@@ -369,7 +435,7 @@ accepted 后：
 
 ---
 
-# 14. Mechanism / Framework Figure 与 Data Figure 分流
+# 16. Mechanism / Framework Figure 与 Data Figure 分流
 
 Data Figure：必须由 accepted data + 可复现绘图库生成。
 
@@ -385,7 +451,23 @@ Mechanism / Framework Figure：允许示意绘制，但必须嵌入真实方法�
 
 ---
 
-# 15. Judgment Pass 2.0（正式 release candidate 前）
+# 17. MATLAB Palette-only Safety Gate
+
+当本轮仅改配色：
+- 颜色 token 集中定义；
+- 不用大范围 regex/string replacement 改写图型主体；
+- 不得删改 `imagesc/fill/plot/tiledlayout` 等结构调用；
+- 修改后检查括号/方括号/花括号配对；
+- 检查字符串闭合；
+- 检查旧 palette token 是否残留为未定义变量；
+- 检查关键绘图函数仍存在；
+- 无 MATLAB runtime 时，必须声明“static preflight passed ≠ runtime verified”。
+
+用户不是第一层语法 linter。
+
+---
+
+# 18. Judgment Pass 2.0（正式 release candidate 前）
 
 机械检查通过后，还要人工回答：
 
@@ -407,11 +489,14 @@ Drop test 后还有没有冗余 panel / legend / text？
 ### Suite coherence
 与同一问/整篇论文其它 Figure 是否属于同一 figure family，且没有重复讲同一句话？
 
-6 项任一明显失败，不进入 MATLAB delivery。
+### Scope fidelity
+本轮修改是否严格遵守用户指定的 mutation scope？
+
+7 项任一明显失败，不进入 MATLAB delivery。
 
 ---
 
-# 16. 顶刊高级 Figure 的最终执行链
+# 19. 顶刊高级 Figure 的最终执行链
 
 ```text
 Paper-level Figure Suite
@@ -426,7 +511,8 @@ Paper-level Figure Suite
 → Geometry sketch
 → Real-data prototype v0 (body only)
 → Render review: geometry + complexity
-→ Prototype v1 (hierarchy + labels + restrained color)
+→ Prototype v1 (hierarchy + labels + restrained but readable color)
+→ Palette benchmark when required
 → Grayscale / CVD / thumbnail review
 → Mechanical lint
 → Judgment Pass 2.0
@@ -437,4 +523,4 @@ Paper-level Figure Suite
 → accepted / frozen
 ```
 
-这条链优先于任何“Nature风 / Science风 / Cell风”的表面模仿。
+这条链优先于任何“Nature风 / Science风 / Cell风”的表面模仿；但用户明确要求 palette-only 时，不重新走 grammar redesign。

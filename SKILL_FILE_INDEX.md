@@ -1,6 +1,6 @@
 # HSK Active Skill File Index
 
-当前 Skill 版本：7.13.0
+当前 Skill 版本：7.14.0
 
 本索引仅覆盖活动 Skill；历史文件通过 `legacy/README.md` 追溯。
 
@@ -56,6 +56,7 @@
 - `core/task_taxonomy.yaml`
 - `core/user_execution_contract.yaml`
 - `core/workbook_schema.yaml`
+- `core/workflow_convergence_contract.yaml`
 - `core/workflow_router.yaml`
 - `core/writing_reasoning_contract.yaml`
 - `docs/architecture/authority_duplication_matrix_v7.11.1.md`
@@ -148,7 +149,9 @@
 - `templates/figure/journal_figure_mastery_v2.md`
 - `templates/figure/journal_figure_research_notes.md`
 - `templates/figure/journal_figure_research_notes_v2_2026-08-28.md`
+- `templates/figure/journal_palette_contract.md`
 - `templates/figure/mechanism_contract.md`
+- `templates/figure/mechanism_figure_contract.md`
 - `templates/figure/mechanism_placeholder.md`
 - `templates/figure/mechanism_practical_check.md`
 - `templates/figure/mechanism_qa.md`
@@ -156,6 +159,7 @@
 - `templates/figure/result_figure_contract.md`
 - `templates/figure/result_figure_qa.md`
 - `templates/figure/scientific_figure_skill_landscape.md`
+- `templates/figure/technical_roadmap_contract.md`
 - `templates/figure/top_tier_scientific_figure_skill.md`
 - `templates/latex/cumcm/cumcmthesis/.gitignore`
 - `templates/latex/cumcm/cumcmthesis/README.md`
@@ -202,6 +206,8 @@
 - `templates/writing/caption_explanation.md`
 - `templates/writing/code_appendix_description.md`
 - `templates/writing/docx_check.md`
+- `templates/writing/presentation_lock.md`
+- `templates/writing/reference_integrity_check.md`
 - `tests/test_active_consistency_cleanup.py`
 - `tests/test_active_output_contract_cleanup.py`
 - `tests/test_active_residue_cleanup.py`
@@ -246,6 +252,7 @@
 - `tests/test_v712_default_runtime_read_path.py`
 - `tests/test_v712_runtime_assurance.py`
 - `tests/test_v713_figure_enhancement.py`
+- `tests/test_v714_workflow_convergence.py`
 - `tests/test_v730_writing_expression_protocol.py`
 - `tests/test_v740_writing_evidence_architecture.py`
 - `tests/test_v741_skill_closure_hygiene.py`
