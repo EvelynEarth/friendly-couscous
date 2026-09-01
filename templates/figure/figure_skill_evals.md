@@ -1,7 +1,7 @@
 # Figure Skill Evals（科研绘图 Skill 对抗性测试集）
 
 > 目的：不再只靠“写了规则”判断 Skill 是否变好，而用固定失败案例做回归测试。  
-> 任何未来修改 `top_tier_scientific_figure_skill.md` / `chart_selection.md` / `journal_figure_mastery_v2.md` / `mechanism_figure_contract.md` 后，应至少过一遍本页。
+> 任何未来修改 `top_tier_scientific_figure_skill.md` / `chart_selection.md` / `journal_figure_mastery_v2.md` / `mechanism_figure_contract.md` / `journal_palette_contract.md` 后，应至少过一遍本页。
 
 ---
 
@@ -375,6 +375,86 @@ Figure 在真实论文尺寸仍能回答 Primary question。
 
 ---
 
+## Eval 24 — 用户只让改配色，却擅自改图型
+
+### 输入
+用户明确说“这个图型可以，只改顶刊配色，不要改结构”。
+
+### 错误答案
+为了“去 AI 味”，把填色矩阵改成 glyph matrix、删除 region fill、增删 panel 或改变 axis domain。
+
+### 期望
+触发 `Mutation Scope Gate = palette_only`：冻结 grammar/layout/geometry/annotation/data，只改 palette token、colormap、alpha 和必要的 contrast-dependent text/edge。
+
+### PASS
+用户授权边界被严格尊重；结构建议只能另行提出，不能偷偷实施。
+
+---
+
+## Eval 25 — 把“顶刊配色”误解成一套 Nature 浅蓝橙
+
+### 输入
+用户要求“仔细搜顶刊论文配色”，当前图有较大色块。
+
+### 错误答案
+立刻套 `#0072B2 + #E69F00`，再把所有区域混入 70–85% 白色，导致 pastel washing；或声称存在唯一“Nature官方配色”。
+
+### 期望
+执行 Journal Palette Research Gate：区分 publisher readability guideline、journal-inspired qualitative palette、scientific colormap；至少比较3个候选，并在当前真实图面积上评估 contrast / AI risk / CVD / grayscale / paper-family fit。
+
+### PASS
+不把可访问性原则误当成唯一审美色板，也不制造一整页奶油浅色。
+
+---
+
+## Eval 26 — 用户说“太浅像AI”，却把图全改成灰色
+
+### 输入
+用户反馈大面积浅蓝/浅橙太浅、AI味重，但没有要求黑白图。
+
+### 错误答案
+把 primary/secondary 全部去色成灰阶，或直接删除区域颜色。
+
+### 期望
+Palette-only 修复优先：提高主色墨色、减少 white-mix、加深 context gray、比较成熟 journal-inspired palette；保留原有语义和图型。
+
+### PASS
+解决“浅”而不是把“彩色科研图”误删成黑白图。
+
+---
+
+## Eval 27 — 连续/排名热图用普通浅蓝或定性色硬凑
+
+### 输入
+一个 rank/强度/概率热力图，需要明确的序数/连续视觉顺序。
+
+### 错误答案
+使用一组无顺序的期刊定性色，或浅蓝端接近白色导致大面积不可见，只因为“蓝色像论文”。
+
+### 期望
+先分类 sequential/diverging/cyclic；选择 Crameri/ColorBrewer/cividis 等感知顺序明确的科学色图；必要时裁剪最浅/最深端，而不是破坏数值顺序。
+
+### PASS
+colormap 同时具备科学语义和视觉可读性。
+
+---
+
+## Eval 28 — palette-only 自动补丁引入 MATLAB 语法错误
+
+### 输入
+已可运行的 MATLAB Figure candidate，仅需要换 RGB/colormap。
+
+### 错误答案
+使用大范围字符串/正则替换，误删 `)`、留下未定义旧 palette token，交给用户后在某行报“无效表达式”。
+
+### 期望
+Palette token 集中定义；`palette_only` 不大范围改写图型段；修改后至少做括号/方括号/花括号、字符串、旧 token、未定义 token、关键函数调用静态 preflight。若无法本地运行 MATLAB，必须明确“静态检查通过 ≠ runtime 已验证”。
+
+### PASS
+换色不会破坏原本可运行的代码，也不会把用户当第一层语法 linter。
+
+---
+
 # 回归测试判定
 
 新 Skill 修改后，如果以上任一 eval 的错误答案仍可能被流程“合理批准”，说明 Skill 仍有漏洞。
@@ -382,7 +462,7 @@ Figure 在真实论文尺寸仍能回答 Primary question。
 至少要求：
 
 ```text
-23/23 行为判断正确
+28/28 行为判断正确
 ```
 
 再进入通用 synthetic regression：
@@ -390,6 +470,8 @@ Figure 在真实论文尺寸仍能回答 Primary question。
 - 高级数值 Figure；
 - 普通结构机制图；
 - 物理/场景机理图；
-- 带反馈/回流的 Draw.io 图。
+- 带反馈/回流的 Draw.io 图；
+- `palette_only` MATLAB candidate；
+- sequential / diverging heatmap。
 
 测试不得使用正在求解赛题的真实数据、结果值、工作簿、代码或图片。
