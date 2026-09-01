@@ -16,8 +16,8 @@
 8. 基础布局确定后执行 Figure Enhancement Gate；仅在局部差异、曲线遮挡、视觉主次、阈值区域、联合诊断或真实双因素结构确实需要时增加增强表达；
 9. 生成 MATLAB 代码前实际读取工作簿，锁定工作簿名、工作表名、真实表头、单位和数据类型；若当前数据事实源允许原始数据仅用于显示上下文，可读取真实序列绘制，但不得在 MATLAB 中重检峰谷、重拟合或重求解；
 10. 生成 candidate 前执行 MATLAB Figure Static Gate；candidate 必须带可核验 runtime fingerprint；
-11. 设置简洁 `title` 或一个整体 `sgtitle`，拟定不逐字重复的论文图注；
-12. candidate 图窗交由用户人工检查；不得仅根据“脚本已生成”宣称 Figure 通过；
+11. 设置简洁 `title` 或一个整体 `sgtitle`，拟定不逐字重复的论文图注；配色按 `templates/figure/journal_palette_contract.md` 建立角色映射，不使用固定“默认亮色表”硬套；
+12. candidate 图窗交由用户人工检查；收到截图反馈后先锁定 `mutation_scope`（palette/rendering/annotation/geometry/grammar/full redesign），不得越权修改；
 13. 用户明确接受/冻结后，才把最终实现同步为唯一 canonical `q{x}_plot.m`；superseded candidates 移出 active `问题X求解/`；
 14. 将 canonical `q{x}_plot.m` 与两类 Python 脚本、两类结果工作簿放在同一 `问题X求解/`；项目级预处理图脚本固定为 `数据预处理/data_process.m`；
 15. 检查核心结论是否有图或表证据，并同步 `模型论文框架.md` 与当前 Figure Contract；
@@ -49,6 +49,8 @@ Figure role 至少区分：
 优先表达公式来源、约束来源、临界状态和策略机制。图内只放对象、变量、方向、边界、距离、角度、流向和临界状态，完整推导留在正文。禁止用通用“输入—模型—输出”流程图替代题目专属机理图。
 
 机理图还必须通过 physical/mechanism closure：图中每条箭头都对应真实机制；模型结论依赖的出射、反馈、流入/流出或观察路径必须实际画出，不能只用文字补一个缺失的物理过程。例如，多束干涉若来自每次到达界面后出射的多束反射光，则不能只画内部 zig-zag 而省略最终参与相干叠加的出射束。
+
+机制图工具、image generation → Draw.io fallback、短文字、少图标、零交叉、图例和 XML 规则统一服从 `templates/figure/mechanism_figure_contract.md`；不得再次在本模块复制另一套工具规则。
 
 ## B 类：项目级预处理证据图
 
@@ -99,7 +101,7 @@ data_process_<evidence>
 
 ## C 类：各问结果图合同
 
-每张结果图记录：Core conclusion、Evidence level、Primary question、Figure role、Reader task、MATLAB title、论文 caption、Panel map、Layout decision、Split decision、Panel necessity、Enhancement、Enhancement rationale、Source workbook、Worksheet、Required headers、Expected positions（可选）、MATLAB script、Candidate id/fingerprint、Canonical status、Export files、Statistics/error、Reviewer risk、Paper location 和 Caption duty。
+每张结果图记录：Core conclusion、Evidence level、Primary question、Figure role、Reader task、MATLAB title、论文 caption、Panel map、Layout decision、Split decision、Panel necessity、Enhancement、Enhancement rationale、Source workbook、Worksheet、Required headers、Expected positions（可选）、MATLAB script、Candidate id/fingerprint、Canonical status、Export files、Statistics/error、Reviewer risk、Paper location、Caption duty、Mutation scope、Palette anchor 和 Palette provenance。
 
 结果证据优先来自本问主求解工作簿或结果深化分析工作簿：
 
@@ -232,7 +234,9 @@ Figure Enhancement 发生在基础图型和布局确定之后，目的不是增�
 
 ### 4. Semantic Background
 
-稳定区、风险区、可行区、临界区、政策阶段或时间阶段可以使用浅色背景带或 panel tint 提高识别效率。背景色必须对应真实数学阈值、题面定义、状态分类或可解释阶段；纯装饰性色块禁止进入论文核心图。背景不得压过主曲线、误差线和标注。
+稳定区、风险区、可行区、临界区、政策阶段或时间阶段可以使用背景带或 panel tint 提高识别效率。背景色必须对应真实数学阈值、题面定义、状态分类或可解释阶段；纯装饰性色块禁止进入论文核心图。背景不得压过主曲线、误差线和标注。
+
+**不得把“背景应该弱化”机械理解成所有区域都用 20–40% pastel。** 区域 fill 的 chroma/alpha 必须结合面积和可读性，通过 `journal_palette_contract.md` 审查；太浅导致区域难辨或出现 AI 奶油色同样 FAIL。
 
 ### 5. Composite Diagnostic
 
@@ -257,7 +261,7 @@ Figure Enhancement 不得改变底层结果。对离散实验点、独立场景�
 - 一张 Figure 原则上只有 1 个一级 Core conclusion / 一级阅读任务；
 - 同一视觉层级中同时竞争注意力的主要对象通常不超过 2--3 个；对象更多时优先分组、small multiples、focus highlighting 或另图，而不是堆图例；
 - 主要视觉编码（如热图、折线、柱图、箱线）原则上不超过 2 类；Composite Diagnostic 的多 axes 允许复用多个统计视角，但必须共享一个 Primary question；
-- 主结果颜色语义通常不超过 3 个，辅助对象使用灰、浅色或透明度降权；
+- 主结果颜色语义通常不超过 3 个，辅助对象使用 context gray、较细线或适度透明度降权；“辅助=几乎看不见的浅灰”同样不合格；
 - panel 数量少但视觉编码冲突严重时仍应拆图；panel 数量多但本身构成规则矩阵或 small-multiple 结构时可保留；
 - 信息密度可以高，但读者不应为理解不同 panel 反复学习新的颜色、线型和指标语法。
 
@@ -270,9 +274,16 @@ candidate → accepted → frozen canonical
           ↘ superseded
 ```
 
+每次用户反馈还必须记录：
+
+```text
+mutation_scope = palette_only | rendering_only | annotation_only | geometry_only | grammar_redesign | full_redesign
+```
+
 - redesign 期间使用唯一 candidate id/文件名，不覆盖 canonical；
 - candidate MATLAB 脚本启动时打印版本/候选 fingerprint，并尽量把相同 fingerprint 放进 figure window name；
 - 用户返回截图时，只有 screenshot/window title/stdout 与 fingerprint 匹配才能确认“跑的是这一版”；
+- 若用户只授权 `palette_only`，不得改变 `imagesc/fill/plot` 等图型职责、panel 数量、axis domain 或 annotation 语义；
 - 用户说“最终确定/冻结/保留这一版”后，才把该版同步为 `qX_plot.m`；
 - active `问题X求解/` 最终只保留 canonical `qX_plot.m`，旧 candidate 移出 active 目录；
 - 纯 TeX/单位/刻度等 rendering bug 若不改变 accepted 证据结构和视觉语义，可披露后修复 canonical；改变 panel/证据职责属于 redesign，必须重新 candidate review。
@@ -286,9 +297,13 @@ candidate → accepted → frozen canonical
 - `xticks/yticks` 接收的数值向量必须严格递增；需要逆序类别时使用 `XDir/YDir='reverse'`；
 - 类别/来源型 forest plot 的纵轴优先用真实类别标签，不用 1、2、3… 等无物理意义的假数轴；
 - 所有 required worksheet/header 均先精确核验；
-- figure title、legend、text annotation 不遮挡核心曲线或彼此重叠。
+- figure title、legend、text annotation 不遮挡核心曲线或彼此重叠；
+- 检查 `() / [] / {}` 分隔符配对和字符串闭合；
+- 检查 palette token/colormap 变量均已定义，旧 token 无残留；
+- `palette_only` 修改不得用大范围正则/字符串替换重写图型主体；至少确认关键 `imagesc/fill/plot/tiledlayout` 调用与上一 accepted candidate 一致；
+- 无 MATLAB runtime 时必须写明：`static preflight passed ≠ runtime verified`，不得宣称已运行通过。
 
-静态门失败时先修脚本，不把已知 MATLAB 运行错误留给用户截图阶段。
+静态门失败时先修脚本，不把已知 MATLAB 运行错误留给用户截图阶段。用户不是第一层 MATLAB 语法 linter。
 
 ## Technical Roadmap
 
@@ -318,31 +333,28 @@ end
 
 ## 图标题、配色与风格
 
-单图使用 `title`，多面板使用一个 `sgtitle`。标题只说明研究对象、指标关系和必要方法，不写结论长句。默认白底、清晰细轴、中文坐标轴和单位、字号 18，网格关闭或极浅。**主结果允许并鼓励使用中高饱和、高对比、抓眼球的科研配色**；不再以“低饱和深色”为默认目标。数学建模竞赛图表应让评委快速识别对象和差异，只要语义层级清楚，就不必为了“期刊感”把主色压得过暗。
+单图使用 `title`，多面板使用一个 `sgtitle`。标题只说明研究对象、指标关系和必要方法，不写结论长句。默认白底、清晰细轴、中文坐标轴和单位；网格关闭或仅在读数任务需要时极浅显示。
 
-推荐主色仅作为起点，不是固定模板：
+**本模块不再维护固定“亮蓝/鲜红/亮绿/亮橙”默认色表。** 顶刊配色不是单一风格，也不是越浅越期刊、越亮越竞赛。具体 palette 决策统一读取：
 
 ```text
-亮蓝   #1478FF   RGB [20,120,255]
-鲜红   #F04444   RGB [240,68,68]
-亮绿   #16B364   RGB [22,179,100]
-亮橙   #F79009   RGB [247,144,9]
-亮紫   #7A5AF8   RGB [122,90,248]
-深灰   #252B37
-浅灰   #E9EAEB
+templates/figure/journal_palette_contract.md
 ```
 
-配色动态规则：
+核心规则：
 
-- 两对象强比较优先使用高对比双色，例如亮蓝 vs 鲜红；
-- 正向改善/可行可使用亮绿，风险/恶化可使用鲜红，警告/临界可使用亮橙，基准/参考可使用深灰；
-- 同一对象和同一语义一旦在全文建立颜色映射，后续图保持一致；
-- 主线、主柱、关键区域可以鲜艳；置信区间、背景带、参考网格、次要对象必须通过浅色、灰色或透明度降权；
-- 允许高饱和，不允许“所有元素都高饱和”：如果颜色过多导致读者不知道先看哪里，说明视觉层级失败；
-- 禁止彩虹色、无序多色轮换、红绿单独承担唯一语义；必要时同时使用线型、标记或明暗确保可辨识；
-- 热图/连续场使用与物理量语义匹配的连续或发散色图，不把分类高对比色硬套到连续变量。
+1. 先判颜色任务：categorical / ordinal / sequential / diverging / cyclic / semantic region / focus-context；
+2. 用户要求“顶刊配色”时至少比较 publisher readability guideline、journal-inspired qualitative palettes、scientific colormaps 三类来源；
+3. `NPG/AAAS/JAMA/NEJM/Lancet` 等网上成熟方案若来自 ggsci 等实现，必须称 **journal-inspired palette**，不得冒充出版社官方强制色号；
+4. 类别主色可用中深、高对比但不过度 neon 的科研色；context gray 必须可见，不能淡到近乎消失；
+5. 大面积 fill 的视觉重量远大于 marker/line，alpha/white-mix 必须按面积调整；禁止机械把所有区域混入 70–85% 白色造成 pastel washing；
+6. 用户反馈“太浅、AI味”时，优先提高主色墨色、降低 white-mix、加深 context gray、比较另一成熟 journal-inspired family；不得无授权改成全灰或删除图型；
+7. 连续/排名热图使用 Crameri、ColorBrewer、cividis/viridis-family 等有感知顺序的 scientific colormap；最浅端在白底消失时可裁剪端点，不用无序 qualitative 色替代；
+8. 红绿不得作为唯一分类通道；primary/secondary 必须有 marker/fill/line style 等冗余；
+9. 一旦用户说“这套配色还行/保留”，登记 `palette_anchor`，后续 Figure 继承 primary/secondary/context/colormap family 和大致 saturation level；
+10. 用户明确 `palette_only` 时只改颜色 token、colormap、alpha 和必要 contrast，不改变 chart grammar/layout/axis/annotation/data。
 
-图窗默认可见，不批量自动导出。
+配色审美以**当前实际 Figure screenshot + final-width**为最终裁决，不以色卡本身为裁决。图窗默认可见，不批量自动导出。
 
 ## 分析图准入
 
