@@ -89,6 +89,9 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
 
         self.assertIn("core/workflow_convergence_contract.yaml", figure)
         self.assertIn("Figure Purpose Gate", figure)
+        self.assertIn("mutation_scope", figure)
+        self.assertIn("journal_palette_contract.md", figure)
+        self.assertIn("static preflight passed ≠ runtime verified", figure)
         self.assertIn("latex_expected_artifact_gate", compile_quality)
         self.assertIn("Expected Artifact Manifest", compile_quality)
 
@@ -114,6 +117,7 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
 
         self.assertIn("Mechanism Figure **允许少量语义图标**", anti_ai)
         self.assertIn("connector crossing > 0 → FAIL", anti_ai)
+        self.assertIn("Mutation Scope Gate", anti_ai)
         self.assertIn("mechanism_figure_contract.md", figure_index)
 
     def test_advanced_chart_search_is_proactive_but_evidence_governed(self):
@@ -135,7 +139,47 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertIn("明明高级图更好却机械退回普通图", evals)
         self.assertIn("Eval 22", evals)
         self.assertIn("高级图只因复杂而准入", evals)
-        self.assertIn("23/23", evals)
+        self.assertIn("28/28", evals)
+
+    def test_palette_contract_and_scope_fidelity_exist(self):
+        palette = (ROOT / "templates" / "figure" / "journal_palette_contract.md").read_text(encoding="utf-8")
+        anti_ai = (ROOT / "templates" / "figure" / "anti_ai_figure_gate.md").read_text(encoding="utf-8")
+        mastery = (ROOT / "templates" / "figure" / "journal_figure_mastery_v2.md").read_text(encoding="utf-8")
+        top_tier = (ROOT / "templates" / "figure" / "top_tier_scientific_figure_skill.md").read_text(encoding="utf-8")
+        router = (ROOT / "core" / "workflow_router.yaml").read_text(encoding="utf-8")
+        evals = (ROOT / "templates" / "figure" / "figure_skill_evals.md").read_text(encoding="utf-8")
+
+        for token in [
+            "Mutation Scope Lock",
+            "palette_only",
+            "Journal Palette Research Gate",
+            "journal-inspired palette",
+            "Pastel washing FAIL",
+            "Over-dark FAIL",
+            "Area-aware Color Rule",
+            "palette_anchor",
+            "MATLAB Palette Implementation Rules",
+        ]:
+            self.assertIn(token, palette)
+
+        self.assertIn("用户明确说“只改配色”", anti_ai)
+        self.assertIn("Visual Mutation Scope Gate", mastery)
+        self.assertIn("MATLAB Palette-only Safety Gate", mastery)
+        self.assertIn("Scope fidelity", mastery)
+        self.assertIn("journal_palette_contract.md", top_tier)
+        self.assertIn("palette-only 修改无结构漂移", top_tier)
+        self.assertIn("templates/figure/journal_palette_contract.md", router)
+
+        for eval_id in range(24, 29):
+            self.assertIn(f"Eval {eval_id}", evals)
+        self.assertIn("28/28", evals)
+
+    def test_module04_no_longer_hardcodes_generic_bright_palette(self):
+        figure = (ROOT / "modules" / "04_figure_evidence.md").read_text(encoding="utf-8")
+        self.assertIn("本模块不再维护固定", figure)
+        self.assertIn("journal_palette_contract.md", figure)
+        for deprecated_hex in ["#1478FF", "#F04444", "#16B364", "#F79009", "#7A5AF8"]:
+            self.assertNotIn(deprecated_hex, figure)
 
     def test_roadmap_presentation_and_reference_integrity_templates_exist(self):
         roadmap = (ROOT / "templates" / "figure" / "technical_roadmap_contract.md").read_text(encoding="utf-8")
@@ -160,6 +204,7 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
 
         self.assertIn("templates/figure/mechanism_figure_contract.md", router)
         self.assertIn("templates/figure/anti_ai_figure_gate.md", router)
+        self.assertIn("templates/figure/journal_palette_contract.md", router)
         self.assertIn("templates/writing/reference_integrity_check.md", router)
 
     def test_skill_repository_has_no_root_project_artifacts(self):
@@ -187,6 +232,7 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
             ROOT / "core" / "code_quality_contract.yaml",
             ROOT / "templates" / "figure" / "technical_roadmap_contract.md",
             ROOT / "templates" / "figure" / "mechanism_figure_contract.md",
+            ROOT / "templates" / "figure" / "journal_palette_contract.md",
             ROOT / "templates" / "writing" / "presentation_lock.md",
             ROOT / "templates" / "writing" / "reference_integrity_check.md",
         ]
@@ -199,6 +245,10 @@ class WorkflowConvergenceV714Tests(unittest.TestCase):
         self.assertNotIn("2025B157", text)
         self.assertNotIn("paper_complete.pdf", text)
         self.assertNotIn("碳化硅", text)
+        self.assertNotIn("B2024", text)
+        self.assertNotIn("0100", text)
+        self.assertNotIn("1101", text)
+        self.assertNotIn("1111", text)
 
 
 if __name__ == "__main__":
