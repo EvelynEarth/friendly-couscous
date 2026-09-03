@@ -2,14 +2,9 @@ semantic_governance_version: 1.0.0
 project:
   competition: 2022年高教社杯全国大学生数学建模竞赛
   problem: A题 波浪能最大输出功率设计
-  current_phase: result_analysis
-  problem_types:
-  - mechanism
-  - simulation
-  - optimization
-  objectives:
-  - simulation
-  - optimization
+  current_phase: figure_evidence
+  problem_types: [mechanism, simulation, optimization]
+  objectives: [simulation, optimization]
   version: 2022A-q1-r1
 requirements:
   total: 4
@@ -20,45 +15,23 @@ requirements:
   - Q1_primary_code
   - Q1_user_execution
   - Q1_analysis_code
-  pending:
   - Q1_user_analysis
+  - Q1_figure_code
+  pending:
+  - Q1_figure_review
   - Q2
   - Q3
   - Q4
 data:
   sources:
-  - name: A题.pdf
-    path: A题.pdf
-    role: 题目原文
-    sha256: e29940eb9eb9382deb8eccb459c73cc47f0080483b8b75f9977830c987162253
-  - name: result1-1.xlsx
-    path: result1-1.xlsx
-    role: Q1常阻尼结果模板
-    sha256: 83ed6e0f2ebcdbdcb53e99a3bfebfbd8dc16141f91396eba8806e781d7809c7a
-  - name: result1-2.xlsx
-    path: result1-2.xlsx
-    role: Q1非线性阻尼结果模板
-    sha256: cc0abbceff32f425e738a3d9c0534fc3fbab4b2a1d2d86b8dc4d51229fb820bf
-  - name: result3.xlsx
-    path: result3.xlsx
-    role: Q3结果模板
-    sha256: b91ec6ad638a19c06cbbebdc2c92273cb824b08bbc842ef91639cb8491292674
-  - name: 附件1.gif
-    path: 附件1.gif
-    role: 垂荡动画
-    sha256: 43e26747d3d175e139103e39f42272e25834ecf23ef0ed9fd6c7b4720434b0b6
-  - name: 附件2.gif
-    path: 附件2.gif
-    role: 垂荡与纵摇动画
-    sha256: 586ebcd3ad20f12d2318c2c0fa31f857e51381af6bd6ca591c3df757f7c0cf58
-  - name: 附件3.xlsx
-    path: 附件3.xlsx
-    role: 水动力参数
-    sha256: 50a5dd70f04dfb0a57fb2602422dc7999b30aad54ddc02353f5b8f01423fd612
-  - name: 附件4.xlsx
-    path: 附件4.xlsx
-    role: 物理与几何参数
-    sha256: c8eff812f5980d955b4f0e587c5f7a357b2571d8d903fcb4913fba77c7354d6d
+  - {name: A题.pdf, path: A题.pdf, role: 题目原文, sha256: e29940eb9eb9382deb8eccb459c73cc47f0080483b8b75f9977830c987162253}
+  - {name: result1-1.xlsx, path: result1-1.xlsx, role: Q1常阻尼结果模板, sha256: 83ed6e0f2ebcdbdcb53e99a3bfebfbd8dc16141f91396eba8806e781d7809c7a}
+  - {name: result1-2.xlsx, path: result1-2.xlsx, role: Q1非线性阻尼结果模板, sha256: cc0abbceff32f425e738a3d9c0534fc3fbab4b2a1d2d86b8dc4d51229fb820bf}
+  - {name: result3.xlsx, path: result3.xlsx, role: Q3结果模板, sha256: b91ec6ad638a19c06cbbebdc2c92273cb824b08bbc842ef91639cb8491292674}
+  - {name: 附件1.gif, path: 附件1.gif, role: 垂荡动画, sha256: 43e26747d3d175e139103e39f42272e25834ecf23ef0ed9fd6c7b4720434b0b6}
+  - {name: 附件2.gif, path: 附件2.gif, role: 垂荡与纵摇动画, sha256: 586ebcd3ad20f12d2318c2c0fa31f857e51381af6bd6ca591c3df757f7c0cf58}
+  - {name: 附件3.xlsx, path: 附件3.xlsx, role: 水动力参数, sha256: 50a5dd70f04dfb0a57fb2602422dc7999b30aad54ddc02353f5b8f01423fd612}
+  - {name: 附件4.xlsx, path: 附件4.xlsx, role: 物理与几何参数, sha256: c8eff812f5980d955b4f0e587c5f7a357b2571d8d903fcb4913fba77c7354d6d}
   locked_scope: 2022A项目根目录附件；禁止跨项目读取
   active_source_mode: raw
 preprocessing:
@@ -69,41 +42,42 @@ preprocessing:
   - 附件3、附件4为结构化参数表，Q1仅需直接读取指定参数行/字段
   - result1-1.xlsx与result1-2.xlsx仅作为输出模板，不需要插值、滤波、平滑或异常删除
   operations: []
-  forbidden_operations:
-  - 插值
-  - 滤波
-  - 平滑
-  - 标准化
-  - 异常删除
+  forbidden_operations: [插值, 滤波, 平滑, 标准化, 异常删除]
   downstream_data_source: raw
   quality_status: not_applicable
   note: 仅执行非破坏性字段、单位、NaN/Inf、模板表头检查
 decisions:
   Q1:
     selected_model: 静平衡增量坐标下的两自由度垂荡 ODE；Case2 仅 PTO 阻尼保留幂律非线性
-    rejected_models:
-    - 完整几何高阶非线性/CFD模型
+    rejected_models: [完整几何高阶非线性/CFD模型]
     key_reason: 题面给定线性微幅波水动力参数，Q1无纵摇几何耦合
-    solver_candidates:
-    - scipy.integrate.solve_ivp(method=DOP853)
+    solver_candidates: [scipy.integrate.solve_ivp(method=DOP853)]
     validation_plan:
     - Case1 增广状态空间矩阵指数独立核验
     - Case2 max_step=T/400 加密复算比较
     result_analysis_candidates:
     - 第35-39完整周期重复性检验，判断40周期尾段是否稳定
     - 常阻尼与幂律阻尼结构稳健性对照，报告稳态幅值差异但不要求数值接近
+  Q2:
+    selected_model: 待设计：垂荡 PTO 平均功率优化
+    rejected_models: []
+    key_reason: 待进入模型设计
+  Q3:
+    selected_model: 待设计：垂荡+纵摇动力学
+    rejected_models: []
+    key_reason: 待进入模型设计
+  Q4:
+    selected_model: 待设计：直线与旋转阻尼联合优化
+    rejected_models: []
+    key_reason: 待进入模型设计
 subproblems:
   Q1:
-    status: solved
+    status: analyzed
     selected_model: 静平衡增量坐标下的两自由度垂荡 ODE；Case2 PTO 幂律阻尼
     classification:
       objective: simulation
-      structures:
-      - physical_mechanism
-      - temporal
-      confidence:
-        objective: 0.99
-        structures: 0.99
+      structures: [physical_mechanism, temporal]
+      confidence: {objective: 0.99, structures: 0.99}
     capabilities:
       has_explicit_constraints: true
       requires_feasibility_check: false
@@ -128,63 +102,51 @@ subproblems:
     approved_semantic_revision: 1
     approved_semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
     semantic_revision: 1
-    semantic_change_categories:
-    - initial_design
+    semantic_change_categories: [initial_design]
     semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
     validated_semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
     validated_semantic_revision: 1
     data_hash: 6b92eac92ef46cb507b97f11a9a555bc60da394c4efc2e6281df631e52bd33e6
     validated_data_hash: 6b92eac92ef46cb507b97f11a9a555bc60da394c4efc2e6281df631e52bd33e6
     code: 问题一求解/问题一求解.py
-    primary_code_sha256: e2961732e4ec1fc43694463e75c4b99306b88fea877f3e7a14a9ef44a6618e8e
     result_analysis_code: 问题一求解/问题一结果深化分析.py
+    primary_code_sha256: e2961732e4ec1fc43694463e75c4b99306b88fea877f3e7a14a9ef44a6618e8e
     analysis_code_sha256: f7975c8737ed03aa2ca76db502f5832d22c171fcc78bf163672a518bd383a616
-    artifacts_stale: false
-    stale_layers: []
     primary_execution_status: accepted
-    analysis_execution_status: awaiting_user_execution
+    analysis_execution_status: accepted
     solution_workbook: 问题一求解/问题一求解结果.xlsx
-    result_quality_report: 主结果质量门6/6通过；Case1矩阵指数交叉核验归一化误差3.671e-14；Case2步长加密归一化误差7.354e-09；0.2s网格和有限性检查通过
+    result_analysis_workbook: 问题一求解/问题一结果深化分析.xlsx
     artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
+      result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
+      matlab_script: b9cdaa75420de33fad2d3299fa289ea7560f285c39da5300fe4bd958f83589b0
     validated_artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
+      result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
+    artifacts_stale: false
+    stale_layers: []
     result_quality_status: passed
-    result_analysis_status: pending
+    result_analysis_status: passed
+    result_quality_report: 主结果质量门6/6通过；Case1矩阵指数核验3.671e-14；Case2步长加密7.354e-09
+    result_analysis_report: 两种阻尼第35-39周期四项重复性最大偏差均低于2%；稳态指标最大相对差异为相对位移幅值2.2265%，证据处置E1/E2均为support
     validation_status: passed
     solver_status: accepted
     optimality_claim: none
     random_seed: null
     tolerance: 1.0e-10
+    matlab_script: 问题一求解/q1_plot.m
     evidence:
-    - 主工作簿包含9个规定工作表，Schema字段与Q1 simulation/physical_mechanism要求一致
-    - 898个输出点覆盖0:0.2:179.4s，40T=179.455488959074s
-    - 常阻尼与幂律阻尼指定时刻结果明确不同，排除两场景被错误复用同一数值
-    - 先前上传的两个填充模板字节级相同，经逐点核对均对应幂律阻尼结果；正式提交前仍需确认本地result1-1与result1-2未混淆
-    execution_note: 用户本地full_fidelity主求解已完成并通过数值质量门；工作簿code_sha256=4a7f08d3a5ddbc1451218076e227a82b3870d9be49d766db35bc383d1a330400，与GitHub源码e296...差异经确定性复核仅由Windows CRLF与仓库LF行尾造成，不视为代码语义漂移；当前进入独立结果深化分析
+    - 898个输出点覆盖0:0.2:179.4s，主结果质量门通过
+    - 常阻尼与幂律阻尼指定时刻结果明确不同
+    - 第35-39周期重复性：常阻尼最大偏差1.2908%，幂律阻尼最大偏差1.4587%，均小于2%
+    - 稳态相对差异：浮子位移0.0639%、振子位移0.2614%、相对位移2.2265%、相对速度RMS1.7397%
+    - 深化分析工作簿code_sha256与GitHub分析脚本差异仅由Windows CRLF/LF行尾造成，不视为语义漂移
+    execution_note: Q1主求解与独立结果深化分析均已验收；主/分析Python脚本冻结，当前进入Figure Evidence，仅允许MATLAB读取已验收工作簿绘图，不重新求解
   Q2:
     status: pending
     selected_model: 待设计：垂荡 PTO 平均功率优化
-    classification:
-      objective: optimization
-      structures:
-      - physical_mechanism
-      - temporal
-      confidence:
-        objective: 0.95
-        structures: 0.95
-    capabilities:
-      has_explicit_constraints: true
-      requires_feasibility_check: false
-      requires_equilibrium_residual: false
-      requires_conservation_residual: false
-      requires_discretization_check: true
-      requires_convergence_diagnostic: true
-      requires_out_of_sample_validation: false
-      requires_uncertainty_quantification: false
-      requires_leakage_check: false
-      requires_calibration_check: false
-      requires_identifiability_check: false
+    classification: {objective: optimization, structures: [physical_mechanism, temporal]}
+    capabilities: {has_explicit_constraints: true, requires_feasibility_check: false, requires_equilibrium_residual: false, requires_conservation_residual: false, requires_discretization_check: true, requires_convergence_diagnostic: true, requires_out_of_sample_validation: false, requires_uncertainty_quantification: false, requires_leakage_check: false, requires_calibration_check: false, requires_identifiability_check: false}
     framework_section: Q2
     result_summary_status: pending
     result_quality_status: pending
@@ -192,26 +154,8 @@ subproblems:
   Q3:
     status: pending
     selected_model: 待设计：垂荡+纵摇动力学
-    classification:
-      objective: simulation
-      structures:
-      - physical_mechanism
-      - temporal
-      confidence:
-        objective: 0.95
-        structures: 0.95
-    capabilities:
-      has_explicit_constraints: true
-      requires_feasibility_check: false
-      requires_equilibrium_residual: false
-      requires_conservation_residual: false
-      requires_discretization_check: true
-      requires_convergence_diagnostic: true
-      requires_out_of_sample_validation: false
-      requires_uncertainty_quantification: false
-      requires_leakage_check: false
-      requires_calibration_check: false
-      requires_identifiability_check: false
+    classification: {objective: simulation, structures: [physical_mechanism, temporal]}
+    capabilities: {has_explicit_constraints: true, requires_feasibility_check: false, requires_equilibrium_residual: false, requires_conservation_residual: false, requires_discretization_check: true, requires_convergence_diagnostic: true, requires_out_of_sample_validation: false, requires_uncertainty_quantification: false, requires_leakage_check: false, requires_calibration_check: false, requires_identifiability_check: false}
     framework_section: Q3
     result_summary_status: pending
     result_quality_status: pending
@@ -219,37 +163,14 @@ subproblems:
   Q4:
     status: pending
     selected_model: 待设计：直线与旋转阻尼联合优化
-    classification:
-      objective: optimization
-      structures:
-      - physical_mechanism
-      - temporal
-      confidence:
-        objective: 0.95
-        structures: 0.95
-    capabilities:
-      has_explicit_constraints: true
-      requires_feasibility_check: false
-      requires_equilibrium_residual: false
-      requires_conservation_residual: false
-      requires_discretization_check: true
-      requires_convergence_diagnostic: true
-      requires_out_of_sample_validation: false
-      requires_uncertainty_quantification: false
-      requires_leakage_check: false
-      requires_calibration_check: false
-      requires_identifiability_check: false
+    classification: {objective: optimization, structures: [physical_mechanism, temporal]}
+    capabilities: {has_explicit_constraints: true, requires_feasibility_check: false, requires_equilibrium_residual: false, requires_conservation_residual: false, requires_discretization_check: true, requires_convergence_diagnostic: true, requires_out_of_sample_validation: false, requires_uncertainty_quantification: false, requires_leakage_check: false, requires_calibration_check: false, requires_identifiability_check: false}
     framework_section: Q4
     result_summary_status: pending
     result_quality_status: pending
     result_analysis_status: pending
 variables:
-  locked:
-  - Q1.z_f
-  - Q1.z_o
-  - Q1.v_f
-  - Q1.v_o
-  - Q1.v_r
+  locked: [Q1.z_f, Q1.z_o, Q1.v_f, Q1.v_o, Q1.v_r]
   source:
     Q1.z_f: 模型定义
     Q1.z_o: 模型定义
@@ -261,7 +182,7 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_sync_scope: Q1主工作簿验收与结果深化分析代码交付
+  last_sync_scope: Q1深化分析验收与Figure Evidence代码交付
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -276,24 +197,21 @@ execution:
   allow_relaxed_tolerance: false
   allow_silent_solver_fallback: false
   platform: Windows-11-10.0.26200-SP0
-  last_run: '2026-09-03T10:12:00+08:00'
-  dependencies:
-    python: '>=3.10'
-    numpy: required
-    scipy: required
-    openpyxl: required for user script workbook I/O
+  dependencies: {python: '>=3.10', numpy: required, scipy: required, openpyxl: required for user script workbook I/O, matlab: required for Figure Evidence local render}
 artifacts:
   code:
   - 问题一求解/问题一求解.py
   - 问题一求解/问题一结果深化分析.py
+  - 问题一求解/q1_plot.m
   results:
   - 问题一求解/问题一求解结果.xlsx
+  - 问题一求解/问题一结果深化分析.xlsx
   figures: []
-  papers:
-  - 模型论文框架.md
+  papers: [模型论文框架.md]
 risks:
-- 当前validate_user_execution.py按原始字节比较Python SHA-256，对Windows CRLF与仓库LF敏感；Q1已通过确定性行尾等价复核，但该跨平台哈希问题后续应在Skill层修正
+- validate_user_execution.py按原始字节比较Python SHA-256，对Windows CRLF与仓库LF敏感；Q1已做确定性行尾等价复核
 - 先前上传的两份填充模板均对应幂律阻尼结果；正式提交前必须确认本地result1-1.xlsx为常阻尼、result1-2.xlsx为幂律阻尼
+- 深化分析的2%为预先固定的工程重复性判据，论文应写“在2%判据下表明稳定”，避免使用严格数学“证明”措辞
 next_gate:
-  module: result_analysis
-  condition: 用户本地full_fidelity运行问题一结果深化分析.py并返回问题一结果深化分析.xlsx；随后执行结论稳定性验收，若通过则Q1进入analyzed
+  module: figure_evidence
+  condition: 用户在本地MATLAB运行问题一求解/q1_plot.m并返回两个图窗截图；随后执行Figure Layout/Enhancement/灰度/缩略图/论文宽度QA，通过后冻结Q1 Figure Evidence并转入下一未完成小问
