@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """2022A 问题一：浮子—振子垂荡动力学主求解。
 
-本脚本必须由用户本地 full_fidelity 执行。它读取项目 source/ 中的附件3、附件4
+本脚本必须由用户本地 full_fidelity 执行。它读取项目根目录中的附件3、附件4
 与题目给定 result1-1/result1-2 模板，求解两种直线阻尼情形，并输出：
 1) 问题一求解/result1-1.xlsx
 2) 问题一求解/result1-2.xlsx
@@ -31,10 +31,10 @@ FULL_FIDELITY_CONFIG = {
     "stage": "primary",
     "problem_name": "问题一",
     "data_paths": [
-        "source/附件3.xlsx",
-        "source/附件4.xlsx",
-        "source/result1-1.xlsx",
-        "source/result1-2.xlsx",
+        "附件3.xlsx",
+        "附件4.xlsx",
+        "result1-1.xlsx",
+        "result1-2.xlsx",
     ],
     "data_sha256": "6b92eac92ef46cb507b97f11a9a555bc60da394c4efc2e6281df631e52bd33e6",
     "solver": "scipy.integrate.solve_ivp(method='DOP853')",
@@ -85,7 +85,10 @@ def audit_source_files(source_dir: Path) -> tuple[dict[str, str], list[list[obje
     for name, expected in EXPECTED_HASHES.items():
         path = source_dir / name
         if not path.is_file():
-            raise FileNotFoundError(f"缺少输入文件: {path}")
+            raise FileNotFoundError(
+                f"缺少输入文件: {path}。请将 A题.pdf、附件1-4、result1-1.xlsx、"
+                "result1-2.xlsx、result3.xlsx 直接放在项目根目录，与‘问题一求解’文件夹同级。"
+            )
         current = sha256_file(path)
         actual[name] = current
         ok = current.lower() == expected.lower()
@@ -325,7 +328,7 @@ def write_evidence_workbook(output: Path, code_hash: str, context: dict[str, obj
 
 def main() -> None:
     project_root = Path(__file__).resolve().parents[1]
-    source_dir = project_root / "source"
+    source_dir = project_root
     output_dir = project_root / "问题一求解"
     code_hash = sha256_file(Path(__file__).resolve())
     _, audit_rows = audit_source_files(source_dir)
