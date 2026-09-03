@@ -11,7 +11,6 @@ project:
   - simulation
   - optimization
   version: 2022A-q1-r1
-  updated_at: '2026-09-03T09:48:00+08:00'
 requirements:
   total: 4
   completed:
@@ -27,38 +26,38 @@ requirements:
 data:
   sources:
   - name: A题.pdf
-    path: source/A题.pdf
+    path: A题.pdf
     role: 题目原文
     sha256: e29940eb9eb9382deb8eccb459c73cc47f0080483b8b75f9977830c987162253
   - name: result1-1.xlsx
-    path: source/result1-1.xlsx
+    path: result1-1.xlsx
     role: Q1常阻尼结果模板
     sha256: 83ed6e0f2ebcdbdcb53e99a3bfebfbd8dc16141f91396eba8806e781d7809c7a
   - name: result1-2.xlsx
-    path: source/result1-2.xlsx
+    path: result1-2.xlsx
     role: Q1非线性阻尼结果模板
     sha256: cc0abbceff32f425e738a3d9c0534fc3fbab4b2a1d2d86b8dc4d51229fb820bf
   - name: result3.xlsx
-    path: source/result3.xlsx
+    path: result3.xlsx
     role: Q3结果模板
     sha256: b91ec6ad638a19c06cbbebdc2c92273cb824b08bbc842ef91639cb8491292674
   - name: 附件1.gif
-    path: source/附件1.gif
+    path: 附件1.gif
     role: 垂荡动画
     sha256: 43e26747d3d175e139103e39f42272e25834ecf23ef0ed9fd6c7b4720434b0b6
   - name: 附件2.gif
-    path: source/附件2.gif
+    path: 附件2.gif
     role: 垂荡与纵摇动画
     sha256: 586ebcd3ad20f12d2318c2c0fa31f857e51381af6bd6ca591c3df757f7c0cf58
   - name: 附件3.xlsx
-    path: source/附件3.xlsx
+    path: 附件3.xlsx
     role: 水动力参数
     sha256: 50a5dd70f04dfb0a57fb2602422dc7999b30aad54ddc02353f5b8f01423fd612
   - name: 附件4.xlsx
-    path: source/附件4.xlsx
+    path: 附件4.xlsx
     role: 物理与几何参数
     sha256: c8eff812f5980d955b4f0e587c5f7a357b2571d8d903fcb4913fba77c7354d6d
-  locked_scope: 2022A/source only; no cross-project data
+  locked_scope: 2022A项目根目录附件；禁止跨项目读取
   active_source_mode: raw
 preprocessing:
   decision: not_needed
@@ -131,7 +130,7 @@ subproblems:
     validated_semantic_revision: 1
     data_hash: 6b92eac92ef46cb507b97f11a9a555bc60da394c4efc2e6281df631e52bd33e6
     code: 问题一求解/问题一求解.py
-    primary_code_sha256: b806799c50ac9d8f768a717f702579ad22ca2de2049c7a750c859ee7c7a02868
+    primary_code_sha256: e2961732e4ec1fc43694463e75c4b99306b88fea877f3e7a14a9ef44a6618e8e
     artifacts_stale: false
     stale_layers: []
     primary_execution_status: awaiting_user_execution
@@ -143,7 +142,7 @@ subproblems:
     optimality_claim: none
     random_seed: null
     tolerance: 1.0e-10
-    execution_note: Q1主求解脚本已生成并完成静态语法/配置/工程质量检查；等待用户本地full_fidelity运行并返回工作簿
+    execution_note: 已按用户真实目录修复输入路径；附件直接位于项目根目录，与问题一求解文件夹同级；等待本地full_fidelity运行
   Q2:
     status: pending
     selected_model: 待设计：垂荡 PTO 平均功率优化
@@ -243,8 +242,7 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_synced_at: '2026-09-03T09:48:00+08:00'
-  last_sync_scope: Q1 primary code delivery
+  last_sync_scope: Q1本地目录路径修复
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -273,4 +271,4 @@ artifacts:
 risks: []
 next_gate:
   module: solve_validate
-  condition: 用户本地full_fidelity运行问题一求解.py并返回问题一求解结果.xlsx；随后执行主结果质量门
+  condition: 用户按当前真实目录本地full_fidelity运行问题一求解.py并返回问题一求解结果.xlsx；随后执行主结果质量门
