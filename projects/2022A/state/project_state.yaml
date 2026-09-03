@@ -119,7 +119,7 @@ subproblems:
     artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
       result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
-      matlab_script: c5c30dd1982744123865c1f04481cb724c7a975c8c933dc4ad5ddd19b6e8da4d
+      matlab_script: 2c011ee567f4c92d8e7361ba05a91dbc1298d758911bf038e46e5590159a0a94
     validated_artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
       result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
