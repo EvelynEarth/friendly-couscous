@@ -11,15 +11,15 @@ project:
   - simulation
   - optimization
   version: 2022A-q1-r1
-  updated_at: '2026-09-03T09:35:00+08:00'
+  updated_at: '2026-09-03T09:48:00+08:00'
 requirements:
   total: 4
   completed:
   - Q1_problem_contract
   - Q1_model_challenge
   - Q1_human_model_approval
-  pending:
   - Q1_primary_code
+  pending:
   - Q1_user_execution
   - Q2
   - Q3
@@ -127,20 +127,23 @@ subproblems:
     semantic_change_categories:
     - initial_design
     semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
+    validated_semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
+    validated_semantic_revision: 1
+    data_hash: 6b92eac92ef46cb507b97f11a9a555bc60da394c4efc2e6281df631e52bd33e6
+    code: 问题一求解/问题一求解.py
+    primary_code_sha256: b806799c50ac9d8f768a717f702579ad22ca2de2049c7a750c859ee7c7a02868
     artifacts_stale: false
     stale_layers: []
-    primary_execution_status: pending
+    primary_execution_status: awaiting_user_execution
     analysis_execution_status: pending
     result_quality_status: pending
     result_analysis_status: pending
     validation_status: pending
-    solver_status: not_run
+    solver_status: awaiting_user_execution
     optimality_claim: none
     random_seed: null
     tolerance: 1.0e-10
-    execution_note: 用户已显式批准 current semantic revision/hash；进入主求解代码交付
-    validated_semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
-    validated_semantic_revision: 1
+    execution_note: Q1主求解脚本已生成并完成静态语法/配置/工程质量检查；等待用户本地full_fidelity运行并返回工作簿
   Q2:
     status: pending
     selected_model: 待设计：垂荡 PTO 平均功率优化
@@ -240,8 +243,8 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_synced_at: '2026-09-03T09:35:00+08:00'
-  last_sync_scope: Q1 human model approval
+  last_synced_at: '2026-09-03T09:48:00+08:00'
+  last_sync_scope: Q1 primary code delivery
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -261,7 +264,8 @@ execution:
     scipy: required
     openpyxl: required for user script workbook I/O
 artifacts:
-  code: []
+  code:
+  - 问题一求解/问题一求解.py
   results: []
   figures: []
   papers:
@@ -269,4 +273,4 @@ artifacts:
 risks: []
 next_gate:
   module: solve_validate
-  condition: Q1 Human Approval 已通过；允许生成并静态检查 问题一求解.py
+  condition: 用户本地full_fidelity运行问题一求解.py并返回问题一求解结果.xlsx；随后执行主结果质量门
