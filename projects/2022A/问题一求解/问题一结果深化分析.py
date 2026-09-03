@@ -2,10 +2,9 @@
 """2022A 问题一：主结果通过质量门后的独立深化分析。
 
 本脚本不重新求解 Q1 ODE，只读取已验收的“问题一求解结果.xlsx”，
-围绕三个评委风险开展题目专属分析：
+围绕两个评委风险开展题目专属分析：
 1. 40 个波浪周期末段是否已经形成稳定周期响应；
-2. 常阻尼与幂律阻尼两种题设结构是否保持同一“有界周期响应”定性结论；
-3. 两种阻尼的局部差异出现在哪里，Figure Evidence 的 Local Zoom 应放大哪个真实区间。
+2. 常阻尼与幂律阻尼两种题设结构是否保持同一“有界周期响应”定性结论。
 
 脚本由用户本地 full_fidelity 执行，输出：
     问题一求解/问题一结果深化分析.xlsx
@@ -26,7 +25,6 @@ LOCKED_DATA_SHA256 = "6b92eac92ef46cb507b97f11a9a555bc60da394c4efc2e6281df631e52
 PRIMARY_WORKBOOK_SHA256 = "c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b"
 TAIL_CYCLES = (35, 36, 37, 38, 39)
 STABILITY_TOL = 0.02
-ROI_WINDOW_SECONDS = 2.4
 EPS = 1.0e-12
 
 FULL_FIDELITY_CONFIG = {
@@ -40,7 +38,7 @@ FULL_FIDELITY_CONFIG = {
     "solver_version": "NumPy runtime version is recorded in workbook",
     "random_seed": "not_applicable_deterministic_analysis",
     "tolerance": STABILITY_TOL,
-    "iteration_or_time_limit": "use all 898 accepted samples and all 39 complete wave cycles; no reduced horizon",
+    "iteration_or_time_limit": "use all 39 complete wave cycles; no reduced horizon or sampling",
     "expected_workbook": "问题一求解/问题一结果深化分析.xlsx",
     "allow_reduced_data": False,
     "allow_coarser_grid": False,
@@ -52,7 +50,6 @@ FULL_FIDELITY_CONFIG = {
 
 SCENARIOS = ("常阻尼c=10000", "幂律阻尼a=10000,n=0.5")
 STATE_LABELS = ("浮子位移", "浮子速度", "振子位移", "振子速度")
-STATE_UNITS = {"浮子位移": "m", "浮子速度": "m/s", "振子位移": "m", "振子速度": "m/s"}
 METRIC_LABELS = (
     "浮子位移半峰峰值",
     "振子位移半峰峰值",
@@ -234,7 +231,8 @@ def structure_comparison(
     both_stable = passed[constant] and passed[nonlinear]
     rows.append([
         "常阻尼c=10000", "题设常量阻尼结构；第35-39完整周期",
-        0.0, 0.0, "是" if passed[constant] else "否", "作为结构对照基准",
+        max(item[3] for item in relative_differences) * 0.0,
+        0.0, "是" if passed[constant] else "否", "作为结构对照基准",
     ])
     rows.append([
         "幂律阻尼a=10000,n=0.5", "题设幂律阻尼结构；第35-39完整周期",
@@ -244,42 +242,6 @@ def structure_comparison(
         "不要求与常阻尼数值接近；只检验两种题设结构是否都保持稳定周期尾段",
     ])
     return rows, relative_differences, both_stable
-
-
-def difference_scan(
-    data: dict[str, dict[str, tuple[np.ndarray, np.ndarray]]]
-) -> tuple[list[list[object]], list[list[object]], tuple[float, float, float]]:
-    times = data[SCENARIOS[0]][STATE_LABELS[0]][0]
-    normalized_differences: list[np.ndarray] = []
-    peak_rows: list[list[object]] = []
-    detail_columns: list[np.ndarray] = [times]
-
-    for label in STATE_LABELS:
-        constant = data[SCENARIOS[0]][label][1]
-        nonlinear = data[SCENARIOS[1]][label][1]
-        diff = nonlinear - constant
-        abs_diff = np.abs(diff)
-        index = int(np.argmax(abs_diff))
-        peak = float(abs_diff[index])
-        rms = float(np.sqrt(np.mean(diff ** 2)))
-        span = float(max(np.ptp(constant), np.ptp(nonlinear), EPS))
-        peak_rows.append([
-            label, STATE_UNITS[label], float(times[index]), peak, float(diff[index]),
-            float(constant[index]), float(nonlinear[index]), rms, peak / span,
-        ])
-        normalized_differences.append(abs_diff / max(peak, EPS))
-        detail_columns.extend([constant, nonlinear, diff])
-
-    score = np.mean(np.vstack(normalized_differences), axis=0)
-    detail_columns.append(score)
-    dt = float(times[1] - times[0])
-    window_points = int(round(ROI_WINDOW_SECONDS / dt)) + 1
-    rolling = np.convolve(score, np.ones(window_points) / window_points, mode="valid")
-    start_index = int(np.argmax(rolling))
-    end_index = start_index + window_points - 1
-    roi = (float(times[start_index]), float(times[end_index]), float(rolling[start_index]))
-    detail_rows = np.column_stack(detail_columns).tolist()
-    return peak_rows, detail_rows, roi
 
 
 def add_sheet(book: openpyxl.Workbook, name: str, headers: list[str], rows: list[list[object]]) -> None:
@@ -306,9 +268,6 @@ def write_analysis_workbook(output: Path, code_hash: str, context: dict[str, obj
     structure_rows = context["structure_rows"]
     differences = context["differences"]
     both_stable = bool(context["both_stable"])
-    peak_rows = context["peak_rows"]
-    diff_detail = context["diff_detail"]
-    roi_start, roi_end, roi_score = context["roi"]
     book = openpyxl.Workbook()
     book.remove(book.active)
 
@@ -320,7 +279,7 @@ def write_analysis_workbook(output: Path, code_hash: str, context: dict[str, obj
         ["iteration_or_time_limit", FULL_FIDELITY_CONFIG["iteration_or_time_limit"]],
         ["actual_stop_reason", "analysis completed; fallback=false"],
         ["random_seed", "not_applicable_deterministic_analysis"], ["repetitions_or_scenarios", 2],
-        ["grid_or_time_range", "accepted primary workbook: 0:0.2:179.4s; analyze all 898 points and complete cycles 1-39"],
+        ["grid_or_time_range", "accepted primary workbook: 0:0.2:179.4s; analyze complete cycles 1-39"],
         ["fallback_used", False], ["platform", platform.platform()], ["allow_reduced_data", False],
         ["allow_coarser_grid", False], ["allow_shorter_horizon", False], ["allow_fewer_repetitions", False],
         ["allow_relaxed_tolerance", False], ["allow_silent_solver_fallback", False],
@@ -336,10 +295,6 @@ def write_analysis_workbook(output: Path, code_hash: str, context: dict[str, obj
          "分别检验两种阻尼律末5个完整周期稳定性，并报告稳态指标相对差异",
          "两场景末段稳定判定", "两场景均通过", "问题一求解结果.xlsx/仿真明细",
          "支持两种题设情形的对比表述", "不要求两种阻尼数值接近"],
-        ["全时域曲线高度相似使局部差异被压缩", "Local Zoom 应放大哪个真实时间窗",
-         "逐状态计算幂律-常阻尼差值；按各自最大差归一化后求综合差异分数；在2.4s滑动窗上取均值最大区间",
-         "四状态峰值时刻、最大绝对差、综合滑窗分数", "ROI完全由真实时序决定且覆盖差异高信息区",
-         "问题一求解结果.xlsx/仿真明细", "为q1_plot.m提供可复核的差异驱动局部放大区", "避免任意截取或放大无差异区域"],
     ]
     add_sheet(book, "分析设计", ["风险来源", "分析问题", "方法", "指标", "通过标准", "输入", "论文作用", "选择理由"], design_rows)
 
@@ -352,20 +307,8 @@ def write_analysis_workbook(output: Path, code_hash: str, context: dict[str, obj
     ])
     add_sheet(book, "结构稳健性", ["替代结构", "核心设定", "结果指标", "与主模型差异", "结论是否一致", "说明"], structure_rows)
     add_sheet(book, "稳态结构差异", ["指标", "常阻尼稳态值", "幂律阻尼稳态值", "相对差异"], differences)
-    add_sheet(book, "局部差异峰值", ["状态量", "单位", "峰值时刻(s)", "最大绝对差", "有符号差", "常阻尼值", "幂律阻尼值", "全时域RMS差", "峰值/全局跨度"], peak_rows)
-    add_sheet(book, "局部放大ROI", ["对象", "起点(s)", "终点(s)", "宽度(s)", "综合差异分数", "依据"], [[
-        "共同Local Zoom ROI", roi_start, roi_end, roi_end - roi_start, roi_score,
-        "四状态绝对差按各自峰值归一化后取平均，2.4s滑动窗均值最大",
-    ]])
-    add_sheet(book, "差异时序", [
-        "时间(s)", "常阻尼浮子位移(m)", "幂律阻尼浮子位移(m)", "浮子位移差(m)",
-        "常阻尼浮子速度(m/s)", "幂律阻尼浮子速度(m/s)", "浮子速度差(m/s)",
-        "常阻尼振子位移(m)", "幂律阻尼振子位移(m)", "振子位移差(m)",
-        "常阻尼振子速度(m/s)", "幂律阻尼振子速度(m/s)", "振子速度差(m/s)", "综合归一化差异分数",
-    ], diff_detail)
 
     both_tail_stable = bool(stable[SCENARIOS[0]] and stable[SCENARIOS[1]])
-    peak_times = [float(row[2]) for row in peak_rows]
     summary_rows = [
         ["40周期仿真尾段已形成稳定周期响应", "第35-39完整周期重复性检验",
          "关键指标最大相对偏差≤2%", "是" if both_tail_stable else "否",
@@ -373,9 +316,6 @@ def write_analysis_workbook(output: Path, code_hash: str, context: dict[str, obj
         ["常阻尼与幂律阻尼均保持稳定周期响应，但稳态幅值允许存在定量差异", "阻尼结构稳健性对照",
          "两种题设结构均通过末段稳定性判据", "是" if both_stable else "否",
          "若任一阻尼结构未稳定，则该定性对比需回退重算", "结构稳健性/稳态结构差异", "Q1比较讨论", ""],
-        ["局部放大必须指向两种阻尼真实差异最集中的时间区间", "全时域差异扫描 + 综合滑窗",
-         f"共同ROI={roi_start:.1f}--{roi_end:.1f}s；四状态峰值时刻范围={min(peak_times):.1f}--{max(peak_times):.1f}s", "是",
-         "若后续主结果变化导致ROI变化，则Figure Evidence必须同步重取ROI", "局部差异峰值/局部放大ROI/差异时序", "Q1 Figure Evidence", "不通过截轴或平滑制造差异"],
     ]
     add_sheet(book, "结论稳定性汇总", ["核心结论", "分析方法", "稳定范围", "是否保持", "失效边界", "证据工作表", "论文位置", "说明"], summary_rows)
 
@@ -386,9 +326,6 @@ def write_analysis_workbook(output: Path, code_hash: str, context: dict[str, obj
          "两场景均满足2%周期重复性阈值" if both_stable else "至少一个场景未满足2%周期重复性阈值", action, "Q1结果段"],
         ["E2", "常阻尼/幂律阻尼结构对照", "两种题设阻尼律均保持有界稳定周期响应", disposition,
          "定性稳定性保持，稳态量值差异单独报告" if both_stable else "结构对照下定性稳定性未同时保持", action, "Q1比较讨论"],
-        ["E3", "全时域差异扫描 + 2.4s综合滑窗", "Local Zoom应展示两种阻尼差异最有信息量的区间", "support",
-         f"差异驱动共同ROI={roi_start:.1f}--{roi_end:.1f}s；峰值集中在{min(peak_times):.1f}--{max(peak_times):.1f}s",
-         "q1_plot.m必须从分析工作簿读取ROI与差异时序，不得在MATLAB中重新挑选或重新求解", "Q1 Figure Evidence"],
     ]
     add_sheet(book, "证据处置", ["Evidence ID", "method/source", "target claim", "disposition", "key finding", "required action", "paper/figure anchor"], evidence_rows)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -406,11 +343,10 @@ def main() -> None:
     records = cycle_metrics(data, period)
     stability_rows, references, stable = tail_stability(records)
     structure_rows, differences, both_stable = structure_comparison(references, stable)
-    peak_rows, diff_detail, roi = difference_scan(data)
     context = {
         "source_hash": sha256_file(source), "records": records, "stability_rows": stability_rows,
         "stable": stable, "structure_rows": structure_rows, "differences": differences,
-        "both_stable": both_stable, "peak_rows": peak_rows, "diff_detail": diff_detail, "roi": roi,
+        "both_stable": both_stable,
     }
     write_analysis_workbook(output, sha256_file(script_path), context)
 
