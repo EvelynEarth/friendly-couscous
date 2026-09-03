@@ -1,0 +1,271 @@
+semantic_governance_version: 1.0.0
+project:
+  competition: 2022年高教社杯全国大学生数学建模竞赛
+  problem: A题 波浪能最大输出功率设计
+  current_phase: model_design
+  problem_types:
+  - mechanism
+  - simulation
+  - optimization
+  objectives:
+  - simulation
+  - optimization
+  version: 2022A-q1-r1
+  updated_at: '2026-09-03T09:30:00+08:00'
+requirements:
+  total: 4
+  completed:
+  - Q1_problem_contract
+  - Q1_model_challenge
+  pending:
+  - Q1_human_model_approval
+  - Q1_primary_code
+  - Q1_user_execution
+  - Q2
+  - Q3
+  - Q4
+data:
+  sources:
+  - name: A题.pdf
+    path: source/A题.pdf
+    role: 题目原文
+    sha256: e29940eb9eb9382deb8eccb459c73cc47f0080483b8b75f9977830c987162253
+  - name: result1-1.xlsx
+    path: source/result1-1.xlsx
+    role: Q1常阻尼结果模板
+    sha256: 83ed6e0f2ebcdbdcb53e99a3bfebfbd8dc16141f91396eba8806e781d7809c7a
+  - name: result1-2.xlsx
+    path: source/result1-2.xlsx
+    role: Q1非线性阻尼结果模板
+    sha256: cc0abbceff32f425e738a3d9c0534fc3fbab4b2a1d2d86b8dc4d51229fb820bf
+  - name: result3.xlsx
+    path: source/result3.xlsx
+    role: Q3结果模板
+    sha256: b91ec6ad638a19c06cbbebdc2c92273cb824b08bbc842ef91639cb8491292674
+  - name: 附件1.gif
+    path: source/附件1.gif
+    role: 垂荡动画
+    sha256: 43e26747d3d175e139103e39f42272e25834ecf23ef0ed9fd6c7b4720434b0b6
+  - name: 附件2.gif
+    path: source/附件2.gif
+    role: 垂荡与纵摇动画
+    sha256: 586ebcd3ad20f12d2318c2c0fa31f857e51381af6bd6ca591c3df757f7c0cf58
+  - name: 附件3.xlsx
+    path: source/附件3.xlsx
+    role: 水动力参数
+    sha256: 50a5dd70f04dfb0a57fb2602422dc7999b30aad54ddc02353f5b8f01423fd612
+  - name: 附件4.xlsx
+    path: source/附件4.xlsx
+    role: 物理与几何参数
+    sha256: c8eff812f5980d955b4f0e587c5f7a357b2571d8d903fcb4913fba77c7354d6d
+  locked_scope: 2022A/source only; no cross-project data
+  active_source_mode: raw
+preprocessing:
+  decision: not_needed
+  level: none
+  status: not_applicable
+  evidence:
+  - 附件3、附件4为结构化参数表，Q1仅需直接读取指定参数行/字段
+  - result1-1.xlsx与result1-2.xlsx仅作为输出模板，不需要插值、滤波、平滑或异常删除
+  operations: []
+  forbidden_operations:
+  - 插值
+  - 滤波
+  - 平滑
+  - 标准化
+  - 异常删除
+  downstream_data_source: raw
+  quality_status: not_applicable
+  note: 仅执行非破坏性字段、单位、NaN/Inf、模板表头检查
+decisions:
+  Q1:
+    selected_model: 静平衡增量坐标下的两自由度垂荡 ODE；Case2 仅 PTO 阻尼保留幂律非线性
+    rejected_models:
+    - 完整几何高阶非线性/CFD模型
+    key_reason: 题面给定线性微幅波水动力参数，Q1无纵摇几何耦合
+    solver_candidates:
+    - scipy.integrate.solve_ivp(method=DOP853)
+    validation_plan:
+    - Case1 增广状态空间矩阵指数独立核验
+    - Case2 max_step=T/400 加密复算比较
+subproblems:
+  Q1:
+    status: designed
+    selected_model: 静平衡增量坐标下的两自由度垂荡 ODE；Case2 PTO 幂律阻尼
+    classification:
+      objective: simulation
+      structures:
+      - physical_mechanism
+      - temporal
+      confidence:
+        objective: 0.99
+        structures: 0.99
+    capabilities:
+      has_explicit_constraints: true
+      requires_feasibility_check: false
+      requires_equilibrium_residual: false
+      requires_conservation_residual: false
+      requires_discretization_check: true
+      requires_convergence_diagnostic: true
+      requires_out_of_sample_validation: false
+      requires_uncertainty_quantification: false
+      requires_leakage_check: false
+      requires_calibration_check: false
+      requires_identifiability_check: false
+    framework_section: Q1：浮子与振子的垂荡运动
+    result_summary_status: pending
+    problem_contract_status: frozen
+    semantic_closure_status: passed
+    complexity_sanity_status: passed
+    complexity_sanity_flags: []
+    complexity_sanity_note: 4维一阶状态系统；无不合理降维或未使用关键水动力项
+    model_challenge_status: passed
+    human_model_approval_status: pending
+    semantic_revision: 1
+    semantic_change_categories:
+    - initial_design
+    semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
+    artifacts_stale: false
+    stale_layers: []
+    primary_execution_status: pending
+    analysis_execution_status: pending
+    result_quality_status: pending
+    result_analysis_status: pending
+    validation_status: pending
+    solver_status: not_run
+    optimality_claim: none
+    random_seed: null
+    tolerance: 1.0e-10
+    execution_note: 等待对 current semantic hash 的显式 Human Approval
+    validated_semantic_hash: 3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
+    validated_semantic_revision: 1
+  Q2:
+    status: pending
+    selected_model: 待设计：垂荡 PTO 平均功率优化
+    classification:
+      objective: optimization
+      structures:
+      - physical_mechanism
+      - temporal
+      confidence:
+        objective: 0.95
+        structures: 0.95
+    capabilities:
+      has_explicit_constraints: true
+      requires_feasibility_check: false
+      requires_equilibrium_residual: false
+      requires_conservation_residual: false
+      requires_discretization_check: true
+      requires_convergence_diagnostic: true
+      requires_out_of_sample_validation: false
+      requires_uncertainty_quantification: false
+      requires_leakage_check: false
+      requires_calibration_check: false
+      requires_identifiability_check: false
+    framework_section: Q2
+    result_summary_status: pending
+    result_quality_status: pending
+    result_analysis_status: pending
+  Q3:
+    status: pending
+    selected_model: 待设计：垂荡+纵摇动力学
+    classification:
+      objective: simulation
+      structures:
+      - physical_mechanism
+      - temporal
+      confidence:
+        objective: 0.95
+        structures: 0.95
+    capabilities:
+      has_explicit_constraints: true
+      requires_feasibility_check: false
+      requires_equilibrium_residual: false
+      requires_conservation_residual: false
+      requires_discretization_check: true
+      requires_convergence_diagnostic: true
+      requires_out_of_sample_validation: false
+      requires_uncertainty_quantification: false
+      requires_leakage_check: false
+      requires_calibration_check: false
+      requires_identifiability_check: false
+    framework_section: Q3
+    result_summary_status: pending
+    result_quality_status: pending
+    result_analysis_status: pending
+  Q4:
+    status: pending
+    selected_model: 待设计：直线与旋转阻尼联合优化
+    classification:
+      objective: optimization
+      structures:
+      - physical_mechanism
+      - temporal
+      confidence:
+        objective: 0.95
+        structures: 0.95
+    capabilities:
+      has_explicit_constraints: true
+      requires_feasibility_check: false
+      requires_equilibrium_residual: false
+      requires_conservation_residual: false
+      requires_discretization_check: true
+      requires_convergence_diagnostic: true
+      requires_out_of_sample_validation: false
+      requires_uncertainty_quantification: false
+      requires_leakage_check: false
+      requires_calibration_check: false
+      requires_identifiability_check: false
+    framework_section: Q4
+    result_summary_status: pending
+    result_quality_status: pending
+    result_analysis_status: pending
+variables:
+  locked:
+  - Q1.z_f
+  - Q1.z_o
+  - Q1.v_f
+  - Q1.v_o
+  - Q1.v_r
+  source:
+    Q1.z_f: 模型定义
+    Q1.z_o: 模型定义
+    Q1.v_f: z_f一阶导数
+    Q1.v_o: z_o一阶导数
+    Q1.v_r: v_f-v_o
+paper_framework:
+  path: 模型论文框架.md
+  version: v0.8-project-memory
+  mode: compact
+  sync_status: current
+  last_synced_at: '2026-09-03T09:30:00+08:00'
+  last_sync_scope: Q1 model approval correction
+  proposition_count: 0
+  proposition_status: not_assessed
+  propositions: []
+execution:
+  owner: user
+  profile: full_fidelity
+  assistant_task_execution_allowed: false
+  allow_reduced_data: false
+  allow_coarser_grid: false
+  allow_shorter_horizon: false
+  allow_fewer_repetitions: false
+  allow_relaxed_tolerance: false
+  allow_silent_solver_fallback: false
+  dependencies:
+    python: '>=3.10'
+    numpy: required
+    scipy: required
+    openpyxl: required for user script workbook I/O
+artifacts:
+  code: []
+  results: []
+  figures: []
+  papers:
+  - 模型论文框架.md
+risks:
+- 上一轮显示的 Human Approval hash 与仓库语义验证算法不一致，已阻断代码生成并待重新批准
+next_gate:
+  module: model_approval
+  condition: 用户显式批准 Q1 semantic revision=1 / hash=3c949a24b44d6d9ee12abe4e763e47942406456c523faf295263f06fac297192
