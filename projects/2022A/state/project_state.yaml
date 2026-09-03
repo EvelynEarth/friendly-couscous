@@ -2,10 +2,10 @@ semantic_governance_version: 1.0.0
 project:
   competition: 2022年高教社杯全国大学生数学建模竞赛
   problem: A题 波浪能最大输出功率设计
-  current_phase: figure_evidence
+  current_phase: model_design
   problem_types: [mechanism, simulation, optimization]
   objectives: [simulation, optimization]
-  version: 2022A-q1-r1
+  version: 2022A-q2-r1
 requirements:
   total: 4
   completed:
@@ -17,9 +17,11 @@ requirements:
   - Q1_analysis_code
   - Q1_user_analysis
   - Q1_figure_code
-  pending:
   - Q1_figure_review
-  - Q2
+  - Q2_problem_contract
+  - Q2_model_challenge
+  pending:
+  - Q2_human_model_approval
   - Q3
   - Q4
 data:
@@ -30,7 +32,7 @@ data:
   - {name: result3.xlsx, path: result3.xlsx, role: Q3结果模板, sha256: b91ec6ad638a19c06cbbebdc2c92273cb824b08bbc842ef91639cb8491292674}
   - {name: 附件1.gif, path: 附件1.gif, role: 垂荡动画, sha256: 43e26747d3d175e139103e39f42272e25834ecf23ef0ed9fd6c7b4720434b0b6}
   - {name: 附件2.gif, path: 附件2.gif, role: 垂荡与纵摇动画, sha256: 586ebcd3ad20f12d2318c2c0fa31f857e51381af6bd6ca591c3df757f7c0cf58}
-  - {name: 附件3.xlsx, path: 附件3.xlsx, role: 水动力参数, sha256: 50a5dd70f04dfb0a57fb2602422dc7999b30aad54ddc02353f5b8f01423fd612}
+  - {name: 附件3.xlsx, path: 附件3.xlsx, role: Q1-Q4分问水动力参数, sha256: 50a5dd70f04dfb0a57fb2602422dc7999b30aad54ddc02353f5b8f01423fd612}
   - {name: 附件4.xlsx, path: 附件4.xlsx, role: 物理与几何参数, sha256: c8eff812f5980d955b4f0e587c5f7a357b2571d8d903fcb4913fba77c7354d6d}
   locked_scope: 2022A项目根目录附件；禁止跨项目读取
   active_source_mode: raw
@@ -39,13 +41,13 @@ preprocessing:
   level: none
   status: not_applicable
   evidence:
-  - 附件3、附件4为结构化参数表，Q1仅需直接读取指定参数行/字段
-  - result1-1.xlsx与result1-2.xlsx仅作为输出模板
+  - 附件3、附件4为结构化参数表，Q1/Q2均可按分问行直接读取
+  - Q2仅进行参数字段、单位、NaN/Inf和范围审计，不需要插值、滤波或标准化
   operations: []
   forbidden_operations: [插值, 滤波, 平滑, 标准化, 异常删除]
   downstream_data_source: raw
   quality_status: not_applicable
-  note: 仅执行非破坏性字段、单位、NaN/Inf、模板表头检查
+  note: 仅执行非破坏性字段、单位、NaN/Inf与题面范围检查
 decisions:
   Q1:
     selected_model: 静平衡增量坐标下的两自由度垂荡 ODE；Case2 仅 PTO 阻尼保留幂律非线性
@@ -56,12 +58,22 @@ decisions:
     - Case1 增广状态空间矩阵指数独立核验
     - Case2 max_step=T/400 加密复算比较
     result_analysis_candidates:
-    - 第35-39完整周期重复性检验，判断40周期尾段是否稳定
+    - 第35-39完整周期重复性检验
     - 常阻尼与幂律阻尼结构稳健性对照
   Q2:
-    selected_model: 待设计：垂荡 PTO 平均功率优化
-    rejected_models: []
-    key_reason: 待进入模型设计
+    selected_model: Q1两自由度垂荡动力学+Q2专属水动力参数；直线阻尼频域解析最优，幂律阻尼原始非线性ODE二维全局数值优化
+    rejected_models:
+    - 两类阻尼均使用ODE黑箱搜索
+    - 将幂律阻尼等效线性化后作为最终优化模型
+    key_reason: 先利用直线阻尼线性周期稳态的可解析结构，再将数值全局搜索集中于真正非线性的(a,n)
+    solver_candidates:
+    - 直线阻尼：解析闭式功率函数+区间截断
+    - 幂律阻尼：DOP853+differential_evolution+有界局部精修
+    validation_plan:
+    - 直线解析最优与DOP853稳态平均功率交叉核验
+    - n=0边界验证幂律实现严格退化为直线阻尼a=c
+    - 非线性最优候选延长至至少100T并比较相邻10周期窗口
+    - 最优候选步长加密、边界与局部邻域复核
   Q3:
     selected_model: 待设计：垂荡+纵摇动力学
     rejected_models: []
@@ -72,7 +84,7 @@ decisions:
     key_reason: 待进入模型设计
 subproblems:
   Q1:
-    status: analyzed
+    status: validated
     selected_model: 静平衡增量坐标下的两自由度垂荡 ODE；Case2 PTO 幂律阻尼
     classification:
       objective: simulation
@@ -123,12 +135,13 @@ subproblems:
     validated_artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
       result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
+      matlab_script: 2c011ee567f4c92d8e7361ba05a91dbc1298d758911bf038e46e5590159a0a94
     artifacts_stale: false
     stale_layers: []
     result_quality_status: passed
     result_analysis_status: passed
     result_quality_report: 主结果质量门6/6通过；Case1矩阵指数核验3.671e-14；Case2步长加密7.354e-09
-    result_analysis_report: 两种阻尼第35-39周期四项重复性最大偏差均低于2%；稳态指标最大相对差异为相对位移幅值2.2265%，证据处置E1/E2均为support
+    result_analysis_report: 两种阻尼第35-39周期四项重复性最大偏差均低于2%；稳态指标最大相对差异2.2265%；Figure Evidence已由用户确认
     validation_status: passed
     solver_status: accepted
     optimality_claim: none
@@ -140,18 +153,57 @@ subproblems:
     - 常阻尼与幂律阻尼指定时刻结果明确不同
     - 第35-39周期重复性：常阻尼最大偏差1.2908%，幂律阻尼最大偏差1.4587%，均小于2%
     - 稳态相对差异：浮子位移0.0639%、振子位移0.2614%、相对位移2.2265%、相对速度RMS1.7397%
-    - Figure Q1-1 Local Zoom改为差异驱动共同ROI：按四状态最大差归一化后取平均，在2.4s滑动窗上选择高信息区；当前结果预期约21.6--24.0s
-    - 深化分析工作簿code_sha256与GitHub分析脚本差异仅由Windows CRLF/LF行尾造成，不视为语义漂移
-    execution_note: Q1主求解与独立结果深化分析均已验收并冻结；当前仅更新Figure Evidence显示策略，不改变数值模型或已验收工作簿
+    - Figure Q1-1采用差异驱动2.4s局部放大，用户已确认绘图部分
+    execution_note: Q1主求解、深化分析与Figure Evidence均已验收/确认并冻结；除用户明确要求外不再修改Q1数值与绘图链
   Q2:
-    status: pending
-    selected_model: 待设计：垂荡 PTO 平均功率优化
-    classification: {objective: optimization, structures: [physical_mechanism, temporal]}
-    capabilities: {has_explicit_constraints: true, requires_feasibility_check: false, requires_equilibrium_residual: false, requires_conservation_residual: false, requires_discretization_check: true, requires_convergence_diagnostic: true, requires_out_of_sample_validation: false, requires_uncertainty_quantification: false, requires_leakage_check: false, requires_calibration_check: false, requires_identifiability_check: false}
-    framework_section: Q2
+    status: designed
+    selected_model: Q1两自由度垂荡动力学+Q2专属水动力参数；直线阻尼频域解析最优，幂律阻尼原始非线性ODE二维全局数值优化
+    classification:
+      objective: optimization
+      structures: [physical_mechanism, temporal]
+      confidence: {objective: 0.99, structures: 0.99}
+    capabilities:
+      has_explicit_constraints: true
+      requires_feasibility_check: true
+      requires_equilibrium_residual: false
+      requires_conservation_residual: false
+      requires_discretization_check: true
+      requires_convergence_diagnostic: true
+      requires_out_of_sample_validation: false
+      requires_uncertainty_quantification: false
+      requires_leakage_check: false
+      requires_calibration_check: false
+      requires_identifiability_check: false
+    framework_section: Q2：PTO 阻尼参数与平均输出功率优化
     result_summary_status: pending
+    depends_on:
+    - question: Q1
+      kind: model
+      note: 继承两自由度垂荡动力学结构与阻尼力语义，不继承Q1水动力参数数值
+    problem_contract_status: frozen
+    semantic_closure_status: passed
+    complexity_sanity_status: passed
+    complexity_sanity_flags: []
+    complexity_sanity_note: 直线子问题解析降维有严格线性稳态依据；幂律子问题仍保留4状态ODE与二维决策
+    model_challenge_status: passed
+    human_model_approval_status: pending
+    semantic_revision: 1
+    semantic_change_categories: [initial_design]
+    semantic_hash: 513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862
+    validated_semantic_hash: 513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862
+    validated_semantic_revision: 1
+    artifacts_stale: false
+    stale_layers: []
+    primary_execution_status: pending
+    analysis_execution_status: pending
     result_quality_status: pending
     result_analysis_status: pending
+    validation_status: pending
+    solver_status: pending
+    optimality_claim: heuristic
+    random_seed: 2022
+    tolerance: 1.0e-10
+    execution_note: Q2 Model Challenge已通过，当前停在Human Model Approval；未生成主求解代码、未产生正式优化数值
   Q3:
     status: pending
     selected_model: 待设计：垂荡+纵摇动力学
@@ -183,7 +235,7 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_sync_scope: Q1 Figure Evidence Local Zoom差异驱动ROI更新
+  last_sync_scope: Q1 Figure Evidence确认冻结 + Q2 proposed model与Model Challenge
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -198,7 +250,7 @@ execution:
   allow_relaxed_tolerance: false
   allow_silent_solver_fallback: false
   platform: Windows-11-10.0.26200-SP0
-  dependencies: {python: '>=3.10', numpy: required, scipy: required, openpyxl: required for user script workbook I/O, matlab: required for Figure Evidence local render}
+  dependencies: {python: '>=3.10', numpy: required, scipy: required, openpyxl: required for workbook I/O, matlab: required for Figure Evidence local render}
 artifacts:
   code:
   - 问题一求解/问题一求解.py
@@ -211,8 +263,9 @@ artifacts:
   papers: [模型论文框架.md]
 risks:
 - validate_user_execution.py按原始字节比较Python SHA-256，对Windows CRLF与仓库LF敏感；Q1已做确定性行尾等价复核
-- 先前上传的两份填充模板均对应幂律阻尼结果；正式提交前必须确认本地result1-1.xlsx为常阻尼、result1-2.xlsx为幂律阻尼
-- 深化分析的2%为预先固定的工程重复性判据，论文应写“在2%判据下表明稳定”，避免使用严格数学“证明”措辞
+- 正式提交前必须确认本地result1-1.xlsx为常阻尼、result1-2.xlsx为幂律阻尼
+- Q2非线性子问题的全局最优性只能给出数值搜索与复核证据，不宣称形式化全局证明
+- Q2比例系数a的量纲随n变化，写作与表格不得统一误标为线性阻尼单位
 next_gate:
-  module: figure_evidence
-  condition: 用户在本地MATLAB运行问题一求解/q1_plot.m，确认Figure Q1-1局部放大确实清楚展示21.6--24.0s附近差异，并返回图窗截图进行Figure QA
+  module: model_design
+  condition: 用户显式批准Q2 semantic revision=1 / hash=513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862 后，进入问题二求解.py生成
