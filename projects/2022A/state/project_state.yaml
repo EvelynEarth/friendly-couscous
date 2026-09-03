@@ -40,7 +40,7 @@ preprocessing:
   status: not_applicable
   evidence:
   - 附件3、附件4为结构化参数表，Q1仅需直接读取指定参数行/字段
-  - result1-1.xlsx与result1-2.xlsx仅作为输出模板，不需要插值、滤波、平滑或异常删除
+  - result1-1.xlsx与result1-2.xlsx仅作为输出模板
   operations: []
   forbidden_operations: [插值, 滤波, 平滑, 标准化, 异常删除]
   downstream_data_source: raw
@@ -57,7 +57,7 @@ decisions:
     - Case2 max_step=T/400 加密复算比较
     result_analysis_candidates:
     - 第35-39完整周期重复性检验，判断40周期尾段是否稳定
-    - 常阻尼与幂律阻尼结构稳健性对照，报告稳态幅值差异但不要求数值接近
+    - 常阻尼与幂律阻尼结构稳健性对照
   Q2:
     selected_model: 待设计：垂荡 PTO 平均功率优化
     rejected_models: []
@@ -119,7 +119,7 @@ subproblems:
     artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
       result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
-      matlab_script: b9cdaa75420de33fad2d3299fa289ea7560f285c39da5300fe4bd958f83589b0
+      matlab_script: c5c30dd1982744123865c1f04481cb724c7a975c8c933dc4ad5ddd19b6e8da4d
     validated_artifact_hashes:
       solution_workbook: c9d2e299c63269188a15ade091270ff4fdf0f695a2235d1669e96cece288448b
       result_analysis_workbook: 07d3f5024d0a17b6ea4f91a76e9ea61fd2f47148563e09e9c9dd5b8ca9b4b439
@@ -140,8 +140,9 @@ subproblems:
     - 常阻尼与幂律阻尼指定时刻结果明确不同
     - 第35-39周期重复性：常阻尼最大偏差1.2908%，幂律阻尼最大偏差1.4587%，均小于2%
     - 稳态相对差异：浮子位移0.0639%、振子位移0.2614%、相对位移2.2265%、相对速度RMS1.7397%
+    - Figure Q1-1 Local Zoom改为差异驱动共同ROI：按四状态最大差归一化后取平均，在2.4s滑动窗上选择高信息区；当前结果预期约21.6--24.0s
     - 深化分析工作簿code_sha256与GitHub分析脚本差异仅由Windows CRLF/LF行尾造成，不视为语义漂移
-    execution_note: Q1主求解与独立结果深化分析均已验收；主/分析Python脚本冻结，当前进入Figure Evidence，仅允许MATLAB读取已验收工作簿绘图，不重新求解
+    execution_note: Q1主求解与独立结果深化分析均已验收并冻结；当前仅更新Figure Evidence显示策略，不改变数值模型或已验收工作簿
   Q2:
     status: pending
     selected_model: 待设计：垂荡 PTO 平均功率优化
@@ -182,7 +183,7 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_sync_scope: Q1深化分析验收与Figure Evidence代码交付
+  last_sync_scope: Q1 Figure Evidence Local Zoom差异驱动ROI更新
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -214,4 +215,4 @@ risks:
 - 深化分析的2%为预先固定的工程重复性判据，论文应写“在2%判据下表明稳定”，避免使用严格数学“证明”措辞
 next_gate:
   module: figure_evidence
-  condition: 用户在本地MATLAB运行问题一求解/q1_plot.m并返回两个图窗截图；随后执行Figure Layout/Enhancement/灰度/缩略图/论文宽度QA，通过后冻结Q1 Figure Evidence并转入下一未完成小问
+  condition: 用户在本地MATLAB运行问题一求解/q1_plot.m，确认Figure Q1-1局部放大确实清楚展示21.6--24.0s附近差异，并返回图窗截图进行Figure QA
