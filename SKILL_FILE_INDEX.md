@@ -97,6 +97,7 @@
 - `packs/task/simulation.md`
 - `packs/task/spatial.md`
 - `packs/task/statistics_ml.md`
+- `projects/2022A/ARCHIVE_MANIFEST.md`
 - `requirements-dev.txt`
 - `scripts/README.md`
 - `scripts/audit_latex_project.py`
