@@ -21,7 +21,9 @@ requirements:
   - Q2_problem_contract
   - Q2_model_challenge
   - Q2_human_model_approval
+  - Q2_primary_code
   pending:
+  - Q2_user_execution
   - Q3
   - Q4
 data:
@@ -194,9 +196,11 @@ subproblems:
     semantic_hash: 513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862
     validated_semantic_hash: 513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862
     validated_semantic_revision: 1
+    code: 问题二求解/问题二求解.py
+    primary_code_sha256: 657df74228a54943ada9ff6239dbf63dcd8fc1ffb8cff6c886f1235d3aba43b1
     artifacts_stale: false
     stale_layers: []
-    primary_execution_status: pending
+    primary_execution_status: awaiting_user_execution
     analysis_execution_status: pending
     result_quality_status: pending
     result_analysis_status: pending
@@ -205,7 +209,7 @@ subproblems:
     optimality_claim: heuristic
     random_seed: 2022
     tolerance: 1.0e-10
-    execution_note: Q2已获用户批准，绑定semantic revision=1/hash=513d81cc...；进入主求解代码生成与静态检查
+    execution_note: Q2主求解脚本已生成并静态检查；等待用户本地full_fidelity运行后返回问题二求解结果.xlsx
   Q3:
     status: pending
     selected_model: 待设计：垂荡+纵摇动力学
@@ -237,7 +241,7 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_sync_scope: Q1 Figure Evidence确认冻结 + Q2 Human Model Approval
+  last_sync_scope: Q1 Figure Evidence确认冻结 + Q2 Human Approval与主代码交付
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -258,6 +262,7 @@ artifacts:
   - 问题一求解/问题一求解.py
   - 问题一求解/问题一结果深化分析.py
   - 问题一求解/q1_plot.m
+  - 问题二求解/问题二求解.py
   results:
   - 问题一求解/问题一求解结果.xlsx
   - 问题一求解/问题一结果深化分析.xlsx
@@ -270,4 +275,4 @@ risks:
 - Q2比例系数a的量纲随n变化，写作与表格不得统一误标为线性阻尼单位
 next_gate:
   module: solve_validate
-  condition: Q2 semantic governance与model approval字段一致后，生成并静态检查问题二求解/问题二求解.py；正式数值由用户本地full_fidelity运行
+  condition: 用户本地运行问题二求解/问题二求解.py并返回问题二求解结果.xlsx；随后执行主结果质量门与优化证据验收
