@@ -2,7 +2,7 @@ semantic_governance_version: 1.0.0
 project:
   competition: 2022年高教社杯全国大学生数学建模竞赛
   problem: A题 波浪能最大输出功率设计
-  current_phase: model_design
+  current_phase: solve_validate
   problem_types: [mechanism, simulation, optimization]
   objectives: [simulation, optimization]
   version: 2022A-q2-r1
@@ -20,8 +20,8 @@ requirements:
   - Q1_figure_review
   - Q2_problem_contract
   - Q2_model_challenge
-  pending:
   - Q2_human_model_approval
+  pending:
   - Q3
   - Q4
 data:
@@ -186,7 +186,9 @@ subproblems:
     complexity_sanity_flags: []
     complexity_sanity_note: 直线子问题解析降维有严格线性稳态依据；幂律子问题仍保留4状态ODE与二维决策
     model_challenge_status: passed
-    human_model_approval_status: pending
+    human_model_approval_status: approved
+    approved_semantic_revision: 1
+    approved_semantic_hash: 513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862
     semantic_revision: 1
     semantic_change_categories: [initial_design]
     semantic_hash: 513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862
@@ -203,7 +205,7 @@ subproblems:
     optimality_claim: heuristic
     random_seed: 2022
     tolerance: 1.0e-10
-    execution_note: Q2 Model Challenge已通过，当前停在Human Model Approval；未生成主求解代码、未产生正式优化数值
+    execution_note: Q2已获用户批准，绑定semantic revision=1/hash=513d81cc...；进入主求解代码生成与静态检查
   Q3:
     status: pending
     selected_model: 待设计：垂荡+纵摇动力学
@@ -235,7 +237,7 @@ paper_framework:
   version: v0.8-project-memory
   mode: compact
   sync_status: current
-  last_sync_scope: Q1 Figure Evidence确认冻结 + Q2 proposed model与Model Challenge
+  last_sync_scope: Q1 Figure Evidence确认冻结 + Q2 Human Model Approval
   proposition_count: 0
   proposition_status: not_assessed
   propositions: []
@@ -267,5 +269,5 @@ risks:
 - Q2非线性子问题的全局最优性只能给出数值搜索与复核证据，不宣称形式化全局证明
 - Q2比例系数a的量纲随n变化，写作与表格不得统一误标为线性阻尼单位
 next_gate:
-  module: model_design
-  condition: 用户显式批准Q2 semantic revision=1 / hash=513d81ccab68ccea4f5db5df0ff8b87169240d27c55f1d4edef80e67606f7862 后，进入问题二求解.py生成
+  module: solve_validate
+  condition: Q2 semantic governance与model approval字段一致后，生成并静态检查问题二求解/问题二求解.py；正式数值由用户本地full_fidelity运行
