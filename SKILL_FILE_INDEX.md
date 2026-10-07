@@ -99,6 +99,7 @@
 - `packs/task/statistics_ml.md`
 - `projects/2022A/ARCHIVE_MANIFEST.md`
 - `projects/mathorcup-2025-trackB/README.md`
+- `projects/mathorcup-2025-trackB/assets_b64/bintest.bin`
 - `projects/mathorcup-2025-trackB/assets_b64/decode.py`
 - `projects/mathorcup-2025-trackB/data/feat_importance_reg.csv`
 - `projects/mathorcup-2025-trackB/data/metrics.json`
