@@ -100,6 +100,7 @@
 - `projects/2022A/ARCHIVE_MANIFEST.md`
 - `projects/mathorcup-2025-trackB/README.md`
 - `projects/mathorcup-2025-trackB/assets_b64/decode.py`
+- `projects/mathorcup-2025-trackB/data/Result.csv`
 - `projects/mathorcup-2025-trackB/data/feat_importance_reg.csv`
 - `projects/mathorcup-2025-trackB/data/metrics.json`
 - `projects/mathorcup-2025-trackB/data/reg_segment_metrics.csv`
