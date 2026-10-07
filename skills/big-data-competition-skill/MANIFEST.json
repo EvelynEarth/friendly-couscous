@@ -1,0 +1,21 @@
+{
+  "name": "big-data-competition-skill",
+  "version": "2.0.0",
+  "type": "competition-paper-skill",
+  "platform_submission_model": "none",
+  "deliverable": "paper-first",
+  "references": [
+    "problem-framing.md",
+    "task-taxonomy.md",
+    "data-audit.md",
+    "method-selection.md",
+    "evaluation-and-leakage.md",
+    "experiment-provenance.md",
+    "result-analysis.md",
+    "figure-evidence.md",
+    "paper-evidence.md",
+    "paper-writing.md",
+    "final-review.md",
+    "paper-delivery.md"
+  ]
+}
