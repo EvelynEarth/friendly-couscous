@@ -106,6 +106,7 @@
 - `projects/mathorcup-2025-trackB/requirements.txt`
 - `projects/mathorcup-2025-trackB/src/make_figures.py`
 - `projects/mathorcup-2025-trackB/src/pipeline.py`
+- `projects/mathorcup-2025-trackB/论文.md`
 - `requirements-dev.txt`
 - `scripts/README.md`
 - `scripts/audit_latex_project.py`
