@@ -1,0 +1,14 @@
+experiment_id: EXP-001
+question: null
+hypothesis: null
+data_version: null
+feature_version: null
+method: null
+parameters: {}
+validation_scheme: null
+random_seed: null
+metrics: {}
+runtime: null
+artifacts: []
+decision: null
+limitations: []
