@@ -104,6 +104,7 @@
 - `projects/mathorcup-2025-trackB/data/metrics.json`
 - `projects/mathorcup-2025-trackB/data/reg_segment_metrics.csv`
 - `projects/mathorcup-2025-trackB/requirements.txt`
+- `projects/mathorcup-2025-trackB/src/pipeline.py`
 - `requirements-dev.txt`
 - `scripts/README.md`
 - `scripts/audit_latex_project.py`
