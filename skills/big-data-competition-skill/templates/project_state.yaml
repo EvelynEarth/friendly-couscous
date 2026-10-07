@@ -1,0 +1,29 @@
+competition:
+  name: null
+  edition: null
+  rule_source: null
+
+project:
+  status: draft
+  current_stage: problem_framing
+
+subproblems: []
+
+data:
+  sources: []
+  preprocessing_decision: null
+  data_version: null
+
+experiments: []
+results: []
+figures: []
+claims: []
+
+paper:
+  source: null
+  pdf: null
+  evidence_map: null
+
+freshness:
+  stale_artifacts: []
+  last_review: null
