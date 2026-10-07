@@ -121,6 +121,8 @@
 - `scripts/validate_semantic_governance.py`
 - `scripts/validate_submission_package.py`
 - `scripts/validate_user_execution.py`
+- `skills/big-data-competition-skill/MANIFEST.json`
+- `skills/big-data-competition-skill/README.md`
 - `skills/big-data-competition-skill/SKILL.md`
 - `skills/big-data-competition-skill/references/data-audit.md`
 - `skills/big-data-competition-skill/references/evaluation-and-leakage.md`
@@ -134,6 +136,9 @@
 - `skills/big-data-competition-skill/references/problem-framing.md`
 - `skills/big-data-competition-skill/references/result-analysis.md`
 - `skills/big-data-competition-skill/references/task-taxonomy.md`
+- `skills/big-data-competition-skill/templates/evidence_map.md`
+- `skills/big-data-competition-skill/templates/experiment_record.yaml`
+- `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
 - `state/project_state.example.yaml`
 - `templates/code/hsk_pipeline/README.md`
