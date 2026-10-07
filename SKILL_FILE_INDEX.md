@@ -121,6 +121,8 @@
 - `scripts/validate_semantic_governance.py`
 - `scripts/validate_submission_package.py`
 - `scripts/validate_user_execution.py`
+- `skills/data-competition-skill/README.md`
+- `skills/data-competition-skill/SKILL.md`
 - `skills/mathmodel-skill/SKILL.md`
 - `state/project_state.example.yaml`
 - `templates/code/hsk_pipeline/README.md`
