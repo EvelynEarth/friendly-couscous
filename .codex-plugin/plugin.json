@@ -1,7 +1,7 @@
 {
   "name": "big-data-competition-skill",
   "version": "2.0.0",
-  "description": "Paper-first workflow for unknown-topic big data competitions: data audit, EDA, method selection, baseline, leakage-resistant evaluation, experiments, evidence-driven figures, and competition paper delivery.",
+  "description": "Paper-first workflow for unknown-topic big data competitions: data audit, EDA, task routing, baseline, leakage-resistant evaluation, experiment provenance, scientific figures, evidence maps, competition paper writing, final review, and paper delivery.",
   "author": {
     "name": "HSK"
   },
@@ -9,8 +9,8 @@
   "keywords": [
     "big-data-competition",
     "data-science",
-    "machine-learning",
     "statistics",
+    "machine-learning",
     "deep-learning",
     "time-series",
     "spatial",
@@ -19,14 +19,15 @@
     "simulation",
     "experiment-provenance",
     "leakage-audit",
-    "paper-writing",
     "scientific-figures",
+    "evidence-map",
+    "paper-writing",
     "latex"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "大数据挑战赛论文 Skill",
-    "shortDescription": "未知赛题、数据分析、建模验证、科研绘图与竞赛论文全流程",
+    "shortDescription": "未知赛题、数据分析、建模验证、科研图表与竞赛论文全流程",
     "category": "Education",
     "capabilities": [
       "Interactive",
