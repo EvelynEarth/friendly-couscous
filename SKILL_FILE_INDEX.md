@@ -122,9 +122,12 @@
 - `scripts/validate_submission_package.py`
 - `scripts/validate_user_execution.py`
 - `skills/big-data-competition-skill/SKILL.md`
+- `skills/big-data-competition-skill/references/data-audit.md`
 - `skills/big-data-competition-skill/references/evaluation-and-leakage.md`
 - `skills/big-data-competition-skill/references/method-selection.md`
 - `skills/big-data-competition-skill/references/paper-evidence.md`
+- `skills/big-data-competition-skill/references/problem-framing.md`
+- `skills/big-data-competition-skill/references/task-taxonomy.md`
 - `state/project_state.example.yaml`
 - `templates/code/hsk_pipeline/README.md`
 - `templates/code/hsk_pipeline/__init__.py`
