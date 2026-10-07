@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.0.0
+version: 2.1.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.0
+# Big Data Competition Skill v2.1
 
 ## 1. 定位
 
@@ -386,3 +386,10 @@ official rule evidence
 - 交付 → paper-delivery.md
 
 不要一次性读取整个仓库。
+
+## 22. 竞赛画像与方法手册
+
+- 具体赛事画像（赛制/赛道/提交物/格式）：skills/big-data-competition-skill/competition/，当前含 MathorCup（mathorcup.md）。
+- 可落地任务方法手册：skills/big-data-competition-skill/playbooks/，从 00-index.md 进入，覆盖清洗特征、表格预测、融合、不平衡、时序、视觉、伪标签、优化、NLP 与推荐。
+
+画像与手册仅为起步参考：历史规律不覆盖当届题面，代码需按当届数据实际运行后再引用。

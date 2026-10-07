@@ -77,3 +77,20 @@ profiles:
       anonymity: null
       submission_files: []
       ai_disclosure: null
+
+  mathorcup:
+    aliases: [MathorCup, mathorcup, 大数据竞赛, MathorCup 数学应用挑战赛]
+    stable:
+      competition_pack: packs/competition/mathorcup.md
+      latex_template: null
+      compile_profile: null
+      language: zh-CN
+    edition_rules:
+      edition: current
+      verification_status: unverified
+      verified_at: null
+      source: null
+      page_limit: null
+      anonymity: null
+      submission_files: []
+      ai_disclosure: null

@@ -84,6 +84,7 @@
 - `packs/competition/certification_cup.md`
 - `packs/competition/cumcm.md`
 - `packs/competition/diangong.md`
+- `packs/competition/mathorcup.md`
 - `packs/competition/mcm_icm.md`
 - `packs/task/advanced_method_gate.md`
 - `packs/task/classifier.md`
@@ -150,6 +151,17 @@
 - `skills/big-data-competition-skill/MANIFEST.json`
 - `skills/big-data-competition-skill/README.md`
 - `skills/big-data-competition-skill/SKILL.md`
+- `skills/big-data-competition-skill/competition/mathorcup.md`
+- `skills/big-data-competition-skill/playbooks/00-index.md`
+- `skills/big-data-competition-skill/playbooks/01-data-cleaning-feature-engineering.md`
+- `skills/big-data-competition-skill/playbooks/02-tabular-prediction.md`
+- `skills/big-data-competition-skill/playbooks/03-model-fusion-stacking.md`
+- `skills/big-data-competition-skill/playbooks/04-imbalanced-data.md`
+- `skills/big-data-competition-skill/playbooks/05-time-series-forecasting.md`
+- `skills/big-data-competition-skill/playbooks/06-computer-vision.md`
+- `skills/big-data-competition-skill/playbooks/07-risk-pseudo-labeling.md`
+- `skills/big-data-competition-skill/playbooks/08-inventory-and-optimization.md`
+- `skills/big-data-competition-skill/playbooks/09-nlp-and-recommendation.md`
 - `skills/big-data-competition-skill/references/data-audit.md`
 - `skills/big-data-competition-skill/references/evaluation-and-leakage.md`
 - `skills/big-data-competition-skill/references/experiment-provenance.md`
@@ -166,6 +178,7 @@
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
 - `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
+- `skills/big-data-competition-skill/templates/result_checklist.md`
 - `state/project_state.example.yaml`
 - `templates/code/hsk_pipeline/README.md`
 - `templates/code/hsk_pipeline/__init__.py`

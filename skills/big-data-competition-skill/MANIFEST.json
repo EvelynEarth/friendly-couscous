@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -17,5 +17,24 @@
     "paper-writing.md",
     "final-review.md",
     "paper-delivery.md"
+  ],
+  "competition": [
+    "mathorcup.md"
+  ],
+  "playbooks": [
+    "00-index.md",
+    "01-data-cleaning-feature-engineering.md",
+    "02-tabular-prediction.md",
+    "03-model-fusion-stacking.md",
+    "04-imbalanced-data.md",
+    "05-time-series-forecasting.md",
+    "06-computer-vision.md",
+    "07-risk-pseudo-labeling.md",
+    "08-inventory-and-optimization.md",
+    "09-nlp-and-recommendation.md"
+  ],
+  "templates": [
+    "paper_outline.md",
+    "result_checklist.md"
   ]
 }
