@@ -124,10 +124,17 @@
 - `skills/big-data-competition-skill/SKILL.md`
 - `skills/big-data-competition-skill/references/data-audit.md`
 - `skills/big-data-competition-skill/references/evaluation-and-leakage.md`
+- `skills/big-data-competition-skill/references/experiment-provenance.md`
+- `skills/big-data-competition-skill/references/figure-evidence.md`
+- `skills/big-data-competition-skill/references/final-review.md`
 - `skills/big-data-competition-skill/references/method-selection.md`
+- `skills/big-data-competition-skill/references/paper-delivery.md`
 - `skills/big-data-competition-skill/references/paper-evidence.md`
+- `skills/big-data-competition-skill/references/paper-writing.md`
 - `skills/big-data-competition-skill/references/problem-framing.md`
+- `skills/big-data-competition-skill/references/result-analysis.md`
 - `skills/big-data-competition-skill/references/task-taxonomy.md`
+- `skills/big-data-competition-skill/templates/project_state.yaml`
 - `state/project_state.example.yaml`
 - `templates/code/hsk_pipeline/README.md`
 - `templates/code/hsk_pipeline/__init__.py`
