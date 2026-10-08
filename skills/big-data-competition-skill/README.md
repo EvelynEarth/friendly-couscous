@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.3.0
+# Big Data Competition Skill v2.4.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -45,3 +45,12 @@ python skills/big-data-competition-skill/tools/real_case_audit.py 2025-a --root 
 python skills/big-data-competition-skill/tools/real_case_audit.py 2025-b --root /path/to/赛道B附件目录
 python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /path/to/accepted.json --artifact-root /path/to/outputs
 ```
+
+## v2.4 独立质量审核与论文论证写作
+
+- [模型与结论正确性核验](references/solution-validity.md)（无题型/算法预设）。
+- [扰动稳定性与不确定性](references/stability-and-uncertainty.md)（有真实运行才汇总）。
+- [论文结构、衔接与审稿逻辑](references/paper-argumentation.md)。
+- [通用复核记录](templates/solution_quality_record.md)、[稳定性记录](templates/stability_record.md)、[优秀论文写作结构阅读卡](templates/award-paper-writing-review.md)。
+
+正式论文首要回答**题意是否解决、模型/计算是否可信、结论是否成立**，不追求机械地堆叠模型数和图表数。

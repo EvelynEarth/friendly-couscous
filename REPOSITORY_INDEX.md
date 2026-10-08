@@ -61,3 +61,13 @@
 - [已接受实验的证据记录模板](skills/big-data-competition-skill/templates/accepted-evidence-record.md)
 
 B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
+
+## v2.4 求解科学质量与论文论证
+
+- [通用模型、算法、结论正确性审核](skills/big-data-competition-skill/references/solution-validity.md)
+- [实验扰动与稳定性边界](skills/big-data-competition-skill/references/stability-and-uncertainty.md)
+- [论文结构、段落论证与审稿方式](skills/big-data-competition-skill/references/paper-argumentation.md)
+- [动态论文大纲](skills/big-data-competition-skill/templates/paper_outline.md)
+- [优秀论文写作结构复盘卡](skills/big-data-competition-skill/templates/award-paper-writing-review.md)
+
+工具用于记录、发现阻断点和汇总真实结果；正确性最终仍须独立复核，不能以 CI 通过替代。

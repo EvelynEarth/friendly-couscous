@@ -21,3 +21,8 @@ claim → evidence → interpretation → limitation or transition
 ## Citation
 
 外部事实、方法来源和理论背景使用可追溯文献。引用不是用来替代实验结果。
+## 以论证链决定写作顺序
+
+重点学习优秀论文如何组织目标、动机、方法选择、验证、解释与边界，而不是照搬模型。参考 [适应未知赛题的论文结构与论证](paper-argumentation.md)。应以所需答案组织章节：独立问可以逐问闭合，共享模型则先讲共同部分，递进任务突出依赖与误差传递。不要强制固定三问。
+
+最终安排 **scientific reviewer**（对题意、模型/代码、误差、稳定性挑错）和 **editorial reviewer**（核查篇章逻辑、图表作用、段落衔接）；前者失败时不能靠文字润色宣称完成。

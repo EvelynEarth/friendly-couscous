@@ -28,6 +28,10 @@ jobs:
         run: python skills/big-data-competition-skill/tools/award_paper_audit.py --summary
       - name: Run historical scenario adversarial contract suite
         run: python skills/big-data-competition-skill/tools/competition_benchmark.py
+      - name: Verify v2.4 universal quality audit CLIs
+        run: |
+          python skills/big-data-competition-skill/tools/solution_quality_gate.py --help
+          python skills/big-data-competition-skill/tools/stability_audit.py --help
       - name: Validate historical source snapshot and new CLIs
         run: |
           python -m json.tool skills/big-data-competition-skill/competition/real_case_2025_profiles.json > /dev/null
