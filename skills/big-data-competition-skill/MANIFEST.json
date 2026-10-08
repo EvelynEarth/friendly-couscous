@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -28,7 +28,8 @@
     "result-falsification.md",
     "independent-recomputation.md",
     "extended-oracles.md",
-    "project-evidence-chain.md"
+    "project-evidence-chain.md",
+    "competition-final-runbook.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -57,7 +58,8 @@
     "award-paper-writing-review.md",
     "result-invariant-contract.md",
     "independent-oracle-case.md",
-    "extended-oracle-cases.md"
+    "extended-oracle-cases.md",
+    "competition-readiness-record.md"
   ],
   "optional_tools": [
     "tools/bigdata_preflight.py",
@@ -70,9 +72,10 @@
     "tools/result_invariant_gate.py",
     "tools/independent_oracle.py",
     "tools/extended_oracles.py",
-    "tools/project_evidence_chain.py"
+    "tools/project_evidence_chain.py",
+    "tools/competition_readiness.py"
   ],
-  "notes": "v2.8 strict cross-module numeric integrity across official subquestions, SHA-256 reviewed artifacts, independent metric checks and run-anchored stability. Machine consistency only, not scientific approval.",
+  "notes": "v2.9 universal paper-first delivery review for unknown task families; machine coverage only, not scientific truth, with optional stronger numeric evidence chain.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",

@@ -34,3 +34,7 @@ Scientific Reviewer 需检查 [参考复算与已知答案协议](independent-re
 ## v2.8 项目级跨模块数值闭环
 
 在独立科学审稿和编辑审稿之间，建议补做 [项目级证据链与失败关闭检查](project-evidence-chain.md)。此工具验证全部题目覆盖、SHA-256 引用、独立 oracle 的论文指标映射、输出不变式的原始数据关联及稳定性 anchor。任何一个关键环节失败即阻断项目机器验收。即使返回 `machine_evidence_consistent`，仍必须**人工**核对题意、来源数据、统计前提和完整论文逻辑。
+
+## v2.9 适配当届任意题型的终审流程
+
+最终评审按 [通用赛场终稿操作](competition-final-runbook.md) 首先核查官方题目与所有论文主张的完整对应，独立科学审核与论文逻辑审核两轮分别完成。`competition_readiness.py` 提供**文件 SHA、题目覆盖和书面论证关联的资料一致性**检查，无法由软件证明审稿身份和科学正确性。对于适用内置 oracle 的数学问题，可额外运行 `project_evidence_chain.py`；对不适用的题型需自建科学核查而非绕过，避免把软件输入模型变成赛题模型。

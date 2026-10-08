@@ -103,3 +103,11 @@ B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
 - `python skills/big-data-competition-skill/tools/project_evidence_chain.py --help`
 
 该项目级审计连接正式论文数值、真实 SHA-256 文件、独立计算及稳定性锚点；不能替代独立科学 Reviewer 和论文逻辑审稿。
+
+## v2.9 通用赛场收尾与未知题型纸面交付
+
+- [通用比赛执行、独立科学核查与论文定稿操作](skills/big-data-competition-skill/references/competition-final-runbook.md)
+- [不限定算法/题目数的研究包](skills/big-data-competition-skill/templates/competition-readiness-record.md)
+- `python skills/big-data-competition-skill/tools/competition_readiness.py --help`
+
+旧 `project_evidence_chain.py` 继续保留为**当前数学 oracle 能覆盖的特定数值任务**的严格检查，不能要求所有未知问题伪装为该输入。

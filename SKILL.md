@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.8.0
+version: 2.9.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.8
+# Big Data Competition Skill v2.9
 
 ## 1. 定位
 
@@ -438,3 +438,11 @@ official rule evidence
 此前每个工具单独“通过”**不能**说明整篇竞赛论文数值链可靠。项目复审时按 [跨模块项目证据链与失败关闭协议](skills/big-data-competition-skill/references/project-evidence-chain.md) 把所有**当届官方子问**、原始证据 SHA-256 清单、质量复核、独立参考计算、数值不变式、稳定性及真实论文指标回读联系起来。可执行 `tools/project_evidence_chain.py --manifest project.json --artifact-root real_outputs/`，任何关键失败直接阻断项目级机器验收。
 
 **新增的实际联系**：每个正式论文指标必须映射到独立数值参考结果；不变式文件必须绑定参考算法核对的原子结果；稳定性实验须用锚点运行指向正式结果数值。跨模块成功的状态仅是 `machine_evidence_consistent`，科学/论文审稿仍要求由独立 Reviewer 真实检查。未知题型若现有 oracle 不适用，设计新题专属参考验算，不能编造“已通过”。
+
+## 30. v2.9 最终统一赛场工作流：未知题型与论文研究包
+
+**赛题未知不应被有限的数值 oracle 卡死。** 正式比赛先按照 [通用赛场执行与终稿验收](skills/big-data-competition-skill/references/competition-final-runbook.md) 完成：题意/数据契约 → 方法适配 → 已知答案/独立复核 → 可靠性与稳定性 → 真实证据 → 论文逻辑与限度 → 当届官方交付要求。
+
+任何研究任务均可在 [通用论文研究包验收](skills/big-data-competition-skill/templates/competition-readiness-record.md) 中记录官方子问、方法/独立检查、结论支持与论文结构，运行 `tools/competition_readiness.py` 检查完整性。其 `documentation_consistent_pending_expert_review` 只表示**文档可审阅**，绝不自动等于论文可交付或模型正确。已有 `project_evidence_chain.py` 仅当选定的数学类型确实适用时作为**更严格的数字交叉验收**；不支持的题型必须另做独立科学核验，不能伪造 oracle 或放弃审核。
+
+优秀论文重点是阅读正文后理解**问题组织、论证过渡、图表证据作用和结论边界**，而非照搬获奖模型。未经逐篇阅读的 PDF 不得称为已验证写作规律。当前 v2.9 为可使用的工程版，今后改动应由真实任务实测发现的问题驱动，而不是连续机械升级版本号。
