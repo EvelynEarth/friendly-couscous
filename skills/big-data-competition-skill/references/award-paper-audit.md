@@ -29,3 +29,11 @@
 ## 输出与终审
 
 建议文件：`analysis/award_paper_matrix.csv`（如已建立实际论文复盘项目）、`paper_review_notes.md`、`method_transfer_decisions.md`。优先保存分析与定位证据，不提交全文 PDF 的转载版。
+
+## v2.2 数据与页码证据验收
+
+使用 [2024–2025 论文元数据](../competition/award_papers_2024_2025.json) 和 [审核脚本](../tools/award_paper_audit.py)。16 个文件初始没有被逐篇检读，因此方法频率的当前有效样本分母为零。
+
+`python skills/big-data-competition-skill/tools/award_paper_audit.py --summary`
+
+必须先读取 PDF 正文并核验页码，才能把文章标为 reviewed，并为每条方法记录 PDF 页码、归属和核实情况；不能根据文件名或搜索片段推测获奖论文使用了某方法。

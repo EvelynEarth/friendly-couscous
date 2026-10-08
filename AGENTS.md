@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.1.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.2.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -33,3 +33,9 @@ that is a historical HSK mathematical-modeling bootstrap, not this Skill.
 4. Historical HSK core/, modules/, and tests/ remain available but are not active
    Big Data Skill entrypoints and should not be silently re-enabled by unrelated PRs.
 5. Merge only after relevant checks pass; report CI, PR, commit SHA and limitations.
+
+## Evidence-based self-tests
+
+The award-paper inventory is file metadata until inspected PDF page evidence exists. Check it with: python skills/big-data-competition-skill/tools/award_paper_audit.py --summary.
+Run synthetic adversarial plan checks with: python skills/big-data-competition-skill/tools/competition_benchmark.py.
+Neither check implies model runs, official result correctness or award-paper review completion.

@@ -49,7 +49,7 @@ class BigDataContractTests(unittest.TestCase):
         manifest = generated[Path("MANIFEST.sha256")]
         self.assertIn("skills/big-data-competition-skill/SKILL.md", manifest)
         self.assertNotIn("  core/bootstrap.yaml", manifest)
-        self.assertIn("当前 Skill 版本：2.1.0",
+        self.assertIn("当前 Skill 版本：" + indexer.current_skill_version(ROOT),
                       generated[Path("SKILL_FILE_INDEX.md")])
         self.assertTrue(manifest.endswith("\n"))
 

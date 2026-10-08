@@ -24,6 +24,10 @@ jobs:
           python-version: "3.12"
       - name: Validate active paper-first Skill, versions and references
         run: python scripts/validate_bigdata_skill.py
+      - name: Verify 16 paper records remain evidence-honest
+        run: python skills/big-data-competition-skill/tools/award_paper_audit.py --summary
+      - name: Run historical scenario adversarial contract suite
+        run: python skills/big-data-competition-skill/tools/competition_benchmark.py
 
   unit-matrix:
     name: Python ${{ matrix.python-version }} (bigdata)

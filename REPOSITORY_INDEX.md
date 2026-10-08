@@ -46,3 +46,10 @@
 - `python scripts/generate_indexes.py --check`
 
 索引生成：`python scripts/generate_indexes.py`。历史 HSK 全量测试不作为当前大数据入口的验收条件，但保留源码及测试供另行迁移。
+
+## v2.2 历史证据与任务压力测试
+
+- [赛题对抗测试协议](skills/big-data-competition-skill/references/historical-benchmark-protocol.md)
+- [16 份已确认但未复盘 PDF 的元数据清单](skills/big-data-competition-skill/competition/award_papers_2024_2025.json)
+
+只读元数据不等于研究论文已阅读；合成方法协议通过不等于模型实测完成。

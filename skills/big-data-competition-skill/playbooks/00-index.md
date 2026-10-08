@@ -35,9 +35,9 @@
 - 内存紧张、多文件：10 作为前置数据工程手册；时空轨迹/图任务：11。
 - 外部工具可选参考：../references/external-skill-routing.md；验收：../references/competition-validation-gates.md。
 
-## 证据说明
+## 证据边界
 
-手册中的方法频率、具名算法与篇幅数据，均来自对 MathorCup 2021–2025 共 40 篇优秀论文的脚本统计（见仓库 `analysis/` 与 `../competition/mathorcup.md`），不是主观推荐。
+手册是可选方法骨架，不构成历年获奖算法排行榜。现有 2024/2025 共 16 份 PDF 的文件名和大小已核对，但尚未完成逐篇 PDF 方法审阅；此前“40 篇统计”不能作为本轮已核实的研究结论。详见 [可执行证据与任务对抗协议](../references/historical-benchmark-protocol.md)。
 
 ## 可执行预检（只读）
 

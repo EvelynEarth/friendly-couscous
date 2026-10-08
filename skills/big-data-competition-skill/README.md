@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.1.0
+# Big Data Competition Skill v2.2.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -23,3 +23,15 @@ python -m unittest tests/test_bigdata_preflight.py
 ```
 
 以上仅检查文件级约束，不执行赛题模型、GPU 训练或证明预测效果。具体文件格式、提交方式与评价指标必须按当届官方通知核验；没有完整读取的获奖论文不得当作已分析数据。
+
+## v2.2 新增实战质量闸门
+
+- [历史赛题合成对抗测试和获奖论文证据审核协议](references/historical-benchmark-protocol.md)
+- [16 个已确认的优秀论文 PDF 文件元数据](competition/award_papers_2024_2025.json)
+
+```bash
+python skills/big-data-competition-skill/tools/award_paper_audit.py --summary
+python skills/big-data-competition-skill/tools/competition_benchmark.py
+```
+
+上述工具检查证据状态与方法计划，**不训练真实赛题模型**。

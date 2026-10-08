@@ -1,0 +1,308 @@
+{
+  "schema_version": "1.0.0",
+  "provenance": "Synthetic validation plans inspired by high-level problem families in 2024/2025 MathorCup; not a reproduction of original problems or models",
+  "case_count": 10,
+  "cases": [
+    {
+      "id": "2024-A-typhoon-valid",
+      "year": 2024,
+      "track": "A",
+      "expect": "pass",
+      "plan": {
+        "task_family": "temporal",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "历史持续性预测",
+        "metric": "轨迹距离误差",
+        "features": [
+          {
+            "name": "历史位置",
+            "available_at_prediction": true
+          },
+          {
+            "name": "历史风速",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "group_time",
+        "official_result": {
+          "required": false,
+          "template_checked": false
+        },
+        "claims": [],
+        "time_ordered": true,
+        "group_disjoint": true
+      }
+    },
+    {
+      "id": "2024-B-warehouse-valid",
+      "year": 2024,
+      "track": "B",
+      "expect": "pass",
+      "plan": {
+        "task_family": "optimization",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "单仓分配贪心策略",
+        "metric": "目标函数与约束违反数",
+        "features": [
+          {
+            "name": "训练期预测货量",
+            "available_at_prediction": true
+          },
+          {
+            "name": "已有仓容",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "none",
+        "official_result": {
+          "required": false,
+          "template_checked": false
+        },
+        "claims": [],
+        "feasibility_verified": true
+      }
+    },
+    {
+      "id": "2025-A-container-detection-valid",
+      "year": 2025,
+      "track": "A",
+      "expect": "pass",
+      "plan": {
+        "task_family": "vision",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "普通目标检测器",
+        "metric": "mAP（检测任务）",
+        "features": [
+          {
+            "name": "当前待检测图像",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "group",
+        "official_result": {
+          "required": false,
+          "template_checked": false
+        },
+        "claims": [],
+        "group_disjoint": true,
+        "near_duplicate_isolation": true,
+        "output_kind": "detection",
+        "ground_truth_kind": "bbox"
+      }
+    },
+    {
+      "id": "2025-B-claims-risk-valid",
+      "year": 2025,
+      "track": "B",
+      "expect": "pass",
+      "plan": {
+        "task_family": "tabular",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "逻辑回归与原始规则",
+        "metric": "macro-F1 / 少数类召回",
+        "features": [
+          {
+            "name": "索赔申请金额",
+            "available_at_prediction": true
+          },
+          {
+            "name": "历史订单行为",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "group",
+        "official_result": {
+          "required": true,
+          "template_checked": true
+        },
+        "claims": [],
+        "group_disjoint": true
+      }
+    },
+    {
+      "id": "2024-A-leakage-random-split",
+      "year": 2024,
+      "track": "A",
+      "expect": "reject",
+      "plan": {
+        "task_family": "temporal",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "历史持续性预测",
+        "metric": "轨迹距离误差",
+        "features": [
+          {
+            "name": "历史位置",
+            "available_at_prediction": true
+          },
+          {
+            "name": "历史风速",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "random",
+        "official_result": {
+          "required": false,
+          "template_checked": false
+        },
+        "claims": [],
+        "time_ordered": false,
+        "group_disjoint": false
+      }
+    },
+    {
+      "id": "2024-B-optimization-no-feasibility",
+      "year": 2024,
+      "track": "B",
+      "expect": "reject",
+      "plan": {
+        "task_family": "optimization",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "单仓分配贪心策略",
+        "metric": "目标函数与约束违反数",
+        "features": [
+          {
+            "name": "训练期预测货量",
+            "available_at_prediction": true
+          },
+          {
+            "name": "已有仓容",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "none",
+        "official_result": {
+          "required": false,
+          "template_checked": false
+        },
+        "claims": [],
+        "feasibility_verified": false
+      }
+    },
+    {
+      "id": "2025-A-bbox-fake-segmentation-GT",
+      "year": 2025,
+      "track": "A",
+      "expect": "reject",
+      "plan": {
+        "task_family": "vision",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "普通目标检测器",
+        "metric": "mAP（检测任务）",
+        "features": [
+          {
+            "name": "当前待检测图像",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "group",
+        "official_result": {
+          "required": false,
+          "template_checked": false
+        },
+        "claims": [],
+        "group_disjoint": true,
+        "near_duplicate_isolation": true,
+        "output_kind": "segmentation",
+        "ground_truth_kind": "bbox",
+        "weak_supervision_declared": false,
+        "segmentation_gt_metric_claimed": true
+      }
+    },
+    {
+      "id": "2025-B-future-payout-feature",
+      "year": 2025,
+      "track": "B",
+      "expect": "reject",
+      "plan": {
+        "task_family": "tabular",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "逻辑回归与原始规则",
+        "metric": "macro-F1 / 少数类召回",
+        "features": [
+          {
+            "name": "索赔申请金额",
+            "available_at_prediction": true
+          },
+          {
+            "name": "历史订单行为",
+            "available_at_prediction": true
+          },
+          {
+            "name": "未来真实赔付金额",
+            "available_at_prediction": false
+          }
+        ],
+        "validation_scheme": "group",
+        "official_result": {
+          "required": true,
+          "template_checked": true
+        },
+        "claims": [],
+        "group_disjoint": true
+      }
+    },
+    {
+      "id": "2025-B-fabricated-metric",
+      "year": 2025,
+      "track": "B",
+      "expect": "reject",
+      "plan": {
+        "task_family": "tabular",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "逻辑回归与原始规则",
+        "metric": "macro-F1 / 少数类召回",
+        "features": [
+          {
+            "name": "索赔申请金额",
+            "available_at_prediction": true
+          },
+          {
+            "name": "历史订单行为",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "group",
+        "official_result": {
+          "required": true,
+          "template_checked": true
+        },
+        "claims": [
+          {
+            "numerical": true,
+            "statement": "macro-F1=0.99"
+          }
+        ],
+        "group_disjoint": true
+      }
+    },
+    {
+      "id": "2025-B-official-result-uncertified",
+      "year": 2025,
+      "track": "B",
+      "expect": "reject",
+      "plan": {
+        "task_family": "tabular",
+        "problem_source": "历史 MathorCup 赛题类型的合成契约示例；不代表原题官方规定",
+        "baseline": "逻辑回归与原始规则",
+        "metric": "macro-F1 / 少数类召回",
+        "features": [
+          {
+            "name": "索赔申请金额",
+            "available_at_prediction": true
+          },
+          {
+            "name": "历史订单行为",
+            "available_at_prediction": true
+          }
+        ],
+        "validation_scheme": "group",
+        "official_result": {
+          "required": true,
+          "template_checked": false
+        },
+        "claims": [],
+        "group_disjoint": true
+      }
+    }
+  ]
+}

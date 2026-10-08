@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.1.0
+version: 2.2.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.1
+# Big Data Competition Skill v2.2
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -52,3 +52,9 @@ summary: 论文型大数据挑战赛全流程 Skill。
 - 分析历年获奖论文：先按 [优秀论文复盘协议](references/award-paper-audit.md) 逐篇读取并记录页码，使用 [证据表](./templates/award-paper-audit.md)，不以 PDF 文件存在推定论文已审阅。
 
 所有新增模块保留原有调用接口与历史模板；不改变当届题面优先权，不假设 Kaggle 榜单，也不将外部 Skill 的云训练费用或 API 凭证设为必需。
+
+## v2.2 历年资料质量闸门
+
+- [历史任务合成评测协议](references/historical-benchmark-protocol.md)：按照当届问题结构审计验证方案，不把测试成功说成模型完成。
+- [2024–2025 获奖论文 PDF 文件盘点](competition/award_papers_2024_2025.json)：共发现 16 份文件，初始未阅读正文。
+- 命令：`python skills/big-data-competition-skill/tools/competition_benchmark.py` 与 `python skills/big-data-competition-skill/tools/award_paper_audit.py --summary`。

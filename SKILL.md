@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.1.0
+version: 2.2.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.1
+# Big Data Competition Skill v2.2
 
 ## 1. 定位
 
@@ -393,3 +393,9 @@ official rule evidence
 - 可落地任务方法手册：skills/big-data-competition-skill/playbooks/，从 00-index.md 进入，覆盖清洗特征、表格预测、融合、不平衡、时序、视觉、伪标签、优化、NLP 与推荐。
 
 画像与手册仅为起步参考：历史规律不覆盖当届题面，代码需按当届数据实际运行后再引用。
+
+## 23. 历史赛题对抗评测与论文证据门（v2.2）
+
+在实际求解前参阅 [赛题对抗评测与论文复盘协议](skills/big-data-competition-skill/references/historical-benchmark-protocol.md)，核查验证切分、预测时点、可用特征、标注真值、优化可行性和论文数值证据。合成对抗测试不是比赛成绩。
+
+[2024–2025 获奖 PDF 文件清单](skills/big-data-competition-skill/competition/award_papers_2024_2025.json) 含 16 篇已发现的文件，但初始均为未审阅，不得据此宣称获奖论文的方法频率。只有实际读取、核对 PDF 页码并完成审查后才计入归纳。

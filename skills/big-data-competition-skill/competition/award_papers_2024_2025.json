@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0.0",
+  "source_repo": "EvelynEarth/supreme-spoon",
+  "source_branch": "main",
+  "verification_scope": "GitHub tree file paths and blob sizes only; no PDF content review or method-frequency analysis claimed",
+  "papers": [
+    {
+      "paper_id": "2024-01",
+      "year": 2024,
+      "number": 1,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-1.pdf",
+      "size_bytes": 4638893,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-02",
+      "year": 2024,
+      "number": 2,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-2.pdf",
+      "size_bytes": 4811143,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-03",
+      "year": 2024,
+      "number": 3,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-3.pdf",
+      "size_bytes": 4245729,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-04",
+      "year": 2024,
+      "number": 4,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-4.pdf",
+      "size_bytes": 2597473,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-05",
+      "year": 2024,
+      "number": 5,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-5.pdf",
+      "size_bytes": 3189021,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-06",
+      "year": 2024,
+      "number": 6,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-6.pdf",
+      "size_bytes": 3881683,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-07",
+      "year": 2024,
+      "number": 7,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-7.pdf",
+      "size_bytes": 2285254,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2024-08",
+      "year": 2024,
+      "number": 8,
+      "source_path": "2024年MathorCup大数据竞赛优秀论文/2024年MathorCup大数据竞赛优秀论文-8.pdf",
+      "size_bytes": 3383334,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-01",
+      "year": 2025,
+      "number": 1,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-1.pdf",
+      "size_bytes": 5277708,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-02",
+      "year": 2025,
+      "number": 2,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-2.pdf",
+      "size_bytes": 5655321,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-03",
+      "year": 2025,
+      "number": 3,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-3.pdf",
+      "size_bytes": 2904126,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-04",
+      "year": 2025,
+      "number": 4,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-4.pdf",
+      "size_bytes": 1957744,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-05",
+      "year": 2025,
+      "number": 5,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-5.pdf",
+      "size_bytes": 1690579,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-06",
+      "year": 2025,
+      "number": 6,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-6.pdf",
+      "size_bytes": 2821202,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-07",
+      "year": 2025,
+      "number": 7,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-7.pdf",
+      "size_bytes": 4454764,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    },
+    {
+      "paper_id": "2025-08",
+      "year": 2025,
+      "number": 8,
+      "source_path": "2025年MathorCup大数据竞赛优秀论文/2025年MathorCup大数据竞赛优秀论文-8.pdf",
+      "size_bytes": 4583048,
+      "review_status": "unreviewed",
+      "pdf_content_verified": false,
+      "findings": [],
+      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+    }
+  ]
+}
