@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.7.0
+# Big Data Competition Skill v2.8.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -70,3 +70,7 @@ python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /
 - `python skills/big-data-competition-skill/tools/extended_oracles.py --case check.json`
 
 本模块需要真实数据和适用的模型假设；配套 28 个测试均为合成工具测试，不是历史比赛模型成绩。
+
+## v2.8 端到端数值证据闭环
+
+项目级机器复审：[使用协议](references/project-evidence-chain.md)；工具 `tools/project_evidence_chain.py --manifest project.json --artifact-root real_outputs/`。需要完整官方子问、真实不可随意替换的实验数据/论文来源、独立重算与稳定性锚点。此工具的成功只表示机器能检查的证据未发现冲突，不等于科学审稿通过。

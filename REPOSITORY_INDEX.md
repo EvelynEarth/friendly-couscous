@@ -96,3 +96,10 @@ B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
 - `python skills/big-data-competition-skill/tools/extended_oracles.py --help`
 
 四类验证均只检验输入数据下的部分数值性质，不能代替独立验证真实赛题数学定义、数据独立性与论文结论。
+
+## v2.8 全项目科学证据链
+
+- [项目级联动、阻断条件与官方子问完整性](skills/big-data-competition-skill/references/project-evidence-chain.md)
+- `python skills/big-data-competition-skill/tools/project_evidence_chain.py --help`
+
+该项目级审计连接正式论文数值、真实 SHA-256 文件、独立计算及稳定性锚点；不能替代独立科学 Reviewer 和论文逻辑审稿。

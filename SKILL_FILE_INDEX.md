@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.7.0
+当前 Skill 版本：2.8.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -58,6 +58,7 @@
 - `skills/big-data-competition-skill/references/paper-evidence.md`
 - `skills/big-data-competition-skill/references/paper-writing.md`
 - `skills/big-data-competition-skill/references/problem-framing.md`
+- `skills/big-data-competition-skill/references/project-evidence-chain.md`
 - `skills/big-data-competition-skill/references/real-case-replay.md`
 - `skills/big-data-competition-skill/references/result-analysis.md`
 - `skills/big-data-competition-skill/references/result-falsification.md`
@@ -83,6 +84,7 @@
 - `skills/big-data-competition-skill/tools/extended_oracles.py`
 - `skills/big-data-competition-skill/tools/independent_oracle.py`
 - `skills/big-data-competition-skill/tools/paper_evidence_gate.py`
+- `skills/big-data-competition-skill/tools/project_evidence_chain.py`
 - `skills/big-data-competition-skill/tools/real_case_audit.py`
 - `skills/big-data-competition-skill/tools/result_invariant_gate.py`
 - `skills/big-data-competition-skill/tools/solution_quality_gate.py`
@@ -91,6 +93,7 @@
 - `tests/test_bigdata_extended_oracles.py`
 - `tests/test_bigdata_independent_oracle.py`
 - `tests/test_bigdata_preflight.py`
+- `tests/test_bigdata_project_evidence_chain.py`
 - `tests/test_bigdata_real_cases.py`
 - `tests/test_bigdata_skill_contract.py`
 - `tests/test_bigdata_solution_quality.py`

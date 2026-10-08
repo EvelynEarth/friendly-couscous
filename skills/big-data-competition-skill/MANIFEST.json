@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -27,7 +27,8 @@
     "paper-argumentation.md",
     "result-falsification.md",
     "independent-recomputation.md",
-    "extended-oracles.md"
+    "extended-oracles.md",
+    "project-evidence-chain.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -68,9 +69,10 @@
     "tools/stability_audit.py",
     "tools/result_invariant_gate.py",
     "tools/independent_oracle.py",
-    "tools/extended_oracles.py"
+    "tools/extended_oracles.py",
+    "tools/project_evidence_chain.py"
   ],
-  "notes": "v2.7 task-agnostic reference oracles for time rolling, paired exact sign-flip, iid Bernoulli CI and separable convex quadratic. 28 synthetic tests, not actual contest model evidence.",
+  "notes": "v2.8 strict cross-module numeric integrity across official subquestions, SHA-256 reviewed artifacts, independent metric checks and run-anchored stability. Machine consistency only, not scientific approval.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",
