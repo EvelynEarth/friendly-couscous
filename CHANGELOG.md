@@ -1,6 +1,14 @@
 # Changelog
 
-## Current release: 2.2.0
+## Current release: 2.3.0
+
+- 从真实 supreme-spoon GitHub 文件树确认历史 2025 A 3300/413 的图像及 bbox 标注，2025 B 三个 XLSX 通过连接返回 LFS 指针（附件1 指针报告 2 字节）。
+- 新增 `real_case_audit.py`：训练 YOLO 标注校验、test 标签封存提醒、可选跨拆分图像 SHA-256 精确重复检查；B 的 LFS/OOXML 容器就绪检查。
+- 新增 `paper_evidence_gate.py`：正式论文指标与实际实验产物、split 记录、哈希和数值一致性检查；不把哈希当成模型准确性证明。
+- 配套回归测试、实证使用协议、记录模板，明确当前没有完成 2025 赛题模型实测。
+- 不改变 Kaggle 禁用约束和历史 HSK 独立的代码/工作流。
+
+## Previous release: 2.2.0
 
 - 已核实 supreme-spoon 2024/2025 共 16 份优秀论文 PDF 的目录元数据；未读 PDF 不计入方法统计。
 - 新增优秀论文带页码的证据校验工具，未核实结论、未审阅资料不能作为模型选择依据。

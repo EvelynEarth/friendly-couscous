@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.2.0
+# Big Data Competition Skill v2.3.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -35,3 +35,13 @@ python skills/big-data-competition-skill/tools/competition_benchmark.py
 ```
 
 上述工具检查证据状态与方法计划，**不训练真实赛题模型**。
+
+## v2.3 本地赛题数据就绪与论文数字审计
+
+详见 [真实案例检查协议](references/real-case-replay.md)、[附件来源快照](competition/real_case_2025_profiles.json) 和 [实验证据模板](templates/accepted-evidence-record.md)。
+
+```bash
+python skills/big-data-competition-skill/tools/real_case_audit.py 2025-a --root /path/to/数据集3713
+python skills/big-data-competition-skill/tools/real_case_audit.py 2025-b --root /path/to/赛道B附件目录
+python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /path/to/accepted.json --artifact-root /path/to/outputs
+```

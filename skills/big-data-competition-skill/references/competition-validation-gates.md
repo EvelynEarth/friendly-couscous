@@ -1,6 +1,6 @@
 # Competition Validation Gates — 论文型数据竞赛
 
-此文档为现有主 Skill 的**补充验收建议**，不更改仓库旧版数学建模门槛。只有当届题面与官方模板决定何种文件需要正式提交。
+此文档为当前论文型大数据 Skill 的验收细则，不继承历史数学建模框架的验收门槛。只有当届题面与官方模板决定何种文件需要正式提交。
 
 ## G0 题意与数据资产
 
@@ -47,3 +47,7 @@
 ## v2.2 离线对抗方案验证
 
 [合成对抗场景](historical-benchmark-protocol.md) 针对未来信息、时间与分组切分、bbox/mask 区别、优化约束、数值证据链和官方结果文件校验。命令：`python skills/big-data-competition-skill/tools/competition_benchmark.py`。工具通过不等同正式比赛模型正确。
+
+## v2.3：真附件 & 论文数值
+
+按 [2025 A/B 真附件检查](real-case-replay.md) 区分“GitHub 文件存在”“数据可读取”“测试集未参与调参”“模型已正式运行”四个不同状态。只有具备实际结果、切分协议和可核验 artifacts 后才进入 G3 的论文证据验收。2025 B 的 XLSX LFS 指针必须阻断，2025 A 的 test 标注必须封存。

@@ -1,6 +1,6 @@
 ---
 name: big-data-competition-skill
-version: 2.2.0
+version: 2.3.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
@@ -399,3 +399,9 @@ official rule evidence
 在实际求解前参阅 [赛题对抗评测与论文复盘协议](skills/big-data-competition-skill/references/historical-benchmark-protocol.md)，核查验证切分、预测时点、可用特征、标注真值、优化可行性和论文数值证据。合成对抗测试不是比赛成绩。
 
 [2024–2025 获奖 PDF 文件清单](skills/big-data-competition-skill/competition/award_papers_2024_2025.json) 含 16 篇已发现的文件，但初始均为未审阅，不得据此宣称获奖论文的方法频率。只有实际读取、核对 PDF 页码并完成审查后才计入归纳。
+
+## 24. 真实赛题附件就绪与论文数值哈希验证（v2.3）
+
+遇到实际赛题数据，按需加载 [MathorCup 2025 A/B 真附件就绪检查](skills/big-data-competition-skill/references/real-case-replay.md)，先判断数据是否真正可读取、哪些标签/特征在预测时不可用；不要把公开 test labels 当作训练/调参数据。对于 Git LFS 指针，未获取实际文件字节前报告阻断。
+
+论文成稿前，对已执行且复核过的关键实验使用 [实验证据记录模板](skills/big-data-competition-skill/templates/accepted-evidence-record.md) 和 `tools/paper_evidence_gate.py` 检查数值、split、产物哈希与正文主张一致。哈希一致不等于模型指标科学正确，CI 通过也不等于赛题模型运行成功。
