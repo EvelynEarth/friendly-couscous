@@ -88,3 +88,11 @@ B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
 - `python skills/big-data-competition-skill/tools/independent_oracle.py --help`
 
 只在实际小规模模型/原始验证标签条件下使用，不假定已完成历史获奖论文全文阅读或真题精确复现。
+
+## v2.7 时序、推断、仿真与连续凸优化的参考验算
+
+- [扩展科学独立参考计算器与适用范围](skills/big-data-competition-skill/references/extended-oracles.md)
+- [时序/配对/仿真/解析最优输入模板](skills/big-data-competition-skill/templates/extended-oracle-cases.md)
+- `python skills/big-data-competition-skill/tools/extended_oracles.py --help`
+
+四类验证均只检验输入数据下的部分数值性质，不能代替独立验证真实赛题数学定义、数据独立性与论文结论。

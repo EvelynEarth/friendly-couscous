@@ -38,6 +38,8 @@ jobs:
           python skills/big-data-competition-skill/tools/paper_evidence_gate.py --help
       - name: v2.6 independent reference oracle smoke test
         run: python skills/big-data-competition-skill/tools/independent_oracle.py --help
+      - name: v2.7 expanded scientific oracle smoke test
+        run: python skills/big-data-competition-skill/tools/extended_oracles.py --help
       - name: Validate historical source snapshot and new CLIs
         run: |
           python -m json.tool skills/big-data-competition-skill/competition/real_case_2025_profiles.json > /dev/null

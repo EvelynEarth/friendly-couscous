@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "Paper-first workflow for unknown-topic big data competitions: data audit, EDA, task routing, baseline, leakage-resistant evaluation, experiment provenance, scientific figures, evidence maps, competition paper writing, final review, and paper delivery.",
   "author": {
     "name": "EvelynEarth"

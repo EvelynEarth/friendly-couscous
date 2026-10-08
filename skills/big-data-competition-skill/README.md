@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.6.0
+# Big Data Competition Skill v2.7.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -62,3 +62,11 @@ python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /
 ## v2.6 独立重算
 
 [独立复算协议](references/independent-recomputation.md) 与 [输入例子](templates/independent-oracle-case.md) 展示如何由实际预测重算模型指标，以及对小规模整数线性子问题进行精确枚举检查。该工具有 20 个手算/反例测试，但不能保证任意赛题或大规模求解正确。
+
+## v2.7 扩展科学独立复算
+
+- [适用条件与独立验证流程](references/extended-oracles.md)
+- [JSON 正确答案与故意失败的示例](templates/extended-oracle-cases.md)
+- `python skills/big-data-competition-skill/tools/extended_oracles.py --case check.json`
+
+本模块需要真实数据和适用的模型假设；配套 28 个测试均为合成工具测试，不是历史比赛模型成绩。
