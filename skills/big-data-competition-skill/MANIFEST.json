@@ -16,7 +16,10 @@
     "paper-evidence.md",
     "paper-writing.md",
     "final-review.md",
-    "paper-delivery.md"
+    "paper-delivery.md",
+    "external-skill-routing.md",
+    "competition-validation-gates.md",
+    "award-paper-audit.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -31,10 +34,17 @@
     "06-computer-vision.md",
     "07-risk-pseudo-labeling.md",
     "08-inventory-and-optimization.md",
-    "09-nlp-and-recommendation.md"
+    "09-nlp-and-recommendation.md",
+    "10-large-data-strategies.md",
+    "11-spatiotemporal-network.md"
   ],
   "templates": [
     "paper_outline.md",
-    "result_checklist.md"
-  ]
+    "result_checklist.md",
+    "award-paper-audit.md"
+  ],
+  "optional_tools": [
+    "tools/bigdata_preflight.py"
+  ],
+  "notes": "Optional additive modules for v2.1.0; root entrypoint, competition rules, and historical API remain unchanged."
 }

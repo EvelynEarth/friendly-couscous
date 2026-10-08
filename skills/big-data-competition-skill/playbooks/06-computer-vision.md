@@ -67,3 +67,14 @@ m = timm.create_model("resnet50", pretrained=True, num_classes=n_class)
 - 检测报告 mAP 与 IoU 阈值口径；分割报告 mIoU/Dice 与可视化结果。
 - 多随机种子/折，报告均值±波动；可视化典型成功与失败案例。
 - 预训练/外部数据要说明来源与可得性，不引入违规数据。
+
+## 8. 标注语义门：检测框不能当分割 mask
+
+训练前先盘点图像、标签配对与类别 ID，并区分：
+
+- `class cx cy width height`（5 列）：YOLO 检测**边界框**；可训练检测模型，但不等于真实像素分割标注。
+- `class x1 y1 x2 y2 x3 y3 ...`（至少三个顶点）：YOLO polygon 分割；仍应核对闭合与几何合法性。
+- 如果题目要求分割而只有 bbox：需取得真实 mask、明确弱监督/伪掩膜方案或承认无 ground-truth 分割评价；禁止报告未实际计算的真实 mIoU/Dice。
+- 所有 split 考虑近重复图像、同一拍摄场景与同一集装箱实体的跨集泄漏；无明确实体信息则如实记录约束。
+
+标注预检命令：`python skills/big-data-competition-skill/tools/bigdata_preflight.py yolo --root DATASET --split train --task detect --classes 3`。
