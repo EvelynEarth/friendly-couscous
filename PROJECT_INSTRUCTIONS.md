@@ -1,3 +1,5 @@
+> **历史兼容说明：**以下 HSK v7.13.0 数学建模项目调用说明已经不是本仓库当前大数据竞赛 Skill 的默认运行入口。请先读取 [SKILL.md](SKILL.md) 和 [skills/big-data-competition-skill/SKILL.md](skills/big-data-competition-skill/SKILL.md)。仅在维护历史 HSK 项目时参考以下内容。
+
 # HSK 项目调用说明
 
 当前活动规则以 `core/bootstrap.yaml` 指向的权威文件为准。本文件只提供调用顺序和稳定摘要，不复制各合同的完整字段。
