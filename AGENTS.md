@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.3.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.4.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -45,3 +45,11 @@ Neither check implies model runs, official result correctness or award-paper rev
 Before claiming a 2025 A/B reproduction, load `skills/big-data-competition-skill/references/real-case-replay.md`.
 For 2025 A, audit actual train labels but keep `labels/test` sealed for training, validation and hyperparameter tuning. For 2025 B, Git LFS pointer text is not a usable Excel workbook.
 Use `tools/paper_evidence_gate.py` for accepted run metric, split and artifact hashes; do not manufacture experiment metrics to satisfy the gate. File hash integrity is not scientific model validation.
+
+## Scientific correctness + argument logic are hard gates (v2.4)
+
+A task is NOT solved just because code ran, a benchmark was green or an attractive metric was reported. Start with the official question, verify modeling assumptions, units and constraints, do independent numeric/theoretical checks, test reliability and stability under declared perturbations, and challenge overclaims. Separate scientific Reviewer from editorial Reviewer.
+
+For awarded papers, learn how authors organize questions, model motivations, transitions, evidence-bearing figures and qualified conclusions; do not copy their algorithms or three-question layouts. Actual paper PDF reading is required before page-backed insights can be attributed to an award paper.
+
+Consult `references/solution-validity.md`, `references/stability-and-uncertainty.md` and `references/paper-argumentation.md`. Quality CLI is a review-coverage tool, not an autonomous mathematical oracle.

@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -21,7 +21,10 @@
     "competition-validation-gates.md",
     "award-paper-audit.md",
     "historical-benchmark-protocol.md",
-    "real-case-replay.md"
+    "real-case-replay.md",
+    "solution-validity.md",
+    "stability-and-uncertainty.md",
+    "paper-argumentation.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -44,16 +47,21 @@
     "paper_outline.md",
     "result_checklist.md",
     "award-paper-audit.md",
-    "accepted-evidence-record.md"
+    "accepted-evidence-record.md",
+    "solution_quality_record.md",
+    "stability_record.md",
+    "award-paper-writing-review.md"
   ],
   "optional_tools": [
     "tools/bigdata_preflight.py",
     "tools/award_paper_audit.py",
     "tools/competition_benchmark.py",
     "tools/real_case_audit.py",
-    "tools/paper_evidence_gate.py"
+    "tools/paper_evidence_gate.py",
+    "tools/solution_quality_gate.py",
+    "tools/stability_audit.py"
   ],
-  "notes": "v2.3 real-file metadata check and accepted numerical claim SHA integrity; original 2025 B Excel LFS pointers unresolved and no model metrics generated.",
+  "notes": "v2.4 universal scientific correctness review, evidence-bound stability, adaptive paper argumentation. All checks require real case evidence, no PDF content-review claims.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",

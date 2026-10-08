@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.3.0
+version: 2.4.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.3
+# Big Data Competition Skill v2.4
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -64,3 +64,15 @@ summary: 论文型大数据挑战赛全流程 Skill。
 - [2025 A/B 实际来源与本地检查](references/real-case-replay.md)：2025 A 数据标注可预检，test 标注仅用于封存检测；2025 B 数据以真正 XLSX 恢复为前置条件。
 - [2025 A/B 已核查的文件树与样例](competition/real_case_2025_profiles.json)：真实数据元信息，不是训练成绩。
 - [正式实验追踪记录模板](templates/accepted-evidence-record.md)：配合 `tools/paper_evidence_gate.py` 检查摘要/正文数字、结果文件和切分证据。
+
+## v2.4 优先级：正确性、可靠性与论文论证结构
+
+未知赛题先按 [正确性核验协议](references/solution-validity.md) 对每问核对题目答案、模型数学、算法实现与独立复算，再检查验证可靠性、稳定性和结论边界。记录不完整就阻断写作定稿，不能靠纸面结果或 CI 通过声称模型正确。
+
+- [稳定性与不确定性](references/stability-and-uncertainty.md)：设定事前门槛后对真实重复实验做描述性检验。
+- [论文结构与逻辑](references/paper-argumentation.md)：按真实任务自适应章节，不照搬历史 A/B 或固定三问。
+- [逐篇写作结构复盘卡](templates/award-paper-writing-review.md)：优秀论文学习论证与图表功能，未经 PDF 正文核查不假装已读。
+- `python skills/big-data-competition-skill/tools/solution_quality_gate.py --record review.json`
+- `python skills/big-data-competition-skill/tools/stability_audit.py --record runs.json`
+
+新 CLI 验证的是记录和观测统计，**不自动证明科学正确性**。必要时应由另一套方法或 Reviewer 独立复核结论。

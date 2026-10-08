@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.3.0
+version: 2.4.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.2
+# Big Data Competition Skill v2.4
 
 ## 1. 定位
 
@@ -31,7 +31,7 @@ triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学
 
 ## 2. 核心优先级
 
-问题理解正确 > 数据可信 > 验证可信 > 方法匹配 > 实验充分 > 结果可复现 > 图表清晰 > 论文表达 > 形式创新。
+题意与结论正确 > 方法、算法和计算正确 > 可靠性、稳定性 > 数据与验证可信 > 方法匹配 > 可复现 > 论文逻辑与表达 > 形式创新。
 
 禁止以模型更复杂、分数更高、图更漂亮或代码成功运行替代方法正确性和证据质量。
 
@@ -405,3 +405,12 @@ official rule evidence
 遇到实际赛题数据，按需加载 [MathorCup 2025 A/B 真附件就绪检查](skills/big-data-competition-skill/references/real-case-replay.md)，先判断数据是否真正可读取、哪些标签/特征在预测时不可用；不要把公开 test labels 当作训练/调参数据。对于 Git LFS 指针，未获取实际文件字节前报告阻断。
 
 论文成稿前，对已执行且复核过的关键实验使用 [实验证据记录模板](skills/big-data-competition-skill/templates/accepted-evidence-record.md) 和 `tools/paper_evidence_gate.py` 检查数值、split、产物哈希与正文主张一致。哈希一致不等于模型指标科学正确，CI 通过也不等于赛题模型运行成功。
+
+## 25. v2.4 核心升级：独立科学复核与论文论证质量（通用，不限定赛题）
+
+**先核对题目到底问了什么，再核对模型为何成立，最后核对结论在何种条件下成立。** 在每个子问题进入写作之前，按 [通用求解正确性与可靠性协议](skills/big-data-competition-skill/references/solution-validity.md) 完成 Q0–Q5：
+题意匹配 → 模型假设/公式/量纲 → 算法/约束及独立复算 → 任务适配验证 → 稳定性/反例 → 结论边界。至少安排一次独立 Reviewer 的反例与复核。错误、未验证或失败不能靠论文润色替代。
+
+按需使用 `solution_quality_gate.py` 记录**审核覆盖情况**，以及 `stability_audit.py` 统计真实扰动运行的样本内波动。二者不能在没有实际证据时宣称数学正确、模型可靠或普遍稳定。
+
+优秀论文优先学习 [研究叙事结构与论证逻辑](skills/big-data-competition-skill/references/paper-argumentation.md)：目标→困难→方法依据→独立验证→证据→解释与局限。严格区分实际阅读 PDF 和只核实文件名；不再使用“获奖论文的算法频次”替代论证本届模型为何正确。论文结构按真实问题数量与相互依赖变化，不能套用固定三问大纲。

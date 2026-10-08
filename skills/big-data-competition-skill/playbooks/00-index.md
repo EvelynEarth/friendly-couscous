@@ -50,3 +50,7 @@
 ## 真实历史数据就绪检查（v2.3）
 
 合成 benchmark 通过不等于实际附件可读或模型验证成功。使用 [2025 A/B 真实数据就绪与论文数字追踪协议](../references/real-case-replay.md)，在获得真实赛题目录后审核训练/测试边界，再运行 Baseline 并保存证据哈希。
+
+## v2.4 真实赛题优先的统一质量门
+
+无论任务落在哪个方法手册，先执行 [求解正确性与结论可靠性](../references/solution-validity.md)；对实际重复实验按 [稳定性及扰动记录](../references/stability-and-uncertainty.md) 判断是否足以支撑强结论；论文再按 [逻辑论证](../references/paper-argumentation.md) 自适应排版。往届赛题、获奖论文只提供检验视角与写作观察，不固定模型或问题数。
