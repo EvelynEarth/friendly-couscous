@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.1.0
+# Big Data Competition Skill v2.2.0
 
 这是 friendly-couscous 的主 Skill，专门用于**未知赛题、最终提交论文的大数据挑战赛**。
 
@@ -33,10 +33,16 @@
 
 ## 当前仓库权威入口
 
-- 主 Skill：[SKILL.md](SKILL.md)（v2.1.0）。
+- 主 Skill：[SKILL.md](SKILL.md)（v2.2.0）。
 - 实用手册：[skills/big-data-competition-skill/](skills/big-data-competition-skill/)。
 - GitHub CI：验证当前大数据 Skill 的元数据、模块清单、文档链接、论文证据流程、独立工具单元测试和生成索引。
 - 历史 HSK v7.13.0 的 core/modules/ 等文件仍保留在仓库中供旧项目参考，但**不是当前 Skill 的主执行入口或 CI 验收依据**。
 - 修复记录见 [CHANGELOG.md](CHANGELOG.md)，维护规范见 [SKILL_CHANGE_GOVERNANCE.md](SKILL_CHANGE_GOVERNANCE.md)。
 
 本 Skill 保留对各种可能赛题（表格、时序、视觉、时空、网络、文本、优化、仿真等）的按需选择能力；不会根据往届题目硬编码今年的赛题或算法。
+
+## v2.2 新增可执行证据验证
+
+- [16 篇优秀论文 PDF 文件清单](skills/big-data-competition-skill/competition/award_papers_2024_2025.json)：只是文件元数据，初始未复盘。
+- [2024/2025 四类赛题的合成对抗评测](skills/big-data-competition-skill/references/historical-benchmark-protocol.md)：包含合理方案及泄漏、标注、约束、证据反例。
+- `python skills/big-data-competition-skill/tools/award_paper_audit.py --summary`；`python skills/big-data-competition-skill/tools/competition_benchmark.py`。

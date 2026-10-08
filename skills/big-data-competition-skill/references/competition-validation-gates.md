@@ -43,3 +43,7 @@
 `python skills/big-data-competition-skill/tools/bigdata_preflight.py csv --template <official.csv> --candidate <result.csv> --id-column <id>`
 
 三个模式均只读取文件并输出 JSON；不训练模型、不篡改原始附件。CSV 工具不替代 XLSX 结果文件和官方人工验收。
+
+## v2.2 离线对抗方案验证
+
+[合成对抗场景](historical-benchmark-protocol.md) 针对未来信息、时间与分组切分、bbox/mask 区别、优化约束、数值证据链和官方结果文件校验。命令：`python skills/big-data-competition-skill/tools/competition_benchmark.py`。工具通过不等同正式比赛模型正确。

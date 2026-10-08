@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -19,7 +19,8 @@
     "paper-delivery.md",
     "external-skill-routing.md",
     "competition-validation-gates.md",
-    "award-paper-audit.md"
+    "award-paper-audit.md",
+    "historical-benchmark-protocol.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -44,7 +45,13 @@
     "award-paper-audit.md"
   ],
   "optional_tools": [
-    "tools/bigdata_preflight.py"
+    "tools/bigdata_preflight.py",
+    "tools/award_paper_audit.py",
+    "tools/competition_benchmark.py"
   ],
-  "notes": "Optional additive modules for v2.1.0; root entrypoint, competition rules, and historical API remain unchanged."
+  "notes": "v2.2 synthetic adversarial checks and evidence inventory; PDF methods unreviewed.",
+  "evidence_assets": [
+    "competition/award_papers_2024_2025.json",
+    "benchmarks/mathorcup_scenarios.json"
+  ]
 }
