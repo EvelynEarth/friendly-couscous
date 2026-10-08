@@ -1,5 +1,3 @@
-# Compatibility Pointer
+# Historical compatibility pointer
 
-该文件名仅为旧链接保留，不再承载活动索引。
-
-请使用 [`TEMPLATE_INDEX.md`](TEMPLATE_INDEX.md)。
+当前大数据 Skill 请查看 `TEMPLATE_INDEX.md`。此文件不再提供 HSK 活动规则。
