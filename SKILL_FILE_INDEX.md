@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.4.0
+当前 Skill 版本：2.5.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -58,6 +58,7 @@
 - `skills/big-data-competition-skill/references/problem-framing.md`
 - `skills/big-data-competition-skill/references/real-case-replay.md`
 - `skills/big-data-competition-skill/references/result-analysis.md`
+- `skills/big-data-competition-skill/references/result-falsification.md`
 - `skills/big-data-competition-skill/references/solution-validity.md`
 - `skills/big-data-competition-skill/references/stability-and-uncertainty.md`
 - `skills/big-data-competition-skill/references/task-taxonomy.md`
@@ -68,6 +69,7 @@
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
 - `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
+- `skills/big-data-competition-skill/templates/result-invariant-contract.md`
 - `skills/big-data-competition-skill/templates/result_checklist.md`
 - `skills/big-data-competition-skill/templates/solution_quality_record.md`
 - `skills/big-data-competition-skill/templates/stability_record.md`
@@ -76,6 +78,7 @@
 - `skills/big-data-competition-skill/tools/competition_benchmark.py`
 - `skills/big-data-competition-skill/tools/paper_evidence_gate.py`
 - `skills/big-data-competition-skill/tools/real_case_audit.py`
+- `skills/big-data-competition-skill/tools/result_invariant_gate.py`
 - `skills/big-data-competition-skill/tools/solution_quality_gate.py`
 - `skills/big-data-competition-skill/tools/stability_audit.py`
 - `tests/test_bigdata_evidence_benchmarks.py`
@@ -83,3 +86,4 @@
 - `tests/test_bigdata_real_cases.py`
 - `tests/test_bigdata_skill_contract.py`
 - `tests/test_bigdata_solution_quality.py`
+- `tests/test_bigdata_v25_result_integrity.py`

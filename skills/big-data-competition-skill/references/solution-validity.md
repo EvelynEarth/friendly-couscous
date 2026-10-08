@@ -57,3 +57,7 @@ python skills/big-data-competition-skill/tools/solution_quality_gate.py --record
 阅读 [稳定性分析](stability-and-uncertainty.md)，在实际运行后使用 `stability_audit.py` 汇报均值、样本标准差、观测范围和可选成对基线差异。稳定性阈值必须预先声明；这些摘要**不是置信区间或显著性检验**，未做扰动实验不得宣称稳定。
 
 最后按 [论文论证逻辑](paper-argumentation.md) 从题意、方法依据、独立验证、证据、解释到局限组织正文，而不是堆砌算法名称。
+
+## v2.5 从审核记录到求解结果反证
+
+审稿人填写一份 `passed` 质量表只能说明完成某些文档步骤，不能证明实际数值结果满足题目要求。参考 [数值不变式与证伪](result-falsification.md) 先从本届正式题目预定义必要边界、守恒和约束，再对**真实求解输出**验算；必须保留失败案例。成功意味着已声明的必要条件成立，而不是模型必然正确。

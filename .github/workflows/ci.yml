@@ -32,6 +32,10 @@ jobs:
         run: |
           python skills/big-data-competition-skill/tools/solution_quality_gate.py --help
           python skills/big-data-competition-skill/tools/stability_audit.py --help
+      - name: v2.5 true numeric output gate smoke test
+        run: |
+          python skills/big-data-competition-skill/tools/result_invariant_gate.py --help
+          python skills/big-data-competition-skill/tools/paper_evidence_gate.py --help
       - name: Validate historical source snapshot and new CLIs
         run: |
           python -m json.tool skills/big-data-competition-skill/competition/real_case_2025_profiles.json > /dev/null

@@ -38,3 +38,15 @@ print(sha256(Path("path/to/artifact").read_bytes()).hexdigest())
 ```
 
 对超大数据文件应改用分块 SHA-256，避免将整个文件读入内存。
+
+## v2.5 严格指标文件回读（推荐正式定稿使用）
+
+在实际实验执行后，新建真实 `metrics.json`（直接映射指标名到有限数值，或根键 `"metrics"` 对应指标字典）；按实际 SHA-256 把它放入 `artifacts`，并在接受记录中添加 `"metrics_artifact": "metrics.json"`。每一条数字型 `claims[].artifact` 必须指向这份指标文件。
+
+```bash
+python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record results/accepted.json --artifact-root results --require-metric-source
+```
+
+这会比较指标文件、审核记录和论文 claim 是否三方一致，并拒绝无关文件冒充数值证据。旧 CLI 不带严格开关依然可运行，以兼容已有项目，但**不能视为强制回读指标已通过**。仍需独立验证指标代码、验证划分、训练记录和模型假设；不要反向修改指标文件让它满足文字结论。
+
+另可按 [未知题型的数值必要条件](result-invariant-contract.md) 建立真实输出的反证测试，必要条件失败时应先纠错而非润色。

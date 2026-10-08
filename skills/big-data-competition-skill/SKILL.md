@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.4.0
+version: 2.5.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.4
+# Big Data Competition Skill v2.5
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -76,3 +76,11 @@ summary: 论文型大数据挑战赛全流程 Skill。
 - `python skills/big-data-competition-skill/tools/stability_audit.py --record runs.json`
 
 新 CLI 验证的是记录和观测统计，**不自动证明科学正确性**。必要时应由另一套方法或 Reviewer 独立复核结论。
+
+## v2.5 实际结果反证及论文数字三方核验
+
+- [数值不变式与论文指标回读协议](references/result-falsification.md)：根据当届题意设计可以证伪模型输出的必要条件，调用 `tools/result_invariant_gate.py` 验算真实 JSON，而不是用自报 passed 替代计算。
+- [数值必要条件契约模板](templates/result-invariant-contract.md)：契约绑定结果文件哈希，禁止对照答案之后随意放宽阈值。
+- `tools/paper_evidence_gate.py --require-metric-source`：严格回读 hash 校验过的原始指标 JSON，并检查论文指标的真实来源；旧格式仍可兼容但不能达到这一强度的验收。
+
+以上仍不代替科研 Reviewer 对公式、统计假设、优化可行性、指标复算和结论力度的独立判断。
