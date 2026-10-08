@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.1.0
+当前 Skill 版本：2.2.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -25,6 +25,8 @@
 - `skills/big-data-competition-skill/MANIFEST.json`
 - `skills/big-data-competition-skill/README.md`
 - `skills/big-data-competition-skill/SKILL.md`
+- `skills/big-data-competition-skill/benchmarks/mathorcup_scenarios.json`
+- `skills/big-data-competition-skill/competition/award_papers_2024_2025.json`
 - `skills/big-data-competition-skill/competition/mathorcup.md`
 - `skills/big-data-competition-skill/playbooks/00-index.md`
 - `skills/big-data-competition-skill/playbooks/01-data-cleaning-feature-engineering.md`
@@ -46,6 +48,7 @@
 - `skills/big-data-competition-skill/references/external-skill-routing.md`
 - `skills/big-data-competition-skill/references/figure-evidence.md`
 - `skills/big-data-competition-skill/references/final-review.md`
+- `skills/big-data-competition-skill/references/historical-benchmark-protocol.md`
 - `skills/big-data-competition-skill/references/method-selection.md`
 - `skills/big-data-competition-skill/references/paper-delivery.md`
 - `skills/big-data-competition-skill/references/paper-evidence.md`
@@ -59,6 +62,9 @@
 - `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
 - `skills/big-data-competition-skill/templates/result_checklist.md`
+- `skills/big-data-competition-skill/tools/award_paper_audit.py`
 - `skills/big-data-competition-skill/tools/bigdata_preflight.py`
+- `skills/big-data-competition-skill/tools/competition_benchmark.py`
+- `tests/test_bigdata_evidence_benchmarks.py`
 - `tests/test_bigdata_preflight.py`
 - `tests/test_bigdata_skill_contract.py`
