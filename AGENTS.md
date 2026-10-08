@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.8.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.9.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -71,3 +71,7 @@ See `references/extended-oracles.md`. The `extended_oracles.py` utility supports
 ## v2.8 Cross-module project-scoped evidence chain
 
 Before paper-level numerical approval, see `skills/big-data-competition-skill/references/project-evidence-chain.md`. Run `tools/project_evidence_chain.py` on real SHA-256-locked inputs. The complete list of official subquestions must agree with the review record. Every paper metric must tie to an independently recomputed oracle value; invariants must use the same underlying oracle data; stability must contain an anchor equal to the accepted metric. Any real failure blocks machine evidence consistency. No automatic result signifies scientific truth or permission to submit. Unsuitable task categories need a task-specific independent reference, not a fabricated passing run.
+
+## v2.9 Universal competition review package (all model families)
+
+The task type must not be distorted to satisfy a numeric-only checker. Start from `references/competition-final-runbook.md`. For any unknown problem, record official outputs, actual result, independent scientific review evidence, reliability, stability, properly scoped claims, paper argumentative functions and current official submission requirements. Use `tools/competition_readiness.py` for SHA-backed *documentation completeness*, not scientific approval. Apply the stricter numeric `project_evidence_chain.py` only to task families actually supported by its oracles. Otherwise design the correct independent task-specific scientific test and preserve human review. No award paper can be reported as reviewed merely because its PDF filename exists.

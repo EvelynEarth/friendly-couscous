@@ -42,6 +42,8 @@ jobs:
         run: python skills/big-data-competition-skill/tools/extended_oracles.py --help
       - name: v2.8 integrated evidence-chain CLI smoke test
         run: python skills/big-data-competition-skill/tools/project_evidence_chain.py --help
+      - name: v2.9 universal competition readiness CLI
+        run: python skills/big-data-competition-skill/tools/competition_readiness.py --help
       - name: Validate historical source snapshot and new CLIs
         run: |
           python -m json.tool skills/big-data-competition-skill/competition/real_case_2025_profiles.json > /dev/null
