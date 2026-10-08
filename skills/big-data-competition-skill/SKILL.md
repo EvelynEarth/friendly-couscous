@@ -37,7 +37,7 @@ summary: 论文型大数据挑战赛全流程 Skill。
 
 ## 参考与模板
 
-参考模块见 references/，模板见 templates/（含[论文大纲](templates/paper_outline.md)与 [result 校验清单](templates/result_checklist.md)）。
+参考模块见 references/，模板见 templates/（含[论文大纲](./templates/paper_outline.md)与 [result 校验清单](./templates/result_checklist.md)）。
 
 ## 增量实战扩展（v2.1 兼容，不改变根入口）
 
@@ -49,6 +49,6 @@ summary: 论文型大数据挑战赛全流程 Skill。
 - 视觉检测/分割：先运行 `tools/bigdata_preflight.py yolo` 识别标注类型，再进入 [计算机视觉](playbooks/06-computer-vision.md)；不能把 bbox 标注视为真值分割 mask。
 - 需要输出官方 CSV 预测文件：按当届模板，使用 `tools/bigdata_preflight.py csv` 审计 ID、字段和取值。XLSX 等其他格式另依官方模板验证。
 - 实验可信度复审：按 [论文型比赛验收门](references/competition-validation-gates.md) 完成 G0–G3；工具自检不等于模型结果验收。
-- 分析历年获奖论文：先按 [优秀论文复盘协议](references/award-paper-audit.md) 逐篇读取并记录页码，使用 [证据表](templates/award-paper-audit.md)，不以 PDF 文件存在推定论文已审阅。
+- 分析历年获奖论文：先按 [优秀论文复盘协议](references/award-paper-audit.md) 逐篇读取并记录页码，使用 [证据表](./templates/award-paper-audit.md)，不以 PDF 文件存在推定论文已审阅。
 
 所有新增模块保留原有调用接口与历史模板；不改变当届题面优先权，不假设 Kaggle 榜单，也不将外部 Skill 的云训练费用或 API 凭证设为必需。

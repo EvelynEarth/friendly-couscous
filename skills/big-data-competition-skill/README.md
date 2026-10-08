@@ -10,7 +10,7 @@
 - [方法手册目录](playbooks/00-index.md)：已有表格、时间序列、视觉、优化等任务手册，以及大规模数据、时空/图模型补充。
 - [外部 Skill 参考路由](references/external-skill-routing.md)：Probabl、K-Dense、Ultralytics、Hugging Face 的限定式参考；不强制安装。
 - [比赛验收门](references/competition-validation-gates.md)：数据、泄漏、实验、论文证据与官方交付检查。
-- [优秀论文复盘协议](references/award-paper-audit.md)：配合 [逐篇审查表](templates/award-paper-audit.md)，从实际 PDF 页码提取可迁移经验。
+- [优秀论文复盘协议](references/award-paper-audit.md)：配合 [逐篇审查表](./templates/award-paper-audit.md)，从实际 PDF 页码提取可迁移经验。
 - [标准库预检工具](tools/bigdata_preflight.py)：`assets` / `yolo` / `csv` 三种只读模式。
 
 ## 本地运行
