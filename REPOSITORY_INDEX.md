@@ -71,3 +71,12 @@ B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
 - [优秀论文写作结构复盘卡](skills/big-data-competition-skill/templates/award-paper-writing-review.md)
 
 工具用于记录、发现阻断点和汇总真实结果；正确性最终仍须独立复核，不能以 CI 通过替代。
+
+## v2.5 数值反证与原始指标链
+
+- [通用真实结果数值必要条件与论文数字三方核验](skills/big-data-competition-skill/references/result-falsification.md)
+- [数值不变式契约填写说明](skills/big-data-competition-skill/templates/result-invariant-contract.md)
+- `python skills/big-data-competition-skill/tools/result_invariant_gate.py --help`
+- `python skills/big-data-competition-skill/tools/paper_evidence_gate.py --help`（正式论文用 `--require-metric-source`）
+
+以上检验均是数学正确性的**必要检查/证据完整性检查**，不能自动证明未知题型下所有结论成立。

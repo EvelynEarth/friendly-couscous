@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.4.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.5.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -53,3 +53,9 @@ A task is NOT solved just because code ran, a benchmark was green or an attracti
 For awarded papers, learn how authors organize questions, model motivations, transitions, evidence-bearing figures and qualified conclusions; do not copy their algorithms or three-question layouts. Actual paper PDF reading is required before page-backed insights can be attributed to an award paper.
 
 Consult `references/solution-validity.md`, `references/stability-and-uncertainty.md` and `references/paper-argumentation.md`. Quality CLI is a review-coverage tool, not an autonomous mathematical oracle.
+
+## Actual-output falsification and source-of-truth (v2.5)
+
+Before accepting a competition solution, derive necessary invariants directly from the official question and test them against actual result artifacts with `tools/result_invariant_gate.py`. A satisfied invariant is NOT sufficient for correctness; a failed invariant blocks the relevant claim.
+
+Before publishing numerical metrics in the paper, use `tools/paper_evidence_gate.py --require-metric-source` to compare the actual, hash-verified metrics JSON, accepted record and every numerical claim. Do not rely only on self-reported reviewer status or a number copied twice. Read `references/result-falsification.md` and independently audit the scientific evaluation protocol. Do not tailor invariant thresholds after seeing results.

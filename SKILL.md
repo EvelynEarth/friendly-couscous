@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.4.0
+version: 2.5.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.4
+# Big Data Competition Skill v2.5
 
 ## 1. 定位
 
@@ -414,3 +414,9 @@ official rule evidence
 按需使用 `solution_quality_gate.py` 记录**审核覆盖情况**，以及 `stability_audit.py` 统计真实扰动运行的样本内波动。二者不能在没有实际证据时宣称数学正确、模型可靠或普遍稳定。
 
 优秀论文优先学习 [研究叙事结构与论证逻辑](skills/big-data-competition-skill/references/paper-argumentation.md)：目标→困难→方法依据→独立验证→证据→解释与局限。严格区分实际阅读 PDF 和只核实文件名；不再使用“获奖论文的算法频次”替代论证本届模型为何正确。论文结构按真实问题数量与相互依赖变化，不能套用固定三问大纲。
+
+## 26. v2.5 真实输出反证与论文数字回读
+
+模型代码运行成功、核对表打勾以及论文记录与正文数字一致，**都不能单独保证求解正确**。对每个真实子问题，先依据原题及数学假设确定**可以证伪答案的必要条件**：概率归一化、取值界、资源容量、守恒、目标约束、独立计算值或其他必要性质。需要时使用 [数值不变式与结果反证协议](skills/big-data-competition-skill/references/result-falsification.md) 和 `tools/result_invariant_gate.py` 对*实际结果文件*验算，保留阻断信息。不变式满足仅是必要而非充分条件，还需真实数据、独立复算和任务匹配的统计验证。
+
+论文数字在定稿前使用 `paper_evidence_gate.py --require-metric-source` 严格模式：绑定并回读 SHA-256 验证的实际 `metrics.json`，核查实际指标文件、实验记录、论文 claim 三方一致，防止两份手工记录一起写错。无需引入任何赛题专用算法或 Kaggle 提交流程。

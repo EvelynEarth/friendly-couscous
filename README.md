@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.4.0
+# Big Data Competition Skill v2.5.0
 
 这是 friendly-couscous 的主 Skill，专门用于**未知赛题、最终提交论文的大数据挑战赛**。
 
@@ -33,7 +33,7 @@
 
 ## 当前仓库权威入口
 
-- 主 Skill：[SKILL.md](SKILL.md)（v2.4.0）。
+- 主 Skill：[SKILL.md](SKILL.md)（v2.5.0）。
 - 实用手册：[skills/big-data-competition-skill/](skills/big-data-competition-skill/)。
 - GitHub CI：验证当前大数据 Skill 的元数据、模块清单、文档链接、论文证据流程、独立工具单元测试和生成索引。
 - 历史 HSK v7.13.0 的 core/modules/ 等文件仍保留在仓库中供旧项目参考，但**不是当前 Skill 的主执行入口或 CI 验收依据**。
@@ -47,7 +47,7 @@
 - [2024/2025 四类赛题的合成对抗评测](skills/big-data-competition-skill/references/historical-benchmark-protocol.md)：包含合理方案及泄漏、标注、约束、证据反例。
 - `python skills/big-data-competition-skill/tools/award_paper_audit.py --summary`；`python skills/big-data-competition-skill/tools/competition_benchmark.py`。
 
-## v2.4.0 真实赛题就绪检查与论文证据追踪
+## v2.5.0 真实赛题就绪检查与论文证据追踪
 
 - [2025 A/B 已核实的真附件元数据](skills/big-data-competition-skill/competition/real_case_2025_profiles.json)：A 有 3300/413 张图像及 bbox 标注，B Excel 当前为 Git LFS 指针。
 - [实证就绪、阻断条件与使用说明](skills/big-data-competition-skill/references/real-case-replay.md)
@@ -55,8 +55,16 @@
 
 本次不代表已经下载完整图像、执行模型训练或核实官方 Excel 模板的 sheet 及字段。
 
-## v2.4.0：先检验正确性，再打磨论文逻辑
+## v2.5.0：先检验正确性，再打磨论文逻辑
 
 **新增核心**：[通用解答正确性审核](skills/big-data-competition-skill/references/solution-validity.md) 及 [可靠性与稳定性分析](skills/big-data-competition-skill/references/stability-and-uncertainty.md)；基于真实重复实验而非模拟表演统计稳定性。[论文论证写作](skills/big-data-competition-skill/references/paper-argumentation.md) 与 [可变结构论文大纲](skills/big-data-competition-skill/templates/paper_outline.md) 不预设赛题数量和模型。
 
 优秀论文仅作为**写作结构、章节衔接、图表论证、推理逻辑**的学习来源，模型正确性必须独立验证。已发现的 PDF 文件尚未逐篇完成正文阅读，不把目录当作已提炼的写作规律。
+
+## v2.5.0：真实结果反证，而非只检查自报的审核记录
+
+- [通用数值不变式](skills/big-data-competition-skill/references/result-falsification.md)：对实际 JSON 结果进行边界、概率/守恒、线性资源约束等必要条件审计，契约绑定文件 SHA-256。
+- [结果反证契约模板](skills/big-data-competition-skill/templates/result-invariant-contract.md)。
+- 论文指标进入正式定稿时，推荐 `paper_evidence_gate.py --require-metric-source`，读取真实指标 JSON 并与论文主张作三方校对。
+
+不能把工具的绿色结果说成数学正确性/全局最优/真实性能的证明；仍需独立计算或审稿人验证。

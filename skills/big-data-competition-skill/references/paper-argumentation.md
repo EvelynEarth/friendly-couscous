@@ -58,3 +58,7 @@
 2. **Editorial reviewer**：评估结构是否围绕问题、段落论证是否清楚、摘要是否与正文一致、表图是否有作用、局限是否清楚。不能用改写掩盖 scientific reviewer 提出的失败。
 
 参见 [通用求解正确性审查](solution-validity.md) 和 [可变结构论文模板](../templates/paper_outline.md)。
+
+## v2.5 论文数值应回指原始结果文件
+
+论文摘要、各问结果、图表和结论必须能映射到真正保存的 `metrics_artifact`，并用 [强制回读指标与不变式审核](result-falsification.md) 检查。有数值差异时先解决结果来源与公式问题，不能仅修改论文两处数字让它们自洽。指标文件本身的计算正确性仍要用独立程序或审阅重算。
