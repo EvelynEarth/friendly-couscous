@@ -1,3 +1,5 @@
+> **历史兼容说明：**以下 HSK runtime router 仅服务旧数学建模项目；当前大数据挑战赛 Skill 根据根目录 [SKILL.md](SKILL.md) 和子模块 [skills/big-data-competition-skill/SKILL.md](skills/big-data-competition-skill/SKILL.md) 进行动态任务路由。
+
 # HSK Runtime Router
 
 机器路由以 `core/workflow_router.yaml` 为唯一事实源。本文件只解释运行时顺序，不复制完整路由表。

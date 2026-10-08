@@ -32,8 +32,17 @@
 
 本 Skill 不假设 Kaggle，不假设公开 leaderboard，不假设固定赛题类型，不把历史比赛答案写成永久规则。
 
-原有数学建模框架及历史竞赛材料保留在仓库中作为历史兼容材料，但不进入本 Skill 的默认调用链。
+原有数学建模框架及历史竞赛材料保留在仓库中作为历史兼容材料，但不进入本 Skill 的默认调用链。GitHub CI 和活动索引只检查 paper-first 大数据 Skill；旧 HSK 测试不会被误报为大数据 Skill 失败。
 
 ## 修改原则
 
 活动 Skill 的修改仍遵循 SKILL_CHANGE_GOVERNANCE.md。
+## 开发与验证
+
+当前正式验证：
+
+- `python scripts/validate_bigdata_skill.py`
+- `python -m unittest discover -s tests -p "test_bigdata_*.py"`
+- `python scripts/generate_indexes.py --check`
+
+索引生成：`python scripts/generate_indexes.py`。历史 HSK 全量测试不作为当前大数据入口的验收条件，但保留源码及测试供另行迁移。
