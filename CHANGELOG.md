@@ -1,6 +1,14 @@
 # Changelog
 
-## Current release: 2.0.0
+## Current release: 2.1.0
+
+- 增加 MathorCup 竞赛画像和任务方法手册，并保持对未知赛题的通用路由。
+- 修复大数据 v2.1 主入口与 plugin/README/Changelog 的版本漂移。
+- 改造仓库 CI：只对当前论文型大数据 Skill 运行有效的契约、索引和 Python 回归测试。
+- 保存原有 HSK 数学建模历史代码和测试，不再把数学建模 v7.13.0 当成根 Skill 的通过条件。
+- 自动索引/哈希清单以根 SKILL.md 的 v2.1.0 为单一版本来源，仅统计当前大数据 Skill 活动文件。
+
+## Previous release: 2.0.0
 
 - 将仓库主 Skill 从数学建模工作流正式转换为论文型大数据挑战赛工作流。
 - 根目录 SKILL.md 成为当前主入口，覆盖未知赛题、数据审计、EDA、任务分类、方法选择、Baseline、泄漏审查、验证、实验溯源、结果深化、科研图表、Evidence Map、竞赛论文、终审与 Paper Delivery。

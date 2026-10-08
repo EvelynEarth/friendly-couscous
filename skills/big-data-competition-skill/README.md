@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.0
+# Big Data Competition Skill v2.1.0
 
 一个面向未知赛题、论文为最终核心成果的大数据挑战赛 Skill。
 
