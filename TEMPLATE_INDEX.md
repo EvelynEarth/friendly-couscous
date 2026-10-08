@@ -4,6 +4,7 @@
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
+- `skills/big-data-competition-skill/templates/award-paper-audit.md`
 - `skills/big-data-competition-skill/templates/evidence_map.md`
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
 - `skills/big-data-competition-skill/templates/paper_outline.md`

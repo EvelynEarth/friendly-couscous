@@ -36,9 +36,14 @@
 - `skills/big-data-competition-skill/playbooks/07-risk-pseudo-labeling.md`
 - `skills/big-data-competition-skill/playbooks/08-inventory-and-optimization.md`
 - `skills/big-data-competition-skill/playbooks/09-nlp-and-recommendation.md`
+- `skills/big-data-competition-skill/playbooks/10-large-data-strategies.md`
+- `skills/big-data-competition-skill/playbooks/11-spatiotemporal-network.md`
+- `skills/big-data-competition-skill/references/award-paper-audit.md`
+- `skills/big-data-competition-skill/references/competition-validation-gates.md`
 - `skills/big-data-competition-skill/references/data-audit.md`
 - `skills/big-data-competition-skill/references/evaluation-and-leakage.md`
 - `skills/big-data-competition-skill/references/experiment-provenance.md`
+- `skills/big-data-competition-skill/references/external-skill-routing.md`
 - `skills/big-data-competition-skill/references/figure-evidence.md`
 - `skills/big-data-competition-skill/references/final-review.md`
 - `skills/big-data-competition-skill/references/method-selection.md`
@@ -48,9 +53,12 @@
 - `skills/big-data-competition-skill/references/problem-framing.md`
 - `skills/big-data-competition-skill/references/result-analysis.md`
 - `skills/big-data-competition-skill/references/task-taxonomy.md`
+- `skills/big-data-competition-skill/templates/award-paper-audit.md`
 - `skills/big-data-competition-skill/templates/evidence_map.md`
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
 - `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
 - `skills/big-data-competition-skill/templates/result_checklist.md`
+- `skills/big-data-competition-skill/tools/bigdata_preflight.py`
+- `tests/test_bigdata_preflight.py`
 - `tests/test_bigdata_skill_contract.py`
