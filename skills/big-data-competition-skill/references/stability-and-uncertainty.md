@@ -35,3 +35,8 @@ python skills/big-data-competition-skill/tools/stability_audit.py --record path/
 - 少量重复不能支持总体分布或可靠置信区间。
 - 区间/显著性需选择符合独立性与采样设计的有效统计方法，不能用观测 min–max 冒充。
 - 数据泄漏、公式错误、约束失败时，即使 `stable_under_tested_perturbations` 也必须阻断论文的正确性结论。
+
+
+## v2.7 统计与仿真的独立验算边界
+
+[扩展复算协议](extended-oracles.md) 新增配对符号翻转精确 p 值、iid 伯努利 Wilson 区间及时间折内误差指标核对。这些属于**在指定数学条件下的数值审核**；零假设交换性、抽样独立、多重检验校正、未来数据可用性和检验阈值的真正事先登记需额外认证。不能把模拟精度达标等同真实仿真过程可靠。

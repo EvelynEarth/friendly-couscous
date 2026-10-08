@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.6.0
+version: 2.7.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.6
+# Big Data Competition Skill v2.7
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -88,3 +88,7 @@ summary: 论文型大数据挑战赛全流程 Skill。
 ## v2.6 独立求解与答案复核
 
 按 [独立复算协议](references/independent-recomputation.md) 对合法真实数据重新计算指标，对小规模整数线性优化应用有状态上限的精确穷举，发现“可行但次优”、汇总指标算错或公式值错误等问题。[输入模板](templates/independent-oracle-case.md) 与 `tools/independent_oracle.py` 可以复用在未知赛题，但仅覆盖其说明的数学类型。20 个合成黄金与反例测试不构成真实赛题已完成或算法普遍正确的证据。
+
+## v2.7 统计/仿真/时序/连续凸优化独立验证
+
+根据本届真实问题选择 [科学扩展参考计算器](references/extended-oracles.md) 与 [输入样例](templates/extended-oracle-cases.md)。`tools/extended_oracles.py` 检查时间滚动切分、配对随机化 p 值、独立伯努利仿真 Wilson 区间、盒约束可分严格凸最优性。请明确相应的统计和数学适用条件。结果通过**只支持已核验的小范围主张**，不免除科学审稿、数据泄漏核查及论文结论边界说明。

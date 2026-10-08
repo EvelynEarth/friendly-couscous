@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -26,7 +26,8 @@
     "stability-and-uncertainty.md",
     "paper-argumentation.md",
     "result-falsification.md",
-    "independent-recomputation.md"
+    "independent-recomputation.md",
+    "extended-oracles.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -54,7 +55,8 @@
     "stability_record.md",
     "award-paper-writing-review.md",
     "result-invariant-contract.md",
-    "independent-oracle-case.md"
+    "independent-oracle-case.md",
+    "extended-oracle-cases.md"
   ],
   "optional_tools": [
     "tools/bigdata_preflight.py",
@@ -65,9 +67,10 @@
     "tools/solution_quality_gate.py",
     "tools/stability_audit.py",
     "tools/result_invariant_gate.py",
-    "tools/independent_oracle.py"
+    "tools/independent_oracle.py",
+    "tools/extended_oracles.py"
   ],
-  "notes": "v2.6 task-agnostic bounded reference oracles for metrics and tiny integer optimization; golden mutation/metamorphic tests, not completed real competition model reproductions.",
+  "notes": "v2.7 task-agnostic reference oracles for time rolling, paired exact sign-flip, iid Bernoulli CI and separable convex quadratic. 28 synthetic tests, not actual contest model evidence.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",

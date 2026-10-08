@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.6.0
+version: 2.7.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.6
+# Big Data Competition Skill v2.7
 
 ## 1. 定位
 
@@ -426,3 +426,9 @@ official rule evidence
 未知赛题的关键模型/结论在 [独立参考求解与验证协议](skills/big-data-competition-skill/references/independent-recomputation.md) 下，尽可能用不共享主程序核心实现的参考计算核对：从真实合法标签重算分类/回归指标，并对小规模整数线性子实例通过穷举精确验证可行性及最优性。使用 [案例格式](skills/big-data-competition-skill/templates/independent-oracle-case.md) 与 `tools/independent_oracle.py --case record.json`。已知答案、错误注入和变形关系测试不等于完成真实历史赛题模型。
 
 评审顺序：核对题意与数学建模 → 锁定独立合法验证数据 → 参考实现交叉计算/小规模精确复核 → 边界和反例 → 可靠性、稳定性及证据链 → 论文写作。小实例的精确性不意味着大规模求解全局最优，数字一致也不等于结论科学正确。
+
+## 28. v2.7 四类扩展独立科学验算
+
+在未知赛题经真实任务分类之后按需加载 [时序、配对推断、随机仿真、连续凸优化的独立验算协议](skills/big-data-competition-skill/references/extended-oracles.md)，并选择符合题目实际数学条件的参考算法。配套 `tools/extended_oracles.py --case actual_review.json` 可以从时序折内原子预测重算滚动指标，精确枚举少量配对符号翻转得到双侧 p 值，计算 iid 伯努利模拟的 Wilson 精度区间，以及用逐维解析解核查盒约束可分严格凸二次问题的最优性。参见 [实际输入规范](skills/big-data-competition-skill/templates/extended-oracle-cases.md)。
+
+**科研边界必须严格执行**：自报的 time split 并不能证明特征处理没有未来泄漏；配对 sign-flip 必须满足零假设下符号可交换等条件；Wilson 区间不适用于相关或加权样本；可分离凸目标的闭式最优不证明一般连续非凸或混合整数模型正确。即使参考验算通过，仍要实际证据、独立审稿、误差与稳定性分析，以及符合题意的论文论证。
