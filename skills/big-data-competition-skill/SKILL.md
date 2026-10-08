@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.5.0
+version: 2.6.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.5
+# Big Data Competition Skill v2.6
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -84,3 +84,7 @@ summary: 论文型大数据挑战赛全流程 Skill。
 - `tools/paper_evidence_gate.py --require-metric-source`：严格回读 hash 校验过的原始指标 JSON，并检查论文指标的真实来源；旧格式仍可兼容但不能达到这一强度的验收。
 
 以上仍不代替科研 Reviewer 对公式、统计假设、优化可行性、指标复算和结论力度的独立判断。
+
+## v2.6 独立求解与答案复核
+
+按 [独立复算协议](references/independent-recomputation.md) 对合法真实数据重新计算指标，对小规模整数线性优化应用有状态上限的精确穷举，发现“可行但次优”、汇总指标算错或公式值错误等问题。[输入模板](templates/independent-oracle-case.md) 与 `tools/independent_oracle.py` 可以复用在未知赛题，但仅覆盖其说明的数学类型。20 个合成黄金与反例测试不构成真实赛题已完成或算法普遍正确的证据。

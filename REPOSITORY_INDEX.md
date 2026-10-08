@@ -80,3 +80,11 @@ B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
 - `python skills/big-data-competition-skill/tools/paper_evidence_gate.py --help`（正式论文用 `--require-metric-source`）
 
 以上检验均是数学正确性的**必要检查/证据完整性检查**，不能自动证明未知题型下所有结论成立。
+
+## v2.6 独立参考计算与黄金案例
+
+- [未知赛题参考复算、错误注入与变形性质](skills/big-data-competition-skill/references/independent-recomputation.md)
+- [输入案例模板](skills/big-data-competition-skill/templates/independent-oracle-case.md)
+- `python skills/big-data-competition-skill/tools/independent_oracle.py --help`
+
+只在实际小规模模型/原始验证标签条件下使用，不假定已完成历史获奖论文全文阅读或真题精确复现。

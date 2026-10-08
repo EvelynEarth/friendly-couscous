@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.5.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.6.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -59,3 +59,7 @@ Consult `references/solution-validity.md`, `references/stability-and-uncertainty
 Before accepting a competition solution, derive necessary invariants directly from the official question and test them against actual result artifacts with `tools/result_invariant_gate.py`. A satisfied invariant is NOT sufficient for correctness; a failed invariant blocks the relevant claim.
 
 Before publishing numerical metrics in the paper, use `tools/paper_evidence_gate.py --require-metric-source` to compare the actual, hash-verified metrics JSON, accepted record and every numerical claim. Do not rely only on self-reported reviewer status or a number copied twice. Read `references/result-falsification.md` and independently audit the scientific evaluation protocol. Do not tailor invariant thresholds after seeing results.
+
+## v2.6 Separate reference oracles
+
+A repeatable program can still be wrong. For relevant tasks, independently recalculate metrics from legal original observations or solve bounded small integer-linear instances using an exhaustive reference. See `references/independent-recomputation.md` and `tools/independent_oracle.py`. Require known-answer, mutation and metamorphic tests. Exact small-case agreement does not prove large-case optimality, prediction generalization or causal validity. The primary research evaluation and independent scientific review remain mandatory.
