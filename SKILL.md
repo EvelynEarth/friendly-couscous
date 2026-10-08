@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.7.0
+version: 2.8.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.7
+# Big Data Competition Skill v2.8
 
 ## 1. 定位
 
@@ -432,3 +432,9 @@ official rule evidence
 在未知赛题经真实任务分类之后按需加载 [时序、配对推断、随机仿真、连续凸优化的独立验算协议](skills/big-data-competition-skill/references/extended-oracles.md)，并选择符合题目实际数学条件的参考算法。配套 `tools/extended_oracles.py --case actual_review.json` 可以从时序折内原子预测重算滚动指标，精确枚举少量配对符号翻转得到双侧 p 值，计算 iid 伯努利模拟的 Wilson 精度区间，以及用逐维解析解核查盒约束可分严格凸二次问题的最优性。参见 [实际输入规范](skills/big-data-competition-skill/templates/extended-oracle-cases.md)。
 
 **科研边界必须严格执行**：自报的 time split 并不能证明特征处理没有未来泄漏；配对 sign-flip 必须满足零假设下符号可交换等条件；Wilson 区间不适用于相关或加权样本；可分离凸目标的闭式最优不证明一般连续非凸或混合整数模型正确。即使参考验算通过，仍要实际证据、独立审稿、误差与稳定性分析，以及符合题意的论文论证。
+
+## 29. v2.8 跨模块项目级科学证据闭环
+
+此前每个工具单独“通过”**不能**说明整篇竞赛论文数值链可靠。项目复审时按 [跨模块项目证据链与失败关闭协议](skills/big-data-competition-skill/references/project-evidence-chain.md) 把所有**当届官方子问**、原始证据 SHA-256 清单、质量复核、独立参考计算、数值不变式、稳定性及真实论文指标回读联系起来。可执行 `tools/project_evidence_chain.py --manifest project.json --artifact-root real_outputs/`，任何关键失败直接阻断项目级机器验收。
+
+**新增的实际联系**：每个正式论文指标必须映射到独立数值参考结果；不变式文件必须绑定参考算法核对的原子结果；稳定性实验须用锚点运行指向正式结果数值。跨模块成功的状态仅是 `machine_evidence_consistent`，科学/论文审稿仍要求由独立 Reviewer 真实检查。未知题型若现有 oracle 不适用，设计新题专属参考验算，不能编造“已通过”。

@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.7.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.8.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -67,3 +67,7 @@ A repeatable program can still be wrong. For relevant tasks, independently recal
 ## v2.7 additional scientific reference checks
 
 See `references/extended-oracles.md`. The `extended_oracles.py` utility supports declared rolling time splits, exact paired sign-flip enumeration, iid Bernoulli Monte Carlo precision, and box-constrained separable strictly convex quadratic analytic solutions. Select a mode ONLY if the current official question and underlying assumptions actually warrant it. Independently verify time-dependent feature generation, paired exchangeability/multiplicity, iid simulation sampling, and original optimization math. A golden synthetic test is not a competition result, and no CI success proves a scientific finding.
+
+## v2.8 Cross-module project-scoped evidence chain
+
+Before paper-level numerical approval, see `skills/big-data-competition-skill/references/project-evidence-chain.md`. Run `tools/project_evidence_chain.py` on real SHA-256-locked inputs. The complete list of official subquestions must agree with the review record. Every paper metric must tie to an independently recomputed oracle value; invariants must use the same underlying oracle data; stability must contain an anchor equal to the accepted metric. Any real failure blocks machine evidence consistency. No automatic result signifies scientific truth or permission to submit. Unsuitable task categories need a task-specific independent reference, not a fabricated passing run.
