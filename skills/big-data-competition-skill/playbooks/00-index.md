@@ -22,6 +22,8 @@
 | [07 风险/伪标签标注](07-risk-pseudo-labeling.md) | 无标签下的规则/无监督标注 |
 | [08 库存与优化](08-inventory-and-optimization.md) | (s,S) 补货、资源分配、多目标 |
 | [09 NLP 与推荐](09-nlp-and-recommendation.md) | 文本挖掘、推荐序列评估 |
+| [10 大规模数据工程](10-large-data-strategies.md) | 超大表格、分块计算、内存与时间预算 |
+| [11 时空与图网络](11-spatiotemporal-network.md) | 轨迹、地理空间、动态图与网络关系 |
 
 ## 选型快表（按任务目标）
 
@@ -30,7 +32,17 @@
 - 图像：06；图像中含决策/评估可回接 02/04。
 - 资源配置/路径/调度：08。
 - 文本/推荐序列：09；推荐排序可回接 08。
+- 内存紧张、多文件：10 作为前置数据工程手册；时空轨迹/图任务：11。
+- 外部工具可选参考：../references/external-skill-routing.md；验收：../references/competition-validation-gates.md。
 
 ## 证据说明
 
 手册中的方法频率、具名算法与篇幅数据，均来自对 MathorCup 2021–2025 共 40 篇优秀论文的脚本统计（见仓库 `analysis/` 与 `../competition/mathorcup.md`），不是主观推荐。
+
+## 可执行预检（只读）
+
+- 附件清单与 Git LFS 指针：`python skills/big-data-competition-skill/tools/bigdata_preflight.py assets --root DATA`
+- YOLO 检测/分割标注核验：`python skills/big-data-competition-skill/tools/bigdata_preflight.py yolo --root DATASET --split train --task detect`
+- CSV 官方模板兼容：`python skills/big-data-competition-skill/tools/bigdata_preflight.py csv --template TEMPLATE --candidate RESULT --id-column ID`
+
+工具通过只意味着相应文件格式契约通过；不是模型精度、数据合法性或论文质量通过。未实际阅读的优秀论文不纳入“方法出现频次”的有效样本。
