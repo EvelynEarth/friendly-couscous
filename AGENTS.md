@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.2.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.3.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -39,3 +39,9 @@ that is a historical HSK mathematical-modeling bootstrap, not this Skill.
 The award-paper inventory is file metadata until inspected PDF page evidence exists. Check it with: python skills/big-data-competition-skill/tools/award_paper_audit.py --summary.
 Run synthetic adversarial plan checks with: python skills/big-data-competition-skill/tools/competition_benchmark.py.
 Neither check implies model runs, official result correctness or award-paper review completion.
+
+## Real-case evidence readiness (v2.3)
+
+Before claiming a 2025 A/B reproduction, load `skills/big-data-competition-skill/references/real-case-replay.md`.
+For 2025 A, audit actual train labels but keep `labels/test` sealed for training, validation and hyperparameter tuning. For 2025 B, Git LFS pointer text is not a usable Excel workbook.
+Use `tools/paper_evidence_gate.py` for accepted run metric, split and artifact hashes; do not manufacture experiment metrics to satisfy the gate. File hash integrity is not scientific model validation.

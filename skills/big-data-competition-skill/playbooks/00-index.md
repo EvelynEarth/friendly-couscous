@@ -46,3 +46,7 @@
 - CSV 官方模板兼容：`python skills/big-data-competition-skill/tools/bigdata_preflight.py csv --template TEMPLATE --candidate RESULT --id-column ID`
 
 工具通过只意味着相应文件格式契约通过；不是模型精度、数据合法性或论文质量通过。未实际阅读的优秀论文不纳入“方法出现频次”的有效样本。
+
+## 真实历史数据就绪检查（v2.3）
+
+合成 benchmark 通过不等于实际附件可读或模型验证成功。使用 [2025 A/B 真实数据就绪与论文数字追踪协议](../references/real-case-replay.md)，在获得真实赛题目录后审核训练/测试边界，再运行 Baseline 并保存证据哈希。

@@ -28,6 +28,11 @@ jobs:
         run: python skills/big-data-competition-skill/tools/award_paper_audit.py --summary
       - name: Run historical scenario adversarial contract suite
         run: python skills/big-data-competition-skill/tools/competition_benchmark.py
+      - name: Validate historical source snapshot and new CLIs
+        run: |
+          python -m json.tool skills/big-data-competition-skill/competition/real_case_2025_profiles.json > /dev/null
+          python skills/big-data-competition-skill/tools/real_case_audit.py --help
+          python skills/big-data-competition-skill/tools/paper_evidence_gate.py --help
 
   unit-matrix:
     name: Python ${{ matrix.python-version }} (bigdata)

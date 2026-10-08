@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.2.0
+version: 2.3.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.2
+# Big Data Competition Skill v2.3
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -39,7 +39,7 @@ summary: 论文型大数据挑战赛全流程 Skill。
 
 参考模块见 references/，模板见 templates/（含[论文大纲](./templates/paper_outline.md)与 [result 校验清单](./templates/result_checklist.md)）。
 
-## 增量实战扩展（v2.1 兼容，不改变根入口）
+## 增量实战扩展（向后兼容，不改变根入口）
 
 遇到大数据比赛需求，根 `SKILL.md` 继续负责 Competition Contract、阶段治理和论文证据链；本模块只提供细化执行说明与**可选**辅助工具，不引入外部框架硬依赖。
 
@@ -58,3 +58,9 @@ summary: 论文型大数据挑战赛全流程 Skill。
 - [历史任务合成评测协议](references/historical-benchmark-protocol.md)：按照当届问题结构审计验证方案，不把测试成功说成模型完成。
 - [2024–2025 获奖论文 PDF 文件盘点](competition/award_papers_2024_2025.json)：共发现 16 份文件，初始未阅读正文。
 - 命令：`python skills/big-data-competition-skill/tools/competition_benchmark.py` 与 `python skills/big-data-competition-skill/tools/award_paper_audit.py --summary`。
+
+## v2.3 历史真附件与论文实验追踪
+
+- [2025 A/B 实际来源与本地检查](references/real-case-replay.md)：2025 A 数据标注可预检，test 标注仅用于封存检测；2025 B 数据以真正 XLSX 恢复为前置条件。
+- [2025 A/B 已核查的文件树与样例](competition/real_case_2025_profiles.json)：真实数据元信息，不是训练成绩。
+- [正式实验追踪记录模板](templates/accepted-evidence-record.md)：配合 `tools/paper_evidence_gate.py` 检查摘要/正文数字、结果文件和切分证据。

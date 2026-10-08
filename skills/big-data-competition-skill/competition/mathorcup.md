@@ -65,3 +65,7 @@
 ## 获奖论文文件元数据
 
 [2024/2025 共 16 个 PDF 文件清单](award_papers_2024_2025.json) 已按 GitHub 文件树确认，但未逐篇完成实际正文审阅。禁止从此清单推导方法频率、优胜原因、图表数量。阅读后需按 [核验证据协议](../references/historical-benchmark-protocol.md) 逐条记录页码与方法归属。
+
+## 2025 赛题历史附件真实性（v2.3）
+
+经实际核对 [supreme-spoon 的 2025 A/B 文件元数据](real_case_2025_profiles.json)：A 目录包含 train/test 图像 3300/413 及对应 bbox 标注，公开的 test 标签不能用于模型开发；B 的 XLSX 在连接器返回的是 LFS 指针，附件1 报告大小仅 2 字节。应先取得原始真实附件，按 [就绪检查协议](../references/real-case-replay.md) 运行预检，再开展正式模型。

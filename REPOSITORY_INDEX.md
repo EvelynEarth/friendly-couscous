@@ -53,3 +53,11 @@
 - [16 份已确认但未复盘 PDF 的元数据清单](skills/big-data-competition-skill/competition/award_papers_2024_2025.json)
 
 只读元数据不等于研究论文已阅读；合成方法协议通过不等于模型实测完成。
+
+## v2.3 真数据与论文证据
+
+- [2025 A/B 已核实真实文件元数据](skills/big-data-competition-skill/competition/real_case_2025_profiles.json)
+- [真实数据就绪检查及纸面数字哈希协议](skills/big-data-competition-skill/references/real-case-replay.md)
+- [已接受实验的证据记录模板](skills/big-data-competition-skill/templates/accepted-evidence-record.md)
+
+B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。

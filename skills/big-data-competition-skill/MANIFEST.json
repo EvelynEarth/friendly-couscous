@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -20,7 +20,8 @@
     "external-skill-routing.md",
     "competition-validation-gates.md",
     "award-paper-audit.md",
-    "historical-benchmark-protocol.md"
+    "historical-benchmark-protocol.md",
+    "real-case-replay.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -42,16 +43,20 @@
   "templates": [
     "paper_outline.md",
     "result_checklist.md",
-    "award-paper-audit.md"
+    "award-paper-audit.md",
+    "accepted-evidence-record.md"
   ],
   "optional_tools": [
     "tools/bigdata_preflight.py",
     "tools/award_paper_audit.py",
-    "tools/competition_benchmark.py"
+    "tools/competition_benchmark.py",
+    "tools/real_case_audit.py",
+    "tools/paper_evidence_gate.py"
   ],
-  "notes": "v2.2 synthetic adversarial checks and evidence inventory; PDF methods unreviewed.",
+  "notes": "v2.3 real-file metadata check and accepted numerical claim SHA integrity; original 2025 B Excel LFS pointers unresolved and no model metrics generated.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
-    "benchmarks/mathorcup_scenarios.json"
+    "benchmarks/mathorcup_scenarios.json",
+    "competition/real_case_2025_profiles.json"
   ]
 }

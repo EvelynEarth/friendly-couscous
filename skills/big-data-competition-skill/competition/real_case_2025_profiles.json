@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "source_repo": "EvelynEarth/supreme-spoon",
+  "source_ref": "main",
+  "inspection_basis": "GitHub recursive tree for counts and connector-fetched text for selected YOLO records and LFS pointers; not full image decode, model fit, or XLSX content reading.",
+  "2025_A": {
+    "dataset_path": "2025年MathorCup大数据挑战赛-赛道A初赛/数据集3713",
+    "train_images": 3300,
+    "train_label_files": 3300,
+    "test_images": 413,
+    "test_label_files": 413,
+    "class_count": 3,
+    "classes": {
+      "0": "Dent（凹陷）",
+      "1": "Hole（破洞）",
+      "2": "Rusty（锈蚀）"
+    },
+    "label_kind": "YOLO normalized bounding boxes",
+    "source_samples": [
+      {
+        "file": "labels/train/1.txt",
+        "line_count": 9,
+        "all_class_id": 2
+      },
+      {
+        "file": "labels/train/100.txt",
+        "line_count": 1,
+        "all_class_id": 0
+      },
+      {
+        "file": "labels/test/1.txt",
+        "line_count": 3,
+        "class_ids_observed_during_source_inspection": [
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "important_note": "Test labels are present in source repository. Never use test labels during training, feature selection, threshold calibration, or baseline model selection."
+  },
+  "2025_B": {
+    "folder_path": "2025年MathorCup大数据挑战赛-赛道B初赛",
+    "lfs_reported_bytes": {
+      "附件1.xlsx": 2,
+      "附件2.xlsx": 503356,
+      "Result.xlsx": 33319
+    },
+    "important_note": "GitHub fetch_file returned Git LFS pointers, not workbook bytes. Two-byte size on attachment1 is especially suspicious. No model fitting or official result workbook schema verified."
+  }
+}
