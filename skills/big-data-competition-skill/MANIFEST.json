@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -25,7 +25,8 @@
     "solution-validity.md",
     "stability-and-uncertainty.md",
     "paper-argumentation.md",
-    "result-falsification.md"
+    "result-falsification.md",
+    "independent-recomputation.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -52,7 +53,8 @@
     "solution_quality_record.md",
     "stability_record.md",
     "award-paper-writing-review.md",
-    "result-invariant-contract.md"
+    "result-invariant-contract.md",
+    "independent-oracle-case.md"
   ],
   "optional_tools": [
     "tools/bigdata_preflight.py",
@@ -62,9 +64,10 @@
     "tools/paper_evidence_gate.py",
     "tools/solution_quality_gate.py",
     "tools/stability_audit.py",
-    "tools/result_invariant_gate.py"
+    "tools/result_invariant_gate.py",
+    "tools/independent_oracle.py"
   ],
-  "notes": "v2.5 numeric invariants on actual SHA-256-locked output, strict paper metric-file reread; necessary checks only, not scientific verification or award-paper content audit.",
+  "notes": "v2.6 task-agnostic bounded reference oracles for metrics and tiny integer optimization; golden mutation/metamorphic tests, not completed real competition model reproductions.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",

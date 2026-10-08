@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.5.0
+version: 2.6.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.5
+# Big Data Competition Skill v2.6
 
 ## 1. 定位
 
@@ -420,3 +420,9 @@ official rule evidence
 模型代码运行成功、核对表打勾以及论文记录与正文数字一致，**都不能单独保证求解正确**。对每个真实子问题，先依据原题及数学假设确定**可以证伪答案的必要条件**：概率归一化、取值界、资源容量、守恒、目标约束、独立计算值或其他必要性质。需要时使用 [数值不变式与结果反证协议](skills/big-data-competition-skill/references/result-falsification.md) 和 `tools/result_invariant_gate.py` 对*实际结果文件*验算，保留阻断信息。不变式满足仅是必要而非充分条件，还需真实数据、独立复算和任务匹配的统计验证。
 
 论文数字在定稿前使用 `paper_evidence_gate.py --require-metric-source` 严格模式：绑定并回读 SHA-256 验证的实际 `metrics.json`，核查实际指标文件、实验记录、论文 claim 三方一致，防止两份手工记录一起写错。无需引入任何赛题专用算法或 Kaggle 提交流程。
+
+## 27. v2.6 独立复算与黄金答案反例
+
+未知赛题的关键模型/结论在 [独立参考求解与验证协议](skills/big-data-competition-skill/references/independent-recomputation.md) 下，尽可能用不共享主程序核心实现的参考计算核对：从真实合法标签重算分类/回归指标，并对小规模整数线性子实例通过穷举精确验证可行性及最优性。使用 [案例格式](skills/big-data-competition-skill/templates/independent-oracle-case.md) 与 `tools/independent_oracle.py --case record.json`。已知答案、错误注入和变形关系测试不等于完成真实历史赛题模型。
+
+评审顺序：核对题意与数学建模 → 锁定独立合法验证数据 → 参考实现交叉计算/小规模精确复核 → 边界和反例 → 可靠性、稳定性及证据链 → 论文写作。小实例的精确性不意味着大规模求解全局最优，数字一致也不等于结论科学正确。

@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.5.0
+# Big Data Competition Skill v2.6.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -58,3 +58,7 @@ python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /
 ## v2.5 真实结果反证与论文证据严格模式
 
 [数值不变式协议](references/result-falsification.md) 允许依据未知新赛题的数学条件检查实际结果；[填写模板](templates/result-invariant-contract.md) 仅用于定义必要条件。定稿前，`paper_evidence_gate.py --require-metric-source` 额外回读并绑定真实 metrics 文件。检查通过**不等于已证明模型科学正确性**。
+
+## v2.6 独立重算
+
+[独立复算协议](references/independent-recomputation.md) 与 [输入例子](templates/independent-oracle-case.md) 展示如何由实际预测重算模型指标，以及对小规模整数线性子问题进行精确枚举检查。该工具有 20 个手算/反例测试，但不能保证任意赛题或大规模求解正确。
