@@ -104,6 +104,7 @@
 - `tests/test_bigdata_evidence_benchmarks.py`
 - `tests/test_bigdata_extended_oracles.py`
 - `tests/test_bigdata_independent_oracle.py`
+- `tests/test_bigdata_paper_quality.py`
 - `tests/test_bigdata_preflight.py`
 - `tests/test_bigdata_project_evidence_chain.py`
 - `tests/test_bigdata_real_cases.py`
