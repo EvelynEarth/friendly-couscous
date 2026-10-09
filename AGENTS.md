@@ -102,3 +102,8 @@ The 16 MathorCup Big Data awarded PDFs are now **actually parsed by GitHub Actio
 ## v2.13 Award paper selected-section deep reading + metrics falsification
 
 Read `references/award-paper-deep-argumentation-16.md` **only for paper design and real page-grounded review examples**, not as a model/official-format recipe. The 16 original PDFs were opened and SHA-verified, and selected key sections per paper were examined, but 716 pages were not manually read word-for-word and their algorithms were not independently reproduced. For comparable metrics on precisely the same residuals, weights and units, run `tools/paper_metric_identity_gate.py` to catch contradictions such as 2024-04 PDF physical p19's RMSE/MSE pair; never waive math conflicts due to an award badge. The program checks reported-metric arithmetic only, not correct predictions. Keep model and official data provenance stronger than a paper's styling. Never silently set document delivery approved.
+
+
+## v2.13.1 headings: verify rendered numbering, not just font size
+
+If user requests Chinese chapter numbering, the compiled thesis must show first-level 「一、二、」 and second-level 「（一）（二）」 both in TOC and body. Set ctex name/number explicitly, do not hardcode digits in heading text. Use the optional `latex_paper_audit.py --heading-style chinese-tiered` static preflight and independently read rendered PDF pages; default/unspecified mode does not enforce any numbering scheme on another contest. Never call CI success proof of subjective editorial fitness. Final delivery still needs human approval.
