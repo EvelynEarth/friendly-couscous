@@ -87,3 +87,8 @@ The controller routes failures to upstream causes, invalidates stale evidence, r
 At paper/figures/final/delivery, read `references/paper-visual-quality-gate.md`, `references/paper-writing.md`, `references/figure-evidence.md`, and actual official format announcements. Record academic-language review with concrete paragraphs, figure evidence + intended color semantics, and render **every page** of the current compiled PDF. A PDF that exists, a clean hash, or a filled review JSON is not a visual/scientific pass. Retain failure cases and fix source rather than editing a review status.
 
 When TeX Live + writable workspace is available, supply `main.tex`, any legal class/style assets, actual plot files, a Windows 11 / TeX Live compile recipe, build log and compiled PDF. Never claim a traditional math-modeling template was migrated if its source was not accessible. Read 2023 Big Data official formatting rules instead of the different 2023 standard MathorCup rules. Use deliberate accessible scientific color (not blanket monochrome); check grayscale readability. Award-paper inventory (16 PDFs) is not equivalent to 16 reviewed PDF contents.
+
+
+## v2.11.1 prevent repeated LaTeX layout failures
+
+Before paper/final/delivery signoff, run `tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023` **only for the 2023 profile**; use generic profile for other competitions. Reject manual numbering inside `\\caption`, duplicate TOC titles, missing figures, wrong two-character first-line body indent under the declared style, and actual compilation warnings. Re-render all physical pages after fixing code. A green preflight still requires independent editorial page-by-page review, including legends, overlap and typography.
