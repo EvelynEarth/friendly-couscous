@@ -58,6 +58,7 @@
 - `skills/big-data-competition-skill/references/paper-argumentation.md`
 - `skills/big-data-competition-skill/references/paper-delivery.md`
 - `skills/big-data-competition-skill/references/paper-evidence.md`
+- `skills/big-data-competition-skill/references/paper-visual-quality-gate.md`
 - `skills/big-data-competition-skill/references/paper-writing.md`
 - `skills/big-data-competition-skill/references/problem-framing.md`
 - `skills/big-data-competition-skill/references/project-evidence-chain.md`
@@ -71,6 +72,8 @@
 - `skills/big-data-competition-skill/templates/automatic-project-instructions.md`
 - `skills/big-data-competition-skill/templates/award-paper-audit.md`
 - `skills/big-data-competition-skill/templates/award-paper-writing-review.md`
+- `skills/big-data-competition-skill/templates/bigdata-paper-xelatex/README.md`
+- `skills/big-data-competition-skill/templates/bigdata-paper-xelatex/main.tex`
 - `skills/big-data-competition-skill/templates/competition-readiness-record.md`
 - `skills/big-data-competition-skill/templates/evidence_map.md`
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
