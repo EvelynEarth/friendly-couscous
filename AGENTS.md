@@ -107,3 +107,8 @@ Read `references/award-paper-deep-argumentation-16.md` **only for paper design a
 ## v2.13.1 headings: verify rendered numbering, not just font size
 
 If user requests Chinese chapter numbering, the compiled thesis must show first-level 「一、二、」 and second-level 「（一）（二）」 both in TOC and body. Set ctex name/number explicitly, do not hardcode digits in heading text. Use the optional `latex_paper_audit.py --heading-style chinese-tiered` static preflight and independently read rendered PDF pages; default/unspecified mode does not enforce any numbering scheme on another contest. Never call CI success proof of subjective editorial fitness. Final delivery still needs human approval.
+
+ 
+## v2.13.2 current-user five-tier hierarchy
+
+For this user's 2023 B paper use **section 一、 / subsection 1.1 / subsubsection 1.1.1 / enumerate （1） / itemize solid bullet**. Level 4 and level 5 are lists, not fabricated sections. Keep `--heading-style chinese-tiered` as legacy compatibility; use `--heading-style chinese-mixed-five` in the current user paper preflight. Require actual two-pass XeLaTeX and PDF/TOC text/visual checks. Do not overwrite the current competition's official formatting instructions and do not claim paper delivery approval.

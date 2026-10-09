@@ -71,6 +71,25 @@ def check(tex: Path, pdf: Path | None = None, log: Path | None = None,
         if re.search(r"\\(?:section|subsection|subsubsection)\s*\{\s*(?:[1-9]\d*|[一二三四五六七八九十]+、|（[一二三四五六七八九十]+）)\s*", body):
             errors.append("Section title manually includes a number; ctex should own heading numbering.")
 
+    if heading_style == "chinese-mixed-five":
+        # Current user style: section 一、; subsection 1.1; subsubsection 1.1.1;
+        # enumerate （1）; nested itemize solid bullet. Not a universal contest rule.
+        patterns = {
+            "section": r"\bsection\s*=\s*\{[^\n]*name\s*=\s*\{\s*,\s*、\s*\}[^\n]*number\s*=\s*\\chinese\{section\}",
+            "subsection": r"\bsubsection\s*=\s*\{[^\n]*name\s*=\s*\{\s*,\s*\}[^\n]*number\s*=\s*\\arabic\{section\}\.\\arabic\{subsection\}",
+            "subsubsection": r"\bsubsubsection\s*=\s*\{[^\n]*name\s*=\s*\{\s*,\s*\}[^\n]*number\s*=\s*\\arabic\{section\}\.\\arabic\{subsection\}\.\\arabic\{subsubsection\}",
+            "fourth_level_enumerate": r"\\setlist\s*\[\s*enumerate\s*,\s*1\s*\]\s*\{[^\n]*label\s*=\s*\{\s*（\\arabic\*）\s*\}",
+            "fifth_level_bullet": r"\\setlist\s*\[\s*itemize\s*,\s*1\s*\]\s*\{[^\n]*label\s*=\s*\{\s*\\textbullet\s*\}",
+        }
+        for level, pattern in patterns.items():
+            ok = bool(re.search(pattern, body))
+            checks["chinese_mixed_five_" + level] = ok
+            if not ok:
+                errors.append(f"Required five-level heading/list layout missing: {level}.")
+        # Explicitly numbered headings would duplicate ctex's automatic counters.
+        if re.search(r"\\(?:section|subsection|subsubsection)\s*\{\s*(?:[1-9]\d*(?:\.\d+)*|[一二三四五六七八九十]+、|（[一二三四五六七八九十]+）)\s*", body):
+            errors.append("Section title manually includes a number; ctex should own heading numbering.")
+
     for dest in GRAPHIC.findall(body):
         path = Path(dest)
         if path.is_absolute() or ".." in path.parts:
@@ -114,7 +133,7 @@ def main() -> int:
     parser.add_argument("--pdf", type=Path)
     parser.add_argument("--log", type=Path)
     parser.add_argument("--profile", choices=["generic", "bigdata2023"], default="generic")
-    parser.add_argument("--heading-style", choices=["unspecified", "chinese-tiered"], default="unspecified", help="Optional user-selected numbering: 一、 / （一） / 1．")
+    parser.add_argument("--heading-style", choices=["unspecified", "chinese-tiered", "chinese-mixed-five"], default="unspecified", help="Optional layout: legacy Chinese tiered or requested 一、 / 1.1 / 1.1.1 / （1） / solid bullet")
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
     result = check(args.tex, args.pdf, args.log, args.profile, args.heading_style)

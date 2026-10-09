@@ -21,7 +21,7 @@ GOOD = r"\setlength{\parindent}{2\ccwd}" + "\n" + (
 class LatexLayoutAuditTests(unittest.TestCase):
     def test_template_and_profile(self):
         template = ROOT / "skills/big-data-competition-skill/templates/bigdata-paper-xelatex/main.tex"
-        result = audit.check(template, profile="bigdata2023", heading_style="chinese-tiered")
+        result = audit.check(template, profile="bigdata2023", heading_style="chinese-mixed-five")
         self.assertEqual(result["errors"], [])
         self.assertEqual(result["editorial_page_review"], "required")
         src = template.read_text(encoding="utf-8")
@@ -34,6 +34,38 @@ class LatexLayoutAuditTests(unittest.TestCase):
         p = Path(tmp) / "main.tex"
         p.write_text(content, encoding="utf-8")
         return p
+
+    def test_requested_five_level_style_missing_is_blocked(self):
+        with tempfile.TemporaryDirectory() as td:
+            result = audit.check(self.make(td, GOOD), heading_style="chinese-mixed-five")
+            self.assertEqual(result["machine_status"], "blocked")
+            self.assertEqual(len([s for s in result["errors"] if "five-level" in s]), 5)
+
+    def test_requested_five_level_style_passes_and_mutation_blocks(self):
+        with tempfile.TemporaryDirectory() as td:
+            src = GOOD + "\n" + (
+                r"\ctexset{" + "\n"
+                r" section={name={,、},number=\chinese{section}}," + "\n"
+                r" subsection={name={,},number=\arabic{section}.\arabic{subsection}}," + "\n"
+                r" subsubsection={name={,},number=\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}" + "\n"
+                r"}" + "\n"
+                r"\setlist[enumerate,1]{label={（\arabic*）},leftmargin=2.8em}" + "\n"
+                r"\setlist[itemize,1]{label={\textbullet},leftmargin=2.8em}")
+            passed = audit.check(self.make(td, src), heading_style="chinese-mixed-five")
+            self.assertEqual(passed["errors"], [])
+            self.assertEqual(sum(v for k, v in passed["checks"].items()
+                                 if k.startswith("chinese_mixed_five_")), 5)
+            broken = audit.check(self.make(td, src.replace(
+                r"\arabic{section}.\arabic{subsection}", r"\chinese{subsection}")),
+                heading_style="chinese-mixed-five")
+            self.assertEqual(broken["machine_status"], "blocked")
+
+    def test_template_has_fourth_and_fifth_level_visible_examples(self):
+        src = (ROOT / "skills/big-data-competition-skill/templates/bigdata-paper-xelatex/main.tex"
+               ).read_text(encoding="utf-8")
+        self.assertIn(r"\subsubsection{", src)
+        self.assertIn(r"\begin{enumerate}", src)
+        self.assertIn(r"\begin{itemize}", src)
 
     def test_chinese_heading_requirement_blocks_arabic_default(self):
         with tempfile.TemporaryDirectory() as td:

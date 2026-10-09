@@ -1,6 +1,6 @@
 ---
 name: big-data-competition-skill
-version: 2.13.1
+version: 2.13.2
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
@@ -133,3 +133,8 @@ summary: 论文型大数据挑战赛全流程 Skill。
 ## v2.13.1 中文大标题编号回归修复
 
 用户定制当前论文大标题为中文编号时，采用「一、」/「（一）」/「1．」的可变 `ctex` 标题设置并与目录同步，见 [XeLaTeX模板](templates/bigdata-paper-xelatex/main.tex)。机器预检增加可选中文风格检查；实际PDF渲染核对不可省略。本要求不是所有届赛事的统一格式。
+
+ 
+## v2.13.2 五层标题列表（当前用户偏好）
+
+通用 XeLaTeX 样本修订为 `一、 → 1.1 → 1.1.1 → （1） → •`。前三层分别是 `section/subsection/subsubsection`，后两层是 `enumerate/itemize` 结构。只在内容逻辑需要时启用相应层次，不为满足样式凭空增加模型步骤。检查器新增 `--heading-style chinese-mixed-five` 与反例测试，旧 `chinese-tiered` 兼容不删除；当届官方论文格式优先。
