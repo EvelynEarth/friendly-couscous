@@ -32,3 +32,10 @@ python skills/big-data-competition-skill/tools/latex_paper_audit.py --tex main.t
 针对当前用户的实际论文编辑意见，默认提供可改的**中文层级编号**：一级「一、」且黑体居中；二级「（一）」且黑体左齐；三级「1．」。通过 ctex `section.name/number` 等参数生成，不在每个 `\\section` 里手敲编号；目录与正文共用 counters，章节引用可复用。
 
 这属于当前示范写作风格，不是2023或2026大数据竞赛官方强制编号；如当届赛规要求 `1 / 1.1`，可在源文件 `\\ctexset` 改回，检查器使用 `--heading-style unspecified`。需要当前用户所要求的中文分级时，使用 `python .../latex_paper_audit.py --heading-style chinese-tiered --tex main.tex --pdf main.pdf --log main.log` 并在 PDF 实际页面核验。不得只检查源码而不检查目录与正文。
+
+ 
+## v2.13.2 用户指定五层样式（覆盖上一轮的默认风格）
+
+已由当前用户把标题层次明确为：`一、`（一级章节）→ `1.1`（二级章节）→ `1.1.1`（三级章节）→ `（1）`（四级枚举）→ 实心圆点（五级分项）。模板 `main.tex` 包含真实可编译的五层样例，三级之后使用 `enumitem` 的 `enumerate/itemize`；数字来自 LaTeX 计数器，不能在章节正文里手写编号。以当前 PDF 目录和正文实测为准。
+
+使用：`python skills/big-data-competition-skill/tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023 --heading-style chinese-mixed-five`。旧 `chinese-tiered` 仅作为兼容选项，不再是这位用户当前论文默认配置。
