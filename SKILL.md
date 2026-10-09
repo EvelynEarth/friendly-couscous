@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.13.0
+version: 2.13.1
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [自动做题, 自动求解, 上传赛题, 继续比赛, 自动验收, 自主纠错, 大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.13.0
+# Big Data Competition Skill v2.13.1
 
 ## 1. 定位
 
@@ -495,3 +495,8 @@ GitHub 中的 SKILL.md **不会自动成为 ChatGPT 系统提示词**；仅上�
 **从获奖论文反证出的新增科学红旗：** `2024-04` 原PDF物理第19页表7给出CNN-LSTM的RMSE=0.0336、MSE=0.0071；**仅当计算口径相同**，RMSE平方约0.00113，二者无法同时成立。必须核查同一指标来源/样本、单位与公式，不凭获奖或漂亮PDF自动通过。按需运行 `tools/paper_metric_identity_gate.py`（契约见 [指标恒等式模板](skills/big-data-competition-skill/templates/paper-metric-identity-contract.md)），仅是表内算术门，不代替原子数据独立复算。
 
 论文/图表终审继续强制抓住：合法时序切分与派生图像分组、防止SMOTE/目标编码/Stacking折间泄漏、预测误差向约束传播、小类召回和零值百分比误差、伪标签非真值、推断不超过证据。任何实质失败均回退上游代码/模型/图表/TeX并重新评测，不允许只勾改Review JSON。
+
+
+## v2.13.1 论文编号缺陷纠正（真实2023 B稿回归）
+
+本版明确修复论文默认 XeLaTeX 样式中“用户要求中文大标题而 `\\section` 仍显示阿拉伯编号”的缺陷。通用模板默认中文三层层级（「一、」/「（一）」/「1．」）并把实际编号结果放入排版预检范围；**可由当届官方论文样式覆盖**，不能把中文三级体系冒称所有比赛的硬性规范。必须重新编译当前论文并检查目录、正文、交叉引用，而非只修改模板文档。参见 [PDF排版质量硬门](skills/big-data-competition-skill/references/paper-visual-quality-gate.md) 和 [TeX 模板](skills/big-data-competition-skill/templates/bigdata-paper-xelatex.md)。

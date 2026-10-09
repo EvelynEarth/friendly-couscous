@@ -25,3 +25,10 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 python skills/big-data-competition-skill/tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023
 ```
 实际模板在你自己的论文目录下执行时，请将工具路径指向仓库。非 2023 赛制改用 `--profile generic`。机器预检通过仍必须逐页渲染检查，特别关注图例与横轴标签是否相互遮挡。
+
+
+## v2.13.1 中文标题编号与目录一致性修复
+
+针对当前用户的实际论文编辑意见，默认提供可改的**中文层级编号**：一级「一、」且黑体居中；二级「（一）」且黑体左齐；三级「1．」。通过 ctex `section.name/number` 等参数生成，不在每个 `\\section` 里手敲编号；目录与正文共用 counters，章节引用可复用。
+
+这属于当前示范写作风格，不是2023或2026大数据竞赛官方强制编号；如当届赛规要求 `1 / 1.1`，可在源文件 `\\ctexset` 改回，检查器使用 `--heading-style unspecified`。需要当前用户所要求的中文分级时，使用 `python .../latex_paper_audit.py --heading-style chinese-tiered --tex main.tex --pdf main.pdf --log main.log` 并在 PDF 实际页面核验。不得只检查源码而不检查目录与正文。

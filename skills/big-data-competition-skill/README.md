@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.13.0
+# Big Data Competition Skill v2.13.1
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -87,10 +87,15 @@ python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /
 v2.11 论文图表与 XeLaTeX：参见 [paper-visual-quality-gate](references/paper-visual-quality-gate.md) 和 [XeLaTeX 论文模板](templates/bigdata-paper-xelatex.md)。所有结论与视觉输出必须由真实实验支撑、逐页复核，且依当届论文规定，不预设传统数学建模格式。
 
 
-v2.13.0: [XeLaTeX 骨架](templates/bigdata-paper-xelatex/main.tex) 已重构章节字号、首行缩进、单目录与 caption 自动编号；运行 [latex_paper_audit.py](tools/latex_paper_audit.py) 静态/编译预检后仍须逐页检查图例、坐标标签、表格和段落。
+v2.13.1: [XeLaTeX 骨架](templates/bigdata-paper-xelatex/main.tex) 已重构章节字号、首行缩进、单目录与 caption 自动编号；运行 [latex_paper_audit.py](tools/latex_paper_audit.py) 静态/编译预检后仍须逐页检查图例、坐标标签、表格和段落。
 
  
 v2.12：新增 [优秀论文实证排版/彩色图/篇章样本对照](references/award-paper-empirical-layout.md)，链接 supreme-spoon 16篇全部716页机器抽取结果及48页视觉抽查卡；全文学术论证依然需要带页码的独立审读，严禁宣称已完成。
 
  
 v2.13：当前已能真正读取并验证16篇原PDF。以 [逐篇重点章节研究论证复盘](references/award-paper-deep-argumentation-16.md) 生成适配本届任务的写作论证与风险审稿卡，新增 [有条件同源指标算术检查](tools/paper_metric_identity_gate.py)。716页只是机器全页索引，人工研究仅覆盖注明的精选段落与页面；获奖论文科研结果未经我们复现实验。
+
+
+### v2.13.1 论文标题编号
+
+中文三级示范改为「一、」「（一）」「1．」；可用 `latex_paper_audit.py --heading-style chinese-tiered` 进行按需检查。最终依用户/当届官方样式选择，不将这一组合施加给所有比赛。

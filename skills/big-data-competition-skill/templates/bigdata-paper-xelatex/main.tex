@@ -20,12 +20,12 @@
 \captionsetup[figure]{position=bottom,skip=5pt}
 \renewcommand{\figurename}{图}
 \renewcommand{\tablename}{表}
-% 方案一：一级居中黑体小三；二级左对齐黑体四号；三级黑体小四。
+% 中文分级标题示例：一级“一、”，二级“（一）”，三级“1．”；字号/编号依当届官方要求修改。
 % 如当前赛事正式模板规定其他标题体系，以当届官方要求优先。
 \ctexset{
- section={format=\centering\heiti\zihao{-3},beforeskip=15pt,afterskip=11pt,afterindent=true},
- subsection={format=\raggedright\heiti\zihao{4},beforeskip=11pt,afterskip=5pt,afterindent=true},
- subsubsection={format=\raggedright\heiti\zihao{-4},beforeskip=8pt,afterskip=3pt,afterindent=true}
+ section={name={,、},number=\chinese{section},format=\centering\heiti\zihao{-3},beforeskip=15pt,afterskip=11pt,afterindent=true},
+ subsection={name={（,）},number=\chinese{subsection},format=\raggedright\heiti\zihao{4},beforeskip=11pt,afterskip=5pt,afterindent=true},
+ subsubsection={name={,．},number=\arabic{subsubsection},format=\raggedright\heiti\zihao{-4},beforeskip=8pt,afterskip=3pt,afterindent=true}
 }
 \emergencystretch=2em
 \pagestyle{fancy}

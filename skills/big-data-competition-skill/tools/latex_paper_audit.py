@@ -26,7 +26,7 @@ def active_tex(source: str) -> str:
 
 
 def check(tex: Path, pdf: Path | None = None, log: Path | None = None,
-          profile: str = "generic") -> dict:
+          profile: str = "generic", heading_style: str = "unspecified") -> dict:
     errors: list[str] = []
     notes: list[str] = []
     checks: dict[str, bool] = {}
@@ -56,6 +56,21 @@ def check(tex: Path, pdf: Path | None = None, log: Path | None = None,
             errors.append("Missing required 2023 Big Data contents page.")
         if r"\renewcommand{\headrulewidth}{0pt}" not in body:
             notes.append("Check no-header requirement manually: headrulewidth override not detected.")
+    if heading_style == "chinese-tiered":
+        # Static source-level guard only; the compiled PDF/TOC still needs visual inspection.
+        patterns = {
+            "section": r"\bsection\s*=\s*\{[^\n]*name\s*=\s*\{\s*,\s*、\s*\}[^\n]*number\s*=\s*\\chinese\{section\}",
+            "subsection": r"\bsubsection\s*=\s*\{[^\n]*name\s*=\s*\{\s*（\s*,\s*）\s*\}[^\n]*number\s*=\s*\\chinese\{subsection\}",
+            "subsubsection": r"\bsubsubsection\s*=\s*\{[^\n]*name\s*=\s*\{\s*,\s*．\s*\}[^\n]*number\s*=\s*\\arabic\{subsubsection\}",
+        }
+        for level, pattern in patterns.items():
+            ok = bool(re.search(pattern, body))
+            checks["chinese_tiered_" + level] = ok
+            if not ok:
+                errors.append(f"Requested Chinese heading style is missing ctex {level} name/number configuration.")
+        if re.search(r"\\(?:section|subsection|subsubsection)\s*\{\s*(?:[1-9]\d*|[一二三四五六七八九十]+、|（[一二三四五六七八九十]+）)\s*", body):
+            errors.append("Section title manually includes a number; ctex should own heading numbering.")
+
     for dest in GRAPHIC.findall(body):
         path = Path(dest)
         if path.is_absolute() or ".." in path.parts:
@@ -99,9 +114,10 @@ def main() -> int:
     parser.add_argument("--pdf", type=Path)
     parser.add_argument("--log", type=Path)
     parser.add_argument("--profile", choices=["generic", "bigdata2023"], default="generic")
+    parser.add_argument("--heading-style", choices=["unspecified", "chinese-tiered"], default="unspecified", help="Optional user-selected numbering: 一、 / （一） / 1．")
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
-    result = check(args.tex, args.pdf, args.log, args.profile)
+    result = check(args.tex, args.pdf, args.log, args.profile, args.heading_style)
     value = json.dumps(result, ensure_ascii=False, indent=2)
     print(value)
     if args.report:
