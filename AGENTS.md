@@ -97,3 +97,8 @@ Before paper/final/delivery signoff, run `tools/latex_paper_audit.py --tex main.
 ## v2.12 Award-paper evidence hierarchy
 
 The 16 MathorCup Big Data awarded PDFs are now **actually parsed by GitHub Actions across 716 pages**, with SHA-256 proof and 48 visual-sample pages inspected. This is **not** comprehensive scientific full-text human reading. Load `references/award-paper-empirical-layout.md` before choosing a competition-specific XeLaTeX typography/figure preset; use linked year/paper/PDF page evidence. Never infer an official title font from an award-paper sample or claim all award pages were manually reviewed. Favor official rules, readable hierarchy, and demonstrable color semantics. Leave original human full-text review state unreviewed.
+
+ 
+## v2.13 Award paper selected-section deep reading + metrics falsification
+
+Read `references/award-paper-deep-argumentation-16.md` **only for paper design and real page-grounded review examples**, not as a model/official-format recipe. The 16 original PDFs were opened and SHA-verified, and selected key sections per paper were examined, but 716 pages were not manually read word-for-word and their algorithms were not independently reproduced. For comparable metrics on precisely the same residuals, weights and units, run `tools/paper_metric_identity_gate.py` to catch contradictions such as 2024-04 PDF physical p19's RMSE/MSE pair; never waive math conflicts due to an award badge. The program checks reported-metric arithmetic only, not correct predictions. Keep model and official data provenance stronger than a paper's styling. Never silently set document delivery approved.

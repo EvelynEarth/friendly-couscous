@@ -123,3 +123,7 @@ python skills/big-data-competition-skill/tools/competition_autopilot.py approve 
 ### v2.11.1 TeX 源码实际回退
 
 如用户或逐页 Reviewer 发现一级/二级标题缺少层次、章节后第一段缩进错误、图表重复编号、图片标注遮挡，应视为 `paper_mismatch` 或必要时 `plot_mismatch` 触发相应上游源代码修订。允许运行 `tools/latex_paper_audit.py` 作为 deterministic 检查，但所有真实 PDF 页面仍需独立视觉检查、重新生成 PNG/SVG/PDF 并记录修正页码。不得改 review JSON 逃避重新编译。
+
+ 
+## v2.13 正文阶段自动识别潜在实证和数学矛盾
+运行 `paper` 前按实际研究结构加载 [获奖原文重点章节复盘](award-paper-deep-argumentation-16.md) 的适用论证路线，不能引用与本届任务无关的历史模型；当报告包含同源、同权重、同尺度的MSE/RMSE/MAE时，先用 [可选数值恒等式核查](../templates/paper-metric-identity-contract.md) 阻断自相矛盾的纸面指标。对不同评价集合标记 `not_comparable` 而非强制恒等式；即便一致仍需paper_evidence_gate源文件哈希与独立原子重算。数值冲突优先定位原始预测、错误指标实现或评价口径，修改实际源及受影响论文/图表再运行 `run`；不得仅改Review JSON状态。

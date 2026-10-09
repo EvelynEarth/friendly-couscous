@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.12.0
+当前 Skill 版本：2.13.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -43,6 +43,7 @@
 - `skills/big-data-competition-skill/playbooks/11-spatiotemporal-network.md`
 - `skills/big-data-competition-skill/references/automatic-competition-workflow.md`
 - `skills/big-data-competition-skill/references/award-paper-audit.md`
+- `skills/big-data-competition-skill/references/award-paper-deep-argumentation-16.md`
 - `skills/big-data-competition-skill/references/award-paper-empirical-layout.md`
 - `skills/big-data-competition-skill/references/competition-final-runbook.md`
 - `skills/big-data-competition-skill/references/competition-validation-gates.md`
@@ -81,6 +82,7 @@
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
 - `skills/big-data-competition-skill/templates/extended-oracle-cases.md`
 - `skills/big-data-competition-skill/templates/independent-oracle-case.md`
+- `skills/big-data-competition-skill/templates/paper-metric-identity-contract.md`
 - `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
 - `skills/big-data-competition-skill/templates/result-invariant-contract.md`
@@ -96,11 +98,13 @@
 - `skills/big-data-competition-skill/tools/independent_oracle.py`
 - `skills/big-data-competition-skill/tools/latex_paper_audit.py`
 - `skills/big-data-competition-skill/tools/paper_evidence_gate.py`
+- `skills/big-data-competition-skill/tools/paper_metric_identity_gate.py`
 - `skills/big-data-competition-skill/tools/project_evidence_chain.py`
 - `skills/big-data-competition-skill/tools/real_case_audit.py`
 - `skills/big-data-competition-skill/tools/result_invariant_gate.py`
 - `skills/big-data-competition-skill/tools/solution_quality_gate.py`
 - `skills/big-data-competition-skill/tools/stability_audit.py`
+- `tests/test_bigdata_award_deep_review.py`
 - `tests/test_bigdata_award_pdf_layout_evidence.py`
 - `tests/test_bigdata_competition_autopilot.py`
 - `tests/test_bigdata_competition_readiness.py`

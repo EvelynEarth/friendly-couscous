@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "source_repo": "EvelynEarth/supreme-spoon",
   "source_branch": "main",
-  "verification_scope": "16 genuine Git PDFs: all 716 pages parsed by PyMuPDF; 704 pages have >=80 extractable text chars; 48 selected pages visually inspected. Full-text human scholarly review remains not completed.",
+  "verification_scope": "16 original PDFs/716 pages machine text indexed and SHA-256 independently rechecked; 48 page visual layout samples; 16 per-paper argumentative selected-section reviews from actual PDFs (no full 716-page manual read, no author experiment replication).",
   "papers": [
     {
       "paper_id": "2024-01",
@@ -29,6 +29,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          6,
+          18,
+          37
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -56,6 +70,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          16,
+          19,
+          25
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -83,6 +111,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          6,
+          16,
+          30
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -110,6 +152,19 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          19,
+          27
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -137,6 +192,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          14,
+          15,
+          27
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -164,6 +233,21 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          15,
+          21,
+          34,
+          43
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -191,6 +275,21 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          8,
+          19,
+          20,
+          37
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -218,6 +317,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          20,
+          35,
+          42
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -245,6 +358,21 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          9,
+          13,
+          24,
+          28
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -272,6 +400,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          10,
+          12,
+          18
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -299,6 +441,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          11,
+          14,
+          15
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -326,6 +482,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          8,
+          13,
+          22
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -353,6 +523,21 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          5,
+          11,
+          13,
+          19
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -380,6 +565,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          7,
+          23,
+          29
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -407,6 +606,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          17,
+          21,
+          30
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     },
     {
@@ -434,6 +647,20 @@
         ],
         "visual_review_level": "sample_previews_only_not_full_paper",
         "full_human_scientific_review": "not_completed"
+      },
+      "selected_section_semantic_review": {
+        "status": "key_sections_read_original_pdf_not_full_page_by_page",
+        "source_original_pdf_bytes_sha256_verified": true,
+        "reviewed_pdf_physical_pages": [
+          1,
+          2,
+          6,
+          20,
+          32
+        ],
+        "detailed_review": "references/award-paper-deep-argumentation-16.md",
+        "independently_reproduced_original_models": false,
+        "full_716_page_manual_reading": false
       }
     }
   ],
