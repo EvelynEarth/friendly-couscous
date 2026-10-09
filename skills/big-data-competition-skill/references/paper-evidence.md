@@ -25,3 +25,8 @@ Objective → Data and Variables → Method → Experimental Design → Results 
 ## v2.5 真实指标源与论文数字双向核查
 
 仅将 `metrics` 复制进实验记录，并不能证明指标来自实际运行：如果正文和记录同时写错，过去的“二者相同”检查可能误通过。正式论文定稿时按照 [结果反证与真实指标三方校验](result-falsification.md) 运行 `paper_evidence_gate.py --require-metric-source`，把指标 JSON 真实内容、artifact 的 SHA-256、接受记录与论文 claim 绑定核查。记录中的 `metrics_artifact` 必须是真实且已被哈希验证的源文件；独立 Reviewer 仍须重新计算必要的指标或抽样复核。
+
+ 
+## v2.13 统一指标恒等式+原子证据链
+
+新增 [论文指标恒等式检查协议](../templates/paper-metric-identity-contract.md) 和 `tools/paper_metric_identity_gate.py`，仅对明确相同残差样本、误差权重、尺度的MAE/MSE/RMSE检查数学关系；证据口径不明返回 requires_review，不能自动贴 passed。其来源案例为 [2024-04 PDF物理第19页](award-paper-deep-argumentation-16.md)，表7的0.0336平方与0.0071不一致，属于需要向原子预测回溯的数值冲突。由此更严格落实现有 `paper_evidence_gate.py --require-metric-source`、独立重算和模型审稿；外部获奖文章不是本届数值的证据源。
