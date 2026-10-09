@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "source_repo": "EvelynEarth/supreme-spoon",
   "source_branch": "main",
-  "verification_scope": "GitHub tree file paths and blob sizes only; no PDF content review or method-frequency analysis claimed",
+  "verification_scope": "16 genuine Git PDFs: all 716 pages parsed by PyMuPDF; 704 pages have >=80 extractable text chars; 48 selected pages visually inspected. Full-text human scholarly review remains not completed.",
   "papers": [
     {
       "paper_id": "2024-01",
@@ -13,7 +13,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "1194c0dc38dcb9ae73fa94148489051db6ac497dd510b6aadd63c3f7a5558eac",
+        "source_git_blob": "746839a3db6f5e3dfe7f2c9d78a8914170369a54",
+        "source_pdf_pages": 59,
+        "text_extractable_pages_ge_80_chars": 57,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-01.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          30
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-02",
@@ -24,7 +40,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "49d29bde3240677f445451c56e4dee5afe9a07d3c3d7f531c3b6a7e1fe50e4e4",
+        "source_git_blob": "c7ce36ec94fa432577fdc13ad46868e8dbf19856",
+        "source_pdf_pages": 52,
+        "text_extractable_pages_ge_80_chars": 50,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-02.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          27
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-03",
@@ -35,7 +67,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "21ec34ae2da1884656410eed8074240f9af84661072300bec8ec1c8f7b4b80c4",
+        "source_git_blob": "e1600c31ea55513e2b9a121fd32e6c5a4777aa00",
+        "source_pdf_pages": 48,
+        "text_extractable_pages_ge_80_chars": 47,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-03.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          25
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-04",
@@ -46,7 +94,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "2aaf433ba66fa492430d292a2cba7d0af6679fb07c0199cb5b3cc67d819ed1ac",
+        "source_git_blob": "ce633e9e2bb3fc4dc607ec87abcf040a4d7bcf17",
+        "source_pdf_pages": 59,
+        "text_extractable_pages_ge_80_chars": 59,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-04.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          30
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-05",
@@ -57,7 +121,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "803eabace6fbd447da603358167e0365402ea68a08b7eecc976d81d975dd046c",
+        "source_git_blob": "60d2cb3ccc231c2e6812a06767c4a9f44e2affbf",
+        "source_pdf_pages": 52,
+        "text_extractable_pages_ge_80_chars": 51,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-05.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          27
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-06",
@@ -68,7 +148,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "bbc723e3d7fd6fd76f8e3e116cee4d9cb62c274f5a80fdbc91111aab7e8ede18",
+        "source_git_blob": "481ef709e82f1a0a27633c85cfe49778181a1fa7",
+        "source_pdf_pages": 68,
+        "text_extractable_pages_ge_80_chars": 68,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-06.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          35
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-07",
@@ -79,7 +175,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "1c5e212b2961715b7627d448ab6582a61e0df9521ded78b1d88ebe9111549e45",
+        "source_git_blob": "3c8414a985dd8876de17c5a082a5eeef5a717007",
+        "source_pdf_pages": 66,
+        "text_extractable_pages_ge_80_chars": 66,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-07.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          34
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2024-08",
@@ -90,7 +202,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "85c33d0dc637609d5d8c94bab4e07a0d9a0ec31067e5176b41ee6ce6bbfabfbb",
+        "source_git_blob": "b4d362b32c18643dcc7633df5d6be0e19e14ddc6",
+        "source_pdf_pages": 69,
+        "text_extractable_pages_ge_80_chars": 69,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2024-08.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          35
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-01",
@@ -101,7 +229,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "459935b1d46166d67a44e67d972fc9406dfb3a4d1c9ecd0a981c4b41865ad684",
+        "source_git_blob": "b4943e6359f5e3a8cd2ebb4d0fbcd68b720f5699",
+        "source_pdf_pages": 32,
+        "text_extractable_pages_ge_80_chars": 29,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-01.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          17
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-02",
@@ -112,7 +256,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "ce99c623783bceacf7d83c1024847d90b9e2c863138f16fb39e5f326f22e6fe6",
+        "source_git_blob": "c0a6b6e7070d4f95efb7714081a95ff74fdf72b0",
+        "source_pdf_pages": 22,
+        "text_extractable_pages_ge_80_chars": 22,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-02.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          12
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-03",
@@ -123,7 +283,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "3258d325e218e801b670c9740602a0ed8cfca0fb5c81a425404a31711ce48992",
+        "source_git_blob": "39ea352e91daee871972b4ec615a012098e3448d",
+        "source_pdf_pages": 32,
+        "text_extractable_pages_ge_80_chars": 30,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-03.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          17
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-04",
@@ -134,7 +310,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "b11adda490e430605beefa06e3a33c9e1982caf7edf2490e0d7567dc3b760428",
+        "source_git_blob": "ef36fc7df39388fd7101624dc9ff501e2de07c0b",
+        "source_pdf_pages": 25,
+        "text_extractable_pages_ge_80_chars": 25,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-04.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          13
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-05",
@@ -145,7 +337,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "332884de06de0927b589335b214b0883f31adf041aca8ba7c374cf9f230c2719",
+        "source_git_blob": "2d7d97460a18ce8e15a43d56eea7646ea6072d1f",
+        "source_pdf_pages": 20,
+        "text_extractable_pages_ge_80_chars": 20,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-05.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          11
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-06",
@@ -156,7 +364,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "06fb72f8564cad3e3cb5b36d28ca38ec176df781d27af48a432f4ebca934103d",
+        "source_git_blob": "8cac06435f36c591bfaaebb5855a35a668e7979f",
+        "source_pdf_pages": 33,
+        "text_extractable_pages_ge_80_chars": 33,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-06.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          17
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-07",
@@ -167,7 +391,23 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "d31dadbc8f48f7a8f90190ec6c0f71f91e3aba07570b621cfe2198861434d057",
+        "source_git_blob": "91abab19c85e19f713ea429daf98e78ccdf77a32",
+        "source_pdf_pages": 33,
+        "text_extractable_pages_ge_80_chars": 33,
+        "extraction_state": "usable",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-07.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          17
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     },
     {
       "paper_id": "2025-08",
@@ -178,7 +418,25 @@
       "review_status": "unreviewed",
       "pdf_content_verified": false,
       "findings": [],
-      "review_note": "Source file metadata confirmed in GitHub tree; PDF pages not yet independently reviewed."
+      "review_note": "Original PDF machine page-layout extracted with source SHA-256. Three page previews visually sampled; no human whole-paper scientific review or proven award style.",
+      "machine_layout_evidence": {
+        "source_pdf_sha256": "69e0af6a623dd9ab99c359f915194c350ac80a3d57c88ffb6deadf48266a69b5",
+        "source_git_blob": "4dd863a70a437dece697135ecfc3a1051803cdcb",
+        "source_pdf_pages": 46,
+        "text_extractable_pages_ge_80_chars": 45,
+        "extraction_state": "partial_or_scanned",
+        "method": "PyMuPDF 1.26.5 GitHub Actions run 37922673533",
+        "per_paper_record": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/reports/records/2025-08.json",
+        "visual_preview_sample_pages": [
+          1,
+          2,
+          24
+        ],
+        "visual_review_level": "sample_previews_only_not_full_paper",
+        "full_human_scientific_review": "not_completed"
+      }
     }
-  ]
+  ],
+  "source_audit_workflow": "https://github.com/EvelynEarth/supreme-spoon/actions/runs/37922673533",
+  "source_visual_sample_card": "https://github.com/EvelynEarth/supreme-spoon/blob/main/award-paper-audit/VISUAL_SAMPLE_AUDIT.md"
 }
