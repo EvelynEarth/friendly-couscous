@@ -1,6 +1,6 @@
 ---
 name: big-data-competition-skill
-version: 2.10.0
+version: 2.11.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
@@ -108,3 +108,8 @@ summary: 论文型大数据挑战赛全流程 Skill。
 优先读取 [自动比赛工作流](references/automatic-competition-workflow.md)。能实际访问项目工作区并执行 Python 时，使用 `tools/competition_autopilot.py` 识别当前阶段，按当前赛题动态路由并保存结果/审核证据；上游模型、数据或计算错误时回退受影响阶段重新求解。参考 [可复制的 ChatGPT Project 指令](templates/automatic-project-instructions.md)。
 
 **不可在未知数据、没有执行权限或未获用户授权时假装自动运行**。它是可供代理驱动的状态控制器，不是系统提示词注入或云端自主训练服务。关键模型路线与正式交付必须用户明确批准。
+
+
+## v2.11 论文交付质量路线
+
+科研图表、论文写作和终审调用 [paper-visual-quality-gate](references/paper-visual-quality-gate.md)，具体规则包含中文论证审核、语义色彩图表、PDF 每页视觉核验和 Windows 11 / TeX Live 的 XeLaTeX 可编译源码。模板参照 [bigdata-paper-xelatex](templates/bigdata-paper-xelatex.md)，官方格式优先。
