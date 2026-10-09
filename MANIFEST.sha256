@@ -1,4 +1,4 @@
-9bd1d5f541123aa5167588d4cb5c462fb4be1264a0c9ddfe22415aa27b8a651d  .codex-plugin/plugin.json
+046c299652550499ab2dbf58c187e36c15cc4d5f56156e7cbe80aad0f7de56a6  .codex-plugin/plugin.json
 12b9d3ea8e98632df64a67900bcf810f957068375e5e6c1da02fab799b457fac  .github/workflows/ci.yml
 3ded2235415dfbb1af1edcde72320c37859d590a9eb991a84e1f2eace47dd89f  .github/workflows/refresh-generated.yml
 4958c339c03f79d58ccec9544280ca48253c9fa6febdf67e1cbb2e601c032fc0  AGENTS.md
