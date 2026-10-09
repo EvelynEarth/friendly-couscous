@@ -1,6 +1,12 @@
 # Changelog
 
-## Current release: 2.13.0
+## Current release: 2.13.1
+
+- 修复真实2023 B题v4论文中一级标题仍显示阿拉伯数字的错误：默认中文编号 `一、/（一）/1．`，ctex一次配置并与目录和正文同步。
+- 预检新增**可选** `--heading-style chinese-tiered`，在用户明确要求该标题样式时阻断缺少对应 numbering 定义的 TeX，而不对未知比赛施加固定排版规则。
+- 增加反例测试并重新编译实际论文验证目录与正文编号；不改变原有模型/预测值，不自动批准最终交付。
+
+## Previous release: 2.13.0
 
 - 真正获取并核验EvelynEarth/supreme-spoon的2024–2025全部16份原始获奖PDF二进制内容及SHA-256，解析716页可搜索正文；逐篇阅读摘要、关键模型、结果与局限所对应的83个列明页面，并额外渲染8张重点实图复核。
 - 发布 [award-paper-deep-argumentation-16.md](skills/big-data-competition-skill/references/award-paper-deep-argumentation-16.md)：16张研究论证/证据/风险/写作迁移卡，按时空、预测驱动优化、视觉、弱标签四类实际科研故事组织；不能套固定问数、统一字号或任何往届模型。
