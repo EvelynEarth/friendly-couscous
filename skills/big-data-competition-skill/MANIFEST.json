@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -29,7 +29,8 @@
     "independent-recomputation.md",
     "extended-oracles.md",
     "project-evidence-chain.md",
-    "competition-final-runbook.md"
+    "competition-final-runbook.md",
+    "automatic-competition-workflow.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -59,7 +60,8 @@
     "result-invariant-contract.md",
     "independent-oracle-case.md",
     "extended-oracle-cases.md",
-    "competition-readiness-record.md"
+    "competition-readiness-record.md",
+    "automatic-project-instructions.md"
   ],
   "optional_tools": [
     "tools/bigdata_preflight.py",
@@ -73,9 +75,10 @@
     "tools/independent_oracle.py",
     "tools/extended_oracles.py",
     "tools/project_evidence_chain.py",
-    "tools/competition_readiness.py"
+    "tools/competition_readiness.py",
+    "tools/competition_autopilot.py"
   ],
-  "notes": "v2.9 universal paper-first delivery review for unknown task families; machine coverage only, not scientific truth, with optional stronger numeric evidence chain.",
+  "notes": "v2.10 optional persistent stage controller for authorized agent execution; reports/hashes/rollback, no system prompt injection, no autonomous background LLM, scientific approval still external.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",

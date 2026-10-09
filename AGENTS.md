@@ -1,6 +1,6 @@
 # Agent instructions — Big Data Competition Skill
 
-Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.9.0).
+Current authoritative entrypoint: root SKILL.md (big-data-competition-skill v2.10.0).
 Read it before anything else, then load only the references/playbooks needed for the
 specific official competition question. Do NOT start from core/bootstrap.yaml:
 that is a historical HSK mathematical-modeling bootstrap, not this Skill.
@@ -75,3 +75,9 @@ Before paper-level numerical approval, see `skills/big-data-competition-skill/re
 ## v2.9 Universal competition review package (all model families)
 
 The task type must not be distorted to satisfy a numeric-only checker. Start from `references/competition-final-runbook.md`. For any unknown problem, record official outputs, actual result, independent scientific review evidence, reliability, stability, properly scoped claims, paper argumentative functions and current official submission requirements. Use `tools/competition_readiness.py` for SHA-backed *documentation completeness*, not scientific approval. Apply the stricter numeric `project_evidence_chain.py` only to task families actually supported by its oracles. Otherwise design the correct independent task-specific scientific test and preserve human review. No award paper can be reported as reviewed merely because its PDF filename exists.
+
+## Competition Autopilot — v2.10
+
+For any new contest attachment or "continue" request, first read the root SKILL.md and `skills/big-data-competition-skill/references/automatic-competition-workflow.md`. If the agent actually has persistent file access and Python execution, inspect `autopilot-state.json` or initialize from the verified official input folder and execute `competition_autopilot.py run`. Resume at `next`, load only the relevant method playbooks, actually produce results, and save artifacts plus stage review. No fabricated passed status.
+
+The controller routes failures to upstream causes, invalidates stale evidence, requires fresh checks, and escalates after 3 failed rounds. At model-plan and final-delivery stages, STOP for explicit human approval. Do not self-invoke `approve` without the user saying so. No automatic contest submission, no unauthorized compute, no ghost background execution. CI validates only process behavior, not scientific correctness or LLM autonomy. If you cannot run code/read persistent files, disclose constraints and ask for necessary execution/access instead of claiming autopilot is active.

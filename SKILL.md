@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.9.0
+version: 2.10.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
-triggers: [大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
+triggers: [自动做题, 自动求解, 上传赛题, 继续比赛, 自动验收, 自主纠错, 大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.9
+# Big Data Competition Skill v2.10
 
 ## 1. 定位
 
@@ -446,3 +446,11 @@ official rule evidence
 任何研究任务均可在 [通用论文研究包验收](skills/big-data-competition-skill/templates/competition-readiness-record.md) 中记录官方子问、方法/独立检查、结论支持与论文结构，运行 `tools/competition_readiness.py` 检查完整性。其 `documentation_consistent_pending_expert_review` 只表示**文档可审阅**，绝不自动等于论文可交付或模型正确。已有 `project_evidence_chain.py` 仅当选定的数学类型确实适用时作为**更严格的数字交叉验收**；不支持的题型必须另做独立科学核验，不能伪造 oracle 或放弃审核。
 
 优秀论文重点是阅读正文后理解**问题组织、论证过渡、图表证据作用和结论边界**，而非照搬获奖模型。未经逐篇阅读的 PDF 不得称为已验证写作规律。当前 v2.9 为可使用的工程版，今后改动应由真实任务实测发现的问题驱动，而不是连续机械升级版本号。
+
+## 31. v2.10 自动比赛代理与跨会话进度恢复
+
+**默认优先启用有状态的自动代理工作流**。用户提交正式赛题、数据与规则，且代理具有可读写、可运行的项目目录时，读取 [自动比赛代理运行协议](skills/big-data-competition-skill/references/automatic-competition-workflow.md)，优先恢复 `autopilot-state.json`；若无状态则仅在可确认真实输入目录后初始化。自动识别阶段、按需加载 reference/playbook、执行真实分析/计算、保存可验证成果、分阶段审核，不合格时定位上游缺陷并回退修改，默认单阶段最多三轮，超限交由用户判断。推荐将 [自动项目指令](skills/big-data-competition-skill/templates/automatic-project-instructions.md) 放入 ChatGPT Project 项目说明。
+
+状态控制器：`python skills/big-data-competition-skill/tools/competition_autopilot.py --help`（子命令 `init/run/status/sync-inputs/template/approve`）。**流程状态与文件哈希一致不等于模型科学正确**：还要使用本 Skill 的独立验算、论文数字三方回读及科学/编辑终审。关键模型路线和正式论文交付必须征得用户明确批准；不得自动用现有 GitHub 权限当成赛事平台提交权限。
+
+GitHub 中的 SKILL.md **不会自动成为 ChatGPT 系统提示词**；仅上传附件也不意味着本地服务已启动。只有在当前会话或 Project 指令实际加载本规则、且具备文件和代码执行能力时才能持续推进。没有这些能力时要说明阻断，不能声称做完、在后台运转或跨聊天持久化。该运行协议不启动定时自动任务。

@@ -1,10 +1,10 @@
 ---
 name: big-data-competition-skill
-version: 2.9.0
+version: 2.10.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
-# Big Data Competition Skill v2.9
+# Big Data Competition Skill v2.10
 
 这是主 Skill 的完整工作流已经迁移到仓库根目录 SKILL.md。
 
@@ -102,3 +102,9 @@ summary: 论文型大数据挑战赛全流程 Skill。
 优先阅读 [通用比赛与论文终稿操作手册](references/competition-final-runbook.md)。无论当前赛题是视觉、预测、优化、统计、仿真、文本、解释性研究或混合任务，都使用 [通用研究包记录](templates/competition-readiness-record.md) 确保全部官方子问、独立科学复核、失败案例、论文每条主张与官方交付规则可核查。运行 `tools/competition_readiness.py` **只验资料结构/实际 SHA 文件**；工具不决定模型科学正确，不授予最终提交权限。
 
 此前的 `tools/project_evidence_chain.py` 仅用于已有真实独立数值 oracle 的情况，不应把未知合法题型硬转换成回归/分类指标或小规模整数优化来通过它。优秀论文仅学习真实阅读之后的结构、衔接、论证与证据功能。
+
+## v2.10 自动代理：上传赛题后的进度恢复、检查和回退
+
+优先读取 [自动比赛工作流](references/automatic-competition-workflow.md)。能实际访问项目工作区并执行 Python 时，使用 `tools/competition_autopilot.py` 识别当前阶段，按当前赛题动态路由并保存结果/审核证据；上游模型、数据或计算错误时回退受影响阶段重新求解。参考 [可复制的 ChatGPT Project 指令](templates/automatic-project-instructions.md)。
+
+**不可在未知数据、没有执行权限或未获用户授权时假装自动运行**。它是可供代理驱动的状态控制器，不是系统提示词注入或云端自主训练服务。关键模型路线与正式交付必须用户明确批准。

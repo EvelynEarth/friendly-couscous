@@ -111,3 +111,11 @@ B 的 Git LFS 指针不是可读 Excel；当前尚无可信真实模型跑分。
 - `python skills/big-data-competition-skill/tools/competition_readiness.py --help`
 
 旧 `project_evidence_chain.py` 继续保留为**当前数学 oracle 能覆盖的特定数值任务**的严格检查，不能要求所有未知问题伪装为该输入。
+
+## v2.10 Agent Autopilot 赛题进度与纠错控制器
+
+- [赛题上传后的自动进度识别、阶段证据与回退协议](skills/big-data-competition-skill/references/automatic-competition-workflow.md)
+- [ChatGPT Project 一次性工作指令](skills/big-data-competition-skill/templates/automatic-project-instructions.md)
+- `python skills/big-data-competition-skill/tools/competition_autopilot.py --help`
+
+这是需要持久文件和代码执行环境的**代理工作流控制器**，不会自行成为系统提示词、在后台完成真实赛题或未经批准向官方平台提交论文。
