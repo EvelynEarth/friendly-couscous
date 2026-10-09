@@ -1,6 +1,14 @@
 # Changelog
 
-## Current release: 2.12.0
+## Current release: 2.13.0
+
+- 真正获取并核验EvelynEarth/supreme-spoon的2024–2025全部16份原始获奖PDF二进制内容及SHA-256，解析716页可搜索正文；逐篇阅读摘要、关键模型、结果与局限所对应的83个列明页面，并额外渲染8张重点实图复核。
+- 发布 [award-paper-deep-argumentation-16.md](skills/big-data-competition-skill/references/award-paper-deep-argumentation-16.md)：16张研究论证/证据/风险/写作迁移卡，按时空、预测驱动优化、视觉、弱标签四类实际科研故事组织；不能套固定问数、统一字号或任何往届模型。
+- 独立检查2024-04 PDF第19页指标报告，在同源样本/尺度假设下出现RMSE²与MSE矛盾；新增 `paper_metric_identity_gate.py` 条件核查、输入契约和反例/成功/不确定性单元测试，算术一致仅限报表层，不代表原子数据真实。
+- 保留 `review_status=unreviewed` 作为**全篇完整科学审核状态**，另记录逐篇核对的选定正文页面；严格区别PDF机器全页处理、精读指定章节与正式科学复算。
+- 延续 `plan`/`delivery` 人工批准边界、原始赛题/数据优先、真实代码复核及LaTeX逐页视觉检查。不公开第三方完整原PDF和全文摘录。
+
+## Previous release: 2.12.0
 
 - **首次真实打开并解析** supreme-spoon 的2024–2025共16篇 MathorCup 大数据优秀 PDF，在 GitHub Actions runner 上对716页运行 PyMuPDF 布局抽取，704页达到80字符文本阈值，其余页可能为封面/少字/图像页，不武断视为扫描件。
 - 用48页（每篇3页）可追溯页面预览作抽样视觉审核，2025-02第12页、2025-05第11页、2024-08第35页另放大检查；观察到真实彩色科研图、标题字号差异、图→正文→表证据关联和个别留白/代码页不足。
