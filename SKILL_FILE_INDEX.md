@@ -82,6 +82,7 @@
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
 - `skills/big-data-competition-skill/templates/extended-oracle-cases.md`
 - `skills/big-data-competition-skill/templates/independent-oracle-case.md`
+- `skills/big-data-competition-skill/templates/paper-metric-identity-contract.md`
 - `skills/big-data-competition-skill/templates/paper_outline.md`
 - `skills/big-data-competition-skill/templates/project_state.yaml`
 - `skills/big-data-competition-skill/templates/result-invariant-contract.md`
