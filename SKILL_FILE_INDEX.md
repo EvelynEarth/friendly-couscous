@@ -97,6 +97,7 @@
 - `skills/big-data-competition-skill/tools/independent_oracle.py`
 - `skills/big-data-competition-skill/tools/latex_paper_audit.py`
 - `skills/big-data-competition-skill/tools/paper_evidence_gate.py`
+- `skills/big-data-competition-skill/tools/paper_metric_identity_gate.py`
 - `skills/big-data-competition-skill/tools/project_evidence_chain.py`
 - `skills/big-data-competition-skill/tools/real_case_audit.py`
 - `skills/big-data-competition-skill/tools/result_invariant_gate.py`
