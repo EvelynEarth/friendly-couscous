@@ -61,3 +61,10 @@
 2023 B 实际 v4 PDF 的主章节继续显示 `1、2、3...`，原因是先前只设字号与缩进、未显式定义 ctex 的 `section.name/number`。这证明**版式优化已完成的声明不成立**，须修源再发布，而不是只在说明中写中文标题。
 
 本版推荐（不代表官方硬性格式）一级「一、」居中，二级「（一）」左齐，三级「1．」左齐；相关 `\\ctexset` 声明一次，全局管理目录/正文/交叉引用。与当届主办方给出的标题编号冲突时，以正式赛规优先。机器预检增加可选 `--heading-style chinese-tiered`，验证确实有对应样式开关，不会把该偏好施加到未知赛事；真实终稿须检查目录、跨页和章节首段缩进、图表是否错位。具体研究稿应单独 XeLaTeX 编译两遍并逐页核对。
+
+ 
+## v2.13.2 按用户指定的五层目录与正文排版
+
+前一轮仅修复了「一、」一级编号，却错将二级改成「（一）」、三级改成「1．」。当前用户明确使用：**一、 → 1.1 → 1.1.1 → （1） → 实心圆点**。前三层由 `ctexset` 配置 `number=\chinese{section}`、`number=\arabic{section}.\arabic{subsection}`、`number=\arabic{section}.\arabic{subsection}.\arabic{subsubsection}`；第4/5层由 `enumitem` 嵌套 `enumerate/itemize` 呈现，不用手写列表编号。目录默认纳入前三层（受 `tocdepth` 控制），列表项不进入目录。
+
+对于明确选择此版式的论文，以 `--heading-style chinese-mixed-five` 阻断配置缺失；还须执行两遍 XeLaTeX，核对目录、正文三个标题编号和实际第四/第五层样例。官方要求更高优先；若全文只需一、二级标题，不为测试添加空洞子章节。
