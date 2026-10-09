@@ -101,6 +101,7 @@
 - `skills/big-data-competition-skill/tools/result_invariant_gate.py`
 - `skills/big-data-competition-skill/tools/solution_quality_gate.py`
 - `skills/big-data-competition-skill/tools/stability_audit.py`
+- `tests/test_bigdata_award_pdf_layout_evidence.py`
 - `tests/test_bigdata_competition_autopilot.py`
 - `tests/test_bigdata_competition_readiness.py`
 - `tests/test_bigdata_evidence_benchmarks.py`
