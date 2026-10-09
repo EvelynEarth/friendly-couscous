@@ -28,7 +28,7 @@ class AwardDeepReviewTests(unittest.TestCase):
             self.assertRegex(by_id[id]["machine_layout_evidence"]["source_pdf_sha256"],r"^[a-f0-9]{64}$")
             self.assertIn("pdf_content_verified",by_id[id])
             self.assertIn("unreviewed",by_id[id]["review_status"])
-        self.assertIn("不是716页",s)
+        self.assertIn("未逐字人工阅读716页",s)
         self.assertIn("2024-04",s)
         self.assertIn("2025-05",s)
 
