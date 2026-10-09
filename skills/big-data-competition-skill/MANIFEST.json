@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.13.1",
+  "version": "2.13.2",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -85,7 +85,7 @@
     "tools/latex_paper_audit.py",
     "tools/paper_metric_identity_gate.py"
   ],
-  "notes": "v2.10 optional persistent stage controller for authorized agent execution; reports/hashes/rollback, no system prompt injection, no autonomous background LLM, scientific approval still external. v2.11 paper/figure visual review, XeLaTeX source delivery. v2.11.1 typography + XeLaTeX PDF preflight checks. v2.12: actual PyMuPDF all-page machine audit 16 award PDFs and 48-page visual sample, human full-text review remains pending. v2.13: actual source PDF selected-section argumentation reviews of 16 award papers; conditional metric identity science-falsification tool; 716 pages not read word-for-word. v2.13.1 user-requested Chinese tiered headings corrected with ctex and optional static preflight.",
+  "notes": "v2.10 optional persistent stage controller for authorized agent execution; reports/hashes/rollback, no system prompt injection, no autonomous background LLM, scientific approval still external. v2.11 paper/figure visual review, XeLaTeX source delivery. v2.11.1 typography + XeLaTeX PDF preflight checks. v2.12: actual PyMuPDF all-page machine audit 16 award PDFs and 48-page visual sample, human full-text review remains pending. v2.13: actual source PDF selected-section argumentation reviews of 16 award papers; conditional metric identity science-falsification tool; 716 pages not read word-for-word. v2.13.1 user-requested Chinese tiered headings corrected with ctex and optional static preflight. v2.13.2 current user five-tier layout: Chinese section + 1.1 + 1.1.1 + fullwidth enumerated labels + bullet; opt-in audit mode.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",
