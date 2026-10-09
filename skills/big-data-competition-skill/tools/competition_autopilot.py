@@ -28,9 +28,9 @@ CHECKS = {
     "solve": ("implementation_matches_math", "actual_execution_recorded", "outputs_match_task"),
     "verify": ("independent_check_performed", "information_availability_reviewed", "constraints_or_invariants_checked"),
     "robustness": ("uncertainty_assessed", "perturbations_or_limitations_recorded"),
-    "figures": ("figures_derived_from_actual_data", "figure_claims_checked"),
-    "paper": ("all_questions_answered", "claim_evidence_chain_checked", "numerical_provenance_checked"),
-    "final": ("scientific_review_completed", "editorial_review_completed", "official_format_reviewed"),
+    "figures": ("figures_derived_from_actual_data", "figure_claims_checked", "visual_design_and_color_reviewed"),
+    "paper": ("all_questions_answered", "claim_evidence_chain_checked", "numerical_provenance_checked", "academic_argumentation_reviewed", "tex_or_editable_source_reviewed"),
+    "final": ("scientific_review_completed", "editorial_review_completed", "official_format_reviewed", "rendered_pdf_pages_reviewed"),
     "delivery": ("official_deliverables_verified", "output_files_verified"),
 }
 NON_WAIVABLE = {
@@ -38,6 +38,8 @@ NON_WAIVABLE = {
     "baseline_actually_executed", "actual_execution_recorded", "outputs_match_task",
     "independent_check_performed", "all_questions_answered", "claim_evidence_chain_checked",
     "scientific_review_completed", "official_deliverables_verified",
+    "visual_design_and_color_reviewed", "academic_argumentation_reviewed",
+    "rendered_pdf_pages_reviewed",
 }
 DOCS = {
     "contract": "references/problem-framing.md",
