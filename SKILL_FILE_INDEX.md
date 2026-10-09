@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.10.0
+当前 Skill 版本：2.11.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -58,6 +58,7 @@
 - `skills/big-data-competition-skill/references/paper-argumentation.md`
 - `skills/big-data-competition-skill/references/paper-delivery.md`
 - `skills/big-data-competition-skill/references/paper-evidence.md`
+- `skills/big-data-competition-skill/references/paper-visual-quality-gate.md`
 - `skills/big-data-competition-skill/references/paper-writing.md`
 - `skills/big-data-competition-skill/references/problem-framing.md`
 - `skills/big-data-competition-skill/references/project-evidence-chain.md`
@@ -71,6 +72,9 @@
 - `skills/big-data-competition-skill/templates/automatic-project-instructions.md`
 - `skills/big-data-competition-skill/templates/award-paper-audit.md`
 - `skills/big-data-competition-skill/templates/award-paper-writing-review.md`
+- `skills/big-data-competition-skill/templates/bigdata-paper-xelatex.md`
+- `skills/big-data-competition-skill/templates/bigdata-paper-xelatex/README.md`
+- `skills/big-data-competition-skill/templates/bigdata-paper-xelatex/main.tex`
 - `skills/big-data-competition-skill/templates/competition-readiness-record.md`
 - `skills/big-data-competition-skill/templates/evidence_map.md`
 - `skills/big-data-competition-skill/templates/experiment_record.yaml`
@@ -100,6 +104,7 @@
 - `tests/test_bigdata_evidence_benchmarks.py`
 - `tests/test_bigdata_extended_oracles.py`
 - `tests/test_bigdata_independent_oracle.py`
+- `tests/test_bigdata_paper_quality.py`
 - `tests/test_bigdata_preflight.py`
 - `tests/test_bigdata_project_evidence_chain.py`
 - `tests/test_bigdata_real_cases.py`

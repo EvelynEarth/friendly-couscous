@@ -111,3 +111,10 @@ python skills/big-data-competition-skill/tools/competition_autopilot.py approve 
 6. 完成终稿时输出研究结论、证据位置、未解决风险及官方交付清单；严禁越权提交。
 
 参见 [完整赛场执行手册](competition-final-runbook.md) 和 [模型正确性核验](solution-validity.md)。
+
+
+## v2.11 失败自动回退的论文质量检查
+
+执行 `figures` 必须按 [论文视觉与学术质量硬门](paper-visual-quality-gate.md) 保存可追溯图表生成代码、色彩及线型含义、PDF 中实际可读的图例/标签、灰度可辨识检查。执行 `paper` 必须审查学术论证、真实引用、段落证据链，生成可编辑 XeLaTeX 文件（用户使用 TeX Live 时）和当前 PDF；编译错误/缺少图片或论文句子不成立直接重做源码。执行 `final` 必须保存逐页渲染审核结论和真实编译日志，不得只检查文件存在、图表哈希或随意写 passed。缺原模板时标记缺口，不应据此阻塞建立可独立编译的通用 TeX 草稿。
+
+失败时使用 `plot_mismatch→figures`、`paper_mismatch→paper` 等已有回退路径，修正实质问题并重新验收。2023 MathorCup 大数据赛论文的标题/摘要首页、第二页目录、正文页码、匿名等规则来源需明确区分传统 MathorCup 数模竞赛公告，不得擅自混用。人工最终批准仍不可绕过。

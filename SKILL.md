@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.10.0
+version: 2.11.0
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [自动做题, 自动求解, 上传赛题, 继续比赛, 自动验收, 自主纠错, 大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.10
+# Big Data Competition Skill v2.11
 
 ## 1. 定位
 
@@ -382,6 +382,7 @@ official rule evidence
 - 图表 → figure-evidence.md
 - 论文证据 → paper-evidence.md
 - 论文表达 → paper-writing.md
+- 论文语言、彩色科研绘图与 LaTeX 终稿 → paper-visual-quality-gate.md
 - 终审 → final-review.md
 - 交付 → paper-delivery.md
 
@@ -454,3 +455,14 @@ official rule evidence
 状态控制器：`python skills/big-data-competition-skill/tools/competition_autopilot.py --help`（子命令 `init/run/status/sync-inputs/template/approve`）。**流程状态与文件哈希一致不等于模型科学正确**：还要使用本 Skill 的独立验算、论文数字三方回读及科学/编辑终审。关键模型路线和正式论文交付必须征得用户明确批准；不得自动用现有 GitHub 权限当成赛事平台提交权限。
 
 GitHub 中的 SKILL.md **不会自动成为 ChatGPT 系统提示词**；仅上传附件也不意味着本地服务已启动。只有在当前会话或 Project 指令实际加载本规则、且具备文件和代码执行能力时才能持续推进。没有这些能力时要说明阻断，不能声称做完、在后台运转或跨聊天持久化。该运行协议不启动定时自动任务。
+
+## 32. v2.11 论文语言、色彩图表与 Windows XeLaTeX 科研终稿硬门
+
+在进入 `figures`、`paper`、`final` 及 `delivery` 阶段前，按 [论文视觉与学术质量硬门](skills/big-data-competition-skill/references/paper-visual-quality-gate.md) 对图表设计、论证语言、逐页排版和当前编译证据进行实查。
+
+**默认提供可编辑且可编译的 LaTeX 源文件**（尤其当用户已说明 Windows 11 + TeX Live），与真实实验图表及当前 PDF 一并交付。使用 [XeLaTeX 通用论文模板](skills/big-data-competition-skill/templates/bigdata-paper-xelatex.md)，按当届官方规则调整，不照搬传统数模竞赛首页/页码/匿名与固定三问。用户提供既有 TeX 模板时，应先审核代码与许可，再针对比赛调整；缺失时须说明，不可声称已经迁移。
+
+颜色不是缺陷：科研图默认采用有意义且色盲友好的**有限彩色语义**，并保留灰度可辨识性，避免黑白一刀切。每张图同时通过事实追溯、图型与轴、叙事价值、图中文字及 PDF 中真实显示的检查，且无法由漂亮外观取代准确性。
+
+本届优秀论文尚有未实际打开正文的 PDF：不能仅从 16 个文件名/大小宣称完成逐篇学习。实际可读后按论文页码记录结构、图表功能与可迁移原理；无法阅读时如实标记缺口。机器完成的文件/哈希检查绝不自动等于审稿通过。
+

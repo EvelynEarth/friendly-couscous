@@ -1,0 +1,67 @@
+% !TeX program = xelatex
+% 研究稿骨架；如官方赛制不同，务必调整首页、目录、匿名和页码。
+\documentclass[UTF8,zihao=-4,a4paper]{ctexart}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,caption,hyperref,fancyhdr,setspace}
+\hypersetup{hidelinks}
+\setstretch{1.28}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.15em}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\thepage}
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+{\LARGE\bfseries 请替换为针对赛题研究内容的论文标题\par}
+\end{center}
+\vspace{1em}
+\noindent\textbf{摘要：} 在正式写作前对照当届题目填入真实研究目标、适用方法、已验收数值和科学局限；本段只是模板说明，不是任何实验结论。
+
+\medskip\noindent\textbf{关键词：} 赛题目标；研究方法；数据验证
+\clearpage
+\thispagestyle{empty}
+\tableofcontents
+\clearpage
+\setcounter{page}{1}
+\section{问题与研究目标}
+按当届正式问题介绍目标、输出、限制和数据可得时点。不得把传统数学建模的固定三问大纲强加在大数据赛题上。
+\section{数据、指标与验证协议}
+交代样本粒度、标签及可用时点、预处理、合法验证与基线；不能编造数值或实验图。
+\section{模型与求解}
+逐个真实子问题解释数学变量、假设、模型理由和正确性复核。以下只是符号公式示范，不是该赛题公式：
+\begin{equation}
+    \widehat y_{i,t}=f_{\theta}(\mathcal{D}_{\le t_0},x_{i,t}).
+    \label{eq:general-forecast}
+\end{equation}
+\section{结果、误差与稳健性}
+只能插入已实际运行、可追溯的表图。三线表样式示意（表内未填实验数值）：
+\begin{table}[htbp]
+\centering
+\caption{实验结果表结构示例（待替换为真实数据）}
+\begin{tabular}{lll}
+\toprule
+方法 & 合法验证窗 & 指标（待计算）\\
+\midrule
+基线 & 按赛题定义 & 待运行\\
+候选模型 & 同一验证窗 & 待运行\\
+\bottomrule
+\end{tabular}
+\end{table}
+% 实际图例：先以代码对原子数据生成 figures/figure01.pdf
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=.9\linewidth]{figures/figure01.pdf}
+% \caption{基于真实数据与实验的科研图题}
+% \label{fig:one}
+% \end{figure}
+\section{讨论与结论}
+客观报告结论适用条件、不利案例和需要额外数据才能回答的问题。
+\section*{参考文献}
+% 引用正文和参考文献必须一一对应；不自动虚构出处。
+\appendix
+\section{复现说明}
+附录列出合法保留的代码、数据版本、随机种子、运行命令与证据哈希。
+\end{document}
