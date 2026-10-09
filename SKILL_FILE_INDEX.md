@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.10.0
+当前 Skill 版本：2.11.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
