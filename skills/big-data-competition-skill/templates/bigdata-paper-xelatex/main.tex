@@ -20,13 +20,16 @@
 \captionsetup[figure]{position=bottom,skip=5pt}
 \renewcommand{\figurename}{图}
 \renewcommand{\tablename}{表}
-% 中文分级标题示例：一级“一、”，二级“（一）”，三级“1．”；字号/编号依当届官方要求修改。
+% 用户指定五层：一、 / 1.1 / 1.1.1 / （1） / 实心圆点；非赛事官方统一强制格式。
 % 如当前赛事正式模板规定其他标题体系，以当届官方要求优先。
 \ctexset{
  section={name={,、},number=\chinese{section},format=\centering\heiti\zihao{-3},beforeskip=15pt,afterskip=11pt,afterindent=true},
- subsection={name={（,）},number=\chinese{subsection},format=\raggedright\heiti\zihao{4},beforeskip=11pt,afterskip=5pt,afterindent=true},
- subsubsection={name={,．},number=\arabic{subsubsection},format=\raggedright\heiti\zihao{-4},beforeskip=8pt,afterskip=3pt,afterindent=true}
+ subsection={name={,},number=\arabic{section}.\arabic{subsection},format=\raggedright\heiti\zihao{4},beforeskip=11pt,afterskip=5pt,afterindent=true},
+ subsubsection={name={,},number=\arabic{section}.\arabic{subsection}.\arabic{subsubsection},format=\raggedright\heiti\zihao{-4},beforeskip=8pt,afterskip=3pt,afterindent=true}
 }
+% 第4/5层分别用enumerate和itemize。它们是行文结构，不强制为每段补标题。
+\setlist[enumerate,1]{label={（\arabic*）},leftmargin=2.8em,itemsep=1pt,topsep=4pt,parsep=0pt}
+\setlist[itemize,1]{label={\textbullet},leftmargin=2.8em,itemsep=1pt,topsep=4pt,parsep=0pt}
 \emergencystretch=2em
 \pagestyle{fancy}
 \fancyhf{}
@@ -62,6 +65,16 @@
 
 \subsection{目标定义与数据边界}
 二级标题左对齐、与居中的一级标题有明显层级差异。标题之后的首段同样缩进两个汉字宽。
+
+\subsubsection{信息可用性（三级标题示例）}
+本节仅示范标题层级，不展示实际建模成绩；下列条目也只是写作结构示例。
+
+\begin{enumerate}
+\item 证据分类：逐项标出真实来源。
+  \begin{itemize}
+  \item 清楚区分已观察值与模型假设。
+  \end{itemize}
+\end{enumerate}
 
 \section{核心变量、模型与求解}
 说明为何选择这类模型，并给出变量单位和方法的适用前提。下面只是数学排版示例：
