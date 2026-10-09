@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.11.0
+# Big Data Competition Skill v2.11.1
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -85,3 +85,6 @@ python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /
 
 
 v2.11 论文图表与 XeLaTeX：参见 [paper-visual-quality-gate](references/paper-visual-quality-gate.md) 和 [XeLaTeX 论文模板](templates/bigdata-paper-xelatex.md)。所有结论与视觉输出必须由真实实验支撑、逐页复核，且依当届论文规定，不预设传统数学建模格式。
+
+
+v2.11.1: [XeLaTeX 骨架](templates/bigdata-paper-xelatex/main.tex) 已重构章节字号、首行缩进、单目录与 caption 自动编号；运行 [latex_paper_audit.py](tools/latex_paper_audit.py) 静态/编译预检后仍须逐页检查图例、坐标标签、表格和段落。
