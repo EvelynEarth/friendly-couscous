@@ -46,7 +46,7 @@ class AwardPaperSourceEvidenceTests(unittest.TestCase):
         self.assertIn("2025-02", guide)
         self.assertIn("第12页", guide)
         self.assertIn("尚未完成", guide)
-        self.assertIn("machine", guide.lower())
+        self.assertIn("机器解析", guide)
 
 
 if __name__ == "__main__":
