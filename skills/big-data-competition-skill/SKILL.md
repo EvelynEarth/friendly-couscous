@@ -1,6 +1,6 @@
 ---
 name: big-data-competition-skill
-version: 2.12.0
+version: 2.13.0
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
@@ -123,3 +123,8 @@ summary: 论文型大数据挑战赛全流程 Skill。
 ## v2.12 可追溯优秀论文风格
 
 新增 [2024–2025 的真实PDF排版与图表样本证据](references/award-paper-empirical-layout.md)：16篇全部机器解析，48页抽样视觉复核，保留原PDF SHA/页码，**全文学术阅读未完成**。使用这些证据改进论文标题层次、段落缩进和彩色科研图，但不把它们当作官方强制字号或固定大纲；从现有 XeLaTeX 模板开始，并在实际 PDF 逐页审阅后修正。
+
+ 
+## v2.13 科学论证实读 + 反证
+
+新增 [16篇原始PDF重点章节写作复盘](references/award-paper-deep-argumentation-16.md)：逐篇有物理PDF页码的任务、模型依据、图表结果、缺陷与写作借鉴；不宣称716页逐字人工通读或论文算法独立复现。以前仅做版式机器统计的审稿流程升级为按赛题结构选择论文研究链、对照baseline、结果局限和必要的数值反证。报告指标同源时按 [条件化恒等式工具](tools/paper_metric_identity_gate.py) 做MSE/RMSE及MAE/RMSE算术一致性检查；机器通过不等于科学通过。不同大数据题型保持不同文章结构与应检事项。
