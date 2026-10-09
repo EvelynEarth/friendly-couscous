@@ -21,7 +21,7 @@ GOOD = r"\setlength{\parindent}{2\ccwd}" + "\n" + (
 class LatexLayoutAuditTests(unittest.TestCase):
     def test_template_and_profile(self):
         template = ROOT / "skills/big-data-competition-skill/templates/bigdata-paper-xelatex/main.tex"
-        result = audit.check(template, profile="bigdata2023")
+        result = audit.check(template, profile="bigdata2023", heading_style="chinese-tiered")
         self.assertEqual(result["errors"], [])
         self.assertEqual(result["editorial_page_review"], "required")
         src = template.read_text(encoding="utf-8")
@@ -34,6 +34,38 @@ class LatexLayoutAuditTests(unittest.TestCase):
         p = Path(tmp) / "main.tex"
         p.write_text(content, encoding="utf-8")
         return p
+
+    def test_chinese_heading_requirement_blocks_arabic_default(self):
+        with tempfile.TemporaryDirectory() as td:
+            wrong = GOOD + "\n" + r"\ctexset{section={format=\centering\heiti}}"
+            result = audit.check(self.make(td, wrong), heading_style="chinese-tiered")
+            self.assertEqual(result["machine_status"], "blocked")
+            self.assertTrue(any("ctex section" in x for x in result["errors"]))
+
+    def test_chinese_heading_style_must_have_all_three_levels(self):
+        with tempfile.TemporaryDirectory() as td:
+            correct = GOOD + "\n" + (
+                r"\ctexset{" + "\n" +
+                r" section={name={,、},number=\chinese{section}}," + "\n" +
+                r" subsection={name={（,）},number=\chinese{subsection}}," + "\n" +
+                r" subsubsection={name={,．},number=\arabic{subsubsection}}" + "\n" +
+                r"}")
+            result = audit.check(self.make(td, correct), heading_style="chinese-tiered")
+            self.assertEqual(result["errors"], [])
+            self.assertTrue(result["checks"]["chinese_tiered_section"])
+            self.assertTrue(result["checks"]["chinese_tiered_subsection"])
+            self.assertTrue(result["checks"]["chinese_tiered_subsubsection"])
+
+    def test_other_competitions_are_not_forced_to_use_chinese_headings(self):
+        with tempfile.TemporaryDirectory() as td:
+            default = audit.check(self.make(td, GOOD), heading_style="unspecified")
+            self.assertEqual(default["errors"], [])
+
+    def test_reject_manually_numbered_section(self):
+        with tempfile.TemporaryDirectory() as td:
+            r = audit.check(self.make(td, GOOD + "\n" + r"\section{一、问题背景}"),
+                            heading_style="chinese-tiered")
+            self.assertTrue(any("manually includes" in e for e in r["errors"]))
 
     def test_reject_manual_figure_number(self):
         with tempfile.TemporaryDirectory() as td:
