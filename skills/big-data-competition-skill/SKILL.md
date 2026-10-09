@@ -1,6 +1,6 @@
 ---
 name: big-data-competition-skill
-version: 2.11.0
+version: 2.11.1
 summary: 论文型大数据挑战赛全流程 Skill。
 ---
 
@@ -113,3 +113,8 @@ summary: 论文型大数据挑战赛全流程 Skill。
 ## v2.11 论文交付质量路线
 
 科研图表、论文写作和终审调用 [paper-visual-quality-gate](references/paper-visual-quality-gate.md)，具体规则包含中文论证审核、语义色彩图表、PDF 每页视觉核验和 Windows 11 / TeX Live 的 XeLaTeX 可编译源码。模板参照 [bigdata-paper-xelatex](templates/bigdata-paper-xelatex.md)，官方格式优先。
+
+
+## v2.11.1 版式修复链
+
+具体 LaTeX 排版规范参见 [paper-visual-quality-gate](references/paper-visual-quality-gate.md)。2023 演示布局明确区分居中一级标题、左对齐二级标题与 2 汉字自然段缩进；其他赛制以官方格式优先。新 `tools/latex_paper_audit.py` 阻断重复图号/目录、缺失图片与严重编译日志错误，但不代替逐页视觉检查。审稿反馈触发更改 TeX/图表源并重跑，不能仅填表放行。

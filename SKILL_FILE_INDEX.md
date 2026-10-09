@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.11.0
+当前 Skill 版本：2.11.1
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -93,6 +93,7 @@
 - `skills/big-data-competition-skill/tools/competition_readiness.py`
 - `skills/big-data-competition-skill/tools/extended_oracles.py`
 - `skills/big-data-competition-skill/tools/independent_oracle.py`
+- `skills/big-data-competition-skill/tools/latex_paper_audit.py`
 - `skills/big-data-competition-skill/tools/paper_evidence_gate.py`
 - `skills/big-data-competition-skill/tools/project_evidence_chain.py`
 - `skills/big-data-competition-skill/tools/real_case_audit.py`
@@ -104,6 +105,7 @@
 - `tests/test_bigdata_evidence_benchmarks.py`
 - `tests/test_bigdata_extended_oracles.py`
 - `tests/test_bigdata_independent_oracle.py`
+- `tests/test_bigdata_latex_layout.py`
 - `tests/test_bigdata_paper_quality.py`
 - `tests/test_bigdata_preflight.py`
 - `tests/test_bigdata_project_evidence_chain.py`

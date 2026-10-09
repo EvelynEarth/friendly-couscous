@@ -30,3 +30,18 @@
 
 ## 2023 MathorCup 大数据竞赛真实官方格式案例（不是跨年度默认）
 官方 2023 大数据竞赛格式（https://www.saikr.com/c/nd/14788 ，对应 PDF https://files.mathorcup.org/uploads/files/20231027/1698400522612279.pdf）要求：首页标题/摘要/关键词，第二页目录，正文从 1 编号、页脚居中、无页眉、匿名、中文、正文 30 页内；格式色彩不统一限制。附录写明程序，具体提交材料按官方要求。本案例的赛题结果表和论文是不同交付类，不能套普通 MathorCup 2023 数学建模竞赛另一个公告。
+
+
+## v2.11.1 本次真实 PDF 反例与硬性复查
+
+当前 2023 B 研究稿曾暴露：`\\caption{图1 ...}` 造成自动图号+手工图号双重输出；目录前独立写了“目录”又使用 `\\tableofcontents` 导致双标题；默认 Section 后首段未被明确纳入两字缩进策略；上下两级标题粗细、字距/留白接近，难以辨识；双面板图太小、图例和横轴标注压在一起；少量内容独占一页。**这些是已检查到的真实 TeX/版面错误，不是仅凭用户口味推断。**
+
+实际修复应遵守以下可检验顺序：
+
+1. 在需要的中文排版方案中声明 `\\setlength{\\parindent}{2\\ccwd}`、`\\setlength{\\parskip}{0pt}`、`\\usepackage{indentfirst}` 和 `\\ctexset{section/subsection={...,afterindent=true}}`；段落首行和标题后首段均抽样在最终渲染 PDF 中核查。**这是一套建议风格，而非2023大数据官方强制字号**。
+2. 在标题相邻页面检查一级、二级标题的字号、对齐与段前段后；可选样式示例：一级居中黑体小三，二级左齐黑体四号，三级左齐黑体小四；每个比赛应先查本届官方模板，用户确认的风格优先。
+3. 目录只用一次 `\\tableofcontents`（不要另外自己写一个“目录”标题），第一页摘要和目录不要出现正文页码，正文从1编，超链接 PDF 避免页锚点重复；图表 `\\caption{研究对象及发现}` **不手写“图1”“表2”**。
+4. 用实际数据重新绘制图；当双面板缩小造成字号不足，优先改为**一图一项研究主张**。严格保持图表的事实数值、单位、误差与失败案例，彩色兼顾灰度；放入 PDF 后再次检查图例/轴标签/图题重叠、图中文字至少能在实际打印大小阅读。
+5. 使用 `python skills/big-data-competition-skill/tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023` 检查具体源、图片、PDF 与日志。该工具拒绝几类确定性排版错误，返回 `preflight_passed_manual_review_required` 仍然**不能自动写 passed**；逐页看图和人审必须另做记录。对不适用此年度格式的赛题使用 `--profile generic`。
+
+推荐示范：[修订 XeLaTeX 模板](../templates/bigdata-paper-xelatex/main.tex)。任何具体图表源码变动必须重新生成图、编译 TeX 并检查 PDF。奖项论文的 16 个元数据记录仍不是 16 篇已读正文。

@@ -14,3 +14,14 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 检查：每页渲染 PDF，查看公式、三线表、图题、分页、字体和颜色；注意警告、缺失字符与严重 overfull，必须修复或解释后才验收。2023 规则来源：https://www.saikr.com/c/nd/14788。
 
 交付：`main.tex`、图片/参考文献/辅助合法文件、编译日志与真实最新 PDF；按本届官方要求提交，不把 TeX 源文件自动视为必须向赛事平台上传。
+
+
+## 2026-10 本次排版修复和实测范围
+
+本模板明确区分一级居中黑体小三、二级左齐黑体四号、正文小四和首行 2 汉字宽；这是风格范例，不是大数据赛题官方强制字号。使用 `indentfirst` 和 `afterindent=true` 处理标题后的第一自然段；仅写一次 `\tableofcontents`，不要在 `\caption` 内手动补“图1/表1”。PDF 页锚点在目录/正文编号切换时关闭/重启，避免重复 page anchor。
+
+命令行预检：
+```bat
+python skills/big-data-competition-skill/tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023
+```
+实际模板在你自己的论文目录下执行时，请将工具路径指向仓库。非 2023 赛制改用 `--profile generic`。机器预检通过仍必须逐页渲染检查，特别关注图例与横轴标签是否相互遮挡。

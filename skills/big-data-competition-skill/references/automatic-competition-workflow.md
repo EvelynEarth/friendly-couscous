@@ -118,3 +118,8 @@ python skills/big-data-competition-skill/tools/competition_autopilot.py approve 
 执行 `figures` 必须按 [论文视觉与学术质量硬门](paper-visual-quality-gate.md) 保存可追溯图表生成代码、色彩及线型含义、PDF 中实际可读的图例/标签、灰度可辨识检查。执行 `paper` 必须审查学术论证、真实引用、段落证据链，生成可编辑 XeLaTeX 文件（用户使用 TeX Live 时）和当前 PDF；编译错误/缺少图片或论文句子不成立直接重做源码。执行 `final` 必须保存逐页渲染审核结论和真实编译日志，不得只检查文件存在、图表哈希或随意写 passed。缺原模板时标记缺口，不应据此阻塞建立可独立编译的通用 TeX 草稿。
 
 失败时使用 `plot_mismatch→figures`、`paper_mismatch→paper` 等已有回退路径，修正实质问题并重新验收。2023 MathorCup 大数据赛论文的标题/摘要首页、第二页目录、正文页码、匿名等规则来源需明确区分传统 MathorCup 数模竞赛公告，不得擅自混用。人工最终批准仍不可绕过。
+
+
+### v2.11.1 TeX 源码实际回退
+
+如用户或逐页 Reviewer 发现一级/二级标题缺少层次、章节后第一段缩进错误、图表重复编号、图片标注遮挡，应视为 `paper_mismatch` 或必要时 `plot_mismatch` 触发相应上游源代码修订。允许运行 `tools/latex_paper_audit.py` 作为 deterministic 检查，但所有真实 PDF 页面仍需独立视觉检查、重新生成 PNG/SVG/PDF 并记录修正页码。不得改 review JSON 逃避重新编译。
