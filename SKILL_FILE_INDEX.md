@@ -1,6 +1,6 @@
 # Big Data Competition Skill Active Index
 
-当前 Skill 版本：2.11.1
+当前 Skill 版本：2.12.0
 
 本索引仅包含当前论文型大数据竞赛 Skill；历史 HSK 文件不属于活动入口。
 
@@ -43,6 +43,7 @@
 - `skills/big-data-competition-skill/playbooks/11-spatiotemporal-network.md`
 - `skills/big-data-competition-skill/references/automatic-competition-workflow.md`
 - `skills/big-data-competition-skill/references/award-paper-audit.md`
+- `skills/big-data-competition-skill/references/award-paper-empirical-layout.md`
 - `skills/big-data-competition-skill/references/competition-final-runbook.md`
 - `skills/big-data-competition-skill/references/competition-validation-gates.md`
 - `skills/big-data-competition-skill/references/data-audit.md`
@@ -100,6 +101,7 @@
 - `skills/big-data-competition-skill/tools/result_invariant_gate.py`
 - `skills/big-data-competition-skill/tools/solution_quality_gate.py`
 - `skills/big-data-competition-skill/tools/stability_audit.py`
+- `tests/test_bigdata_award_pdf_layout_evidence.py`
 - `tests/test_bigdata_competition_autopilot.py`
 - `tests/test_bigdata_competition_readiness.py`
 - `tests/test_bigdata_evidence_benchmarks.py`

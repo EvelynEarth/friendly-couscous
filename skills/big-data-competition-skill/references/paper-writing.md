@@ -33,3 +33,7 @@ claim → evidence → interpretation → limitation or transition
 必须依据 [论文视觉与学术质量硬门](paper-visual-quality-gate.md) 审核每一段话的论点、实际证据、解释与局限，不得写成程序使用指南、罗列流水账或过度称赞模型。学术写作深度不能由模板字号替代：说明为何选此模型而不选更简单方法、符号/量纲/假设、参数来源、合法回测与反例。
 
 用户使用 Windows 11 + TeX Live 时，默认交付可编辑 `main.tex`、图表/参考文献源、成功编译的当前 PDF 和编译日志；参考 [XeLaTeX 模板入口](../templates/bigdata-paper-xelatex.md)。对缺少的原始模板或官方格式要明确报告，不得假装已读取或编译。逐页 PDF 质量仍由独立 Editorial Reviewer 实际检查。
+
+ 
+## v2.12 获奖论文学术写作参考必须分层
+可用的是真实 [获奖PDF逐页机器记录与48页样本视觉卡](award-paper-empirical-layout.md)，尚非16篇全文语言/科学论证逐段阅读。遇到摘要、标题层级、段落缩进、研究图表相互关系时，在当前比赛用户定义风格与官方规则下选择有页码依据的示例；不可从字号、图多、代码多推导论文语言好或方法正确。全文科学研究论证仍需逐篇完成引用页码与 claim-evidence 分析。

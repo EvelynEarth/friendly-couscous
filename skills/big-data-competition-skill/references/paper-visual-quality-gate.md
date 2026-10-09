@@ -45,3 +45,7 @@
 5. 使用 `python skills/big-data-competition-skill/tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023` 检查具体源、图片、PDF 与日志。该工具拒绝几类确定性排版错误，返回 `preflight_passed_manual_review_required` 仍然**不能自动写 passed**；逐页看图和人审必须另做记录。对不适用此年度格式的赛题使用 `--profile generic`。
 
 推荐示范：[修订 XeLaTeX 模板](../templates/bigdata-paper-xelatex/main.tex)。任何具体图表源码变动必须重新生成图、编译 TeX 并检查 PDF。奖项论文的 16 个元数据记录仍不是 16 篇已读正文。
+
+ 
+## v2.12 本届可复核的获奖论文视觉对照证据
+另见 [award-paper-empirical-layout.md](award-paper-empirical-layout.md)。原先“16篇只看文件名、大小”的说法已发生实质变化：通过 GitHub Actions 真实解析了全部16篇PDF的716页页面布局，48个页面抽样已视觉审阅；但**16篇全文学术论证审稿仍未完成**。正式作图/排版可用样本页作为具体观测，而不能据样本制定统一强制标题字号，也不能把机器布局抽取称为优秀论文写作质量认证。

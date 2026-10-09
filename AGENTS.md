@@ -92,3 +92,8 @@ When TeX Live + writable workspace is available, supply `main.tex`, any legal cl
 ## v2.11.1 prevent repeated LaTeX layout failures
 
 Before paper/final/delivery signoff, run `tools/latex_paper_audit.py --tex main.tex --pdf main.pdf --log main.log --profile bigdata2023` **only for the 2023 profile**; use generic profile for other competitions. Reject manual numbering inside `\\caption`, duplicate TOC titles, missing figures, wrong two-character first-line body indent under the declared style, and actual compilation warnings. Re-render all physical pages after fixing code. A green preflight still requires independent editorial page-by-page review, including legends, overlap and typography.
+
+ 
+## v2.12 Award-paper evidence hierarchy
+
+The 16 MathorCup Big Data awarded PDFs are now **actually parsed by GitHub Actions across 716 pages**, with SHA-256 proof and 48 visual-sample pages inspected. This is **not** comprehensive scientific full-text human reading. Load `references/award-paper-empirical-layout.md` before choosing a competition-specific XeLaTeX typography/figure preset; use linked year/paper/PDF page evidence. Never infer an official title font from an award-paper sample or claim all award pages were manually reviewed. Favor official rules, readable hierarchy, and demonstrable color semantics. Leave original human full-text review state unreviewed.

@@ -1,6 +1,6 @@
 {
   "name": "big-data-competition-skill",
-  "version": "2.11.1",
+  "version": "2.12.0",
   "type": "competition-paper-skill",
   "platform_submission_model": "none",
   "deliverable": "paper-first",
@@ -31,7 +31,8 @@
     "project-evidence-chain.md",
     "competition-final-runbook.md",
     "automatic-competition-workflow.md",
-    "paper-visual-quality-gate.md"
+    "paper-visual-quality-gate.md",
+    "award-paper-empirical-layout.md"
   ],
   "competition": [
     "mathorcup.md"
@@ -81,7 +82,7 @@
     "tools/competition_autopilot.py",
     "tools/latex_paper_audit.py"
   ],
-  "notes": "v2.10 optional persistent stage controller for authorized agent execution; reports/hashes/rollback, no system prompt injection, no autonomous background LLM, scientific approval still external. v2.11 paper/figure visual review, XeLaTeX source delivery. v2.11.1 typography + XeLaTeX PDF preflight checks.",
+  "notes": "v2.10 optional persistent stage controller for authorized agent execution; reports/hashes/rollback, no system prompt injection, no autonomous background LLM, scientific approval still external. v2.11 paper/figure visual review, XeLaTeX source delivery. v2.11.1 typography + XeLaTeX PDF preflight checks. v2.12: actual PyMuPDF all-page machine audit 16 award PDFs and 48-page visual sample, human full-text review remains pending.",
   "evidence_assets": [
     "competition/award_papers_2024_2025.json",
     "benchmarks/mathorcup_scenarios.json",
