@@ -44,6 +44,10 @@ jobs:
         run: python skills/big-data-competition-skill/tools/project_evidence_chain.py --help
       - name: v2.9 universal competition readiness CLI
         run: python skills/big-data-competition-skill/tools/competition_readiness.py --help
+      - name: v2.10 persistent autopilot CLI smoke test
+        run: |
+          python skills/big-data-competition-skill/tools/competition_autopilot.py --help
+          python skills/big-data-competition-skill/tools/competition_autopilot.py template --stage contract
       - name: Validate historical source snapshot and new CLIs
         run: |
           python -m json.tool skills/big-data-competition-skill/competition/real_case_2025_profiles.json > /dev/null

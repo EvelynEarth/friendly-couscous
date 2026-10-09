@@ -1,4 +1,4 @@
-# Big Data Competition Skill v2.9.0
+# Big Data Competition Skill v2.10.0
 
 面向**未知赛题、最终以论文为核心成果**的 MathorCup 等大数据竞赛通用 Skill。主入口见仓库根目录 [SKILL.md](../../SKILL.md)；本目录为按需加载的方法、证据与辅助预检层。
 
@@ -78,3 +78,7 @@ python skills/big-data-competition-skill/tools/paper_evidence_gate.py --record /
 ## v2.9 赛场通用终稿操作
 
 [通用研究解题/交付流程](references/competition-final-runbook.md)、[审核 JSON 格式](templates/competition-readiness-record.md) 和 `tools/competition_readiness.py` 面向未知数学/数据任务，确保每一官方问题有明确证据和论文逻辑。返回“documentation_consistent_pending_expert_review”**并不代表科学批准**；需要研究者独立审核真正的数据、公式、结论和本届交付要求。
+
+## v2.10 代理自动驾驶（需授权执行环境）
+
+[自动比赛执行、续接、失败回退和人工审批手册](references/automatic-competition-workflow.md) 提供可复用阶段管理；[ChatGPT Project 复制指令](templates/automatic-project-instructions.md) 用于一次性设置。工具 `tools/competition_autopilot.py` 管理本地状态文件，不在后台独立调用模型；真实模型性能和 SCI 论文科学性仍需实际复核。

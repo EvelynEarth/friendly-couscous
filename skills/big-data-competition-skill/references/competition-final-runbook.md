@@ -38,3 +38,7 @@ python skills/big-data-competition-skill/tools/competition_readiness.py --record
 工程收尾需要满足：通用工作流可适应未知题型；专用计算工具能说明适用/不适用；真正错误的结果/缺失的论文证据能被正反例阻断；活动 SKILL、manifest、索引和插件版本一致；PR 与主分支 CI 通过。**真实当届模型的正确性、16 篇获奖论文的逐篇写作结构提炼**是另外的实证工作，不能凭软件 CI 冒充完成。
 
 遵守 [原有通用求解正确性协议](solution-validity.md)、[项目级数值完整性检查](project-evidence-chain.md) 与 [论文论证结构](paper-argumentation.md)。
+
+## v2.10 赛场自动代理入口
+
+赛题与附件到位后，启用 [自动阶段路由与纠错回退](automatic-competition-workflow.md)，结合状态文件判断当前处于审题、数据、模型、正式求解、独立验证、稳定性、科研绘图、论文还是交付阶段。失败的阶段退回真正上游原因并重新执行受影响任务；三轮失败暂停。方案与交付仍需用户确认，科学 Reviewer 不能被机器通过标记取代。
