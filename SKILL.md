@@ -1,11 +1,11 @@
 ---
 name: big-data-competition-skill
-version: 2.13.1
+version: 2.13.2
 summary: 面向未知赛题、最终以论文为核心成果的大数据挑战赛全流程 Skill。动态覆盖统计分析、机器学习、深度学习、时序、空间、图网络、优化、仿真与因果分析，并建立从数据证据到论文结论的可追溯闭环。
 triggers: [自动做题, 自动求解, 上传赛题, 继续比赛, 自动验收, 自主纠错, 大数据挑战赛, 大数据竞赛, 数据分析竞赛, 数据科学竞赛, 大数据赛题, 赛题分析, 数据审计, EDA, 特征工程, 机器学习, 深度学习, 时序预测, 分类, 回归, 聚类, 异常检测, 优化, 仿真, 图网络, 实验设计, 模型评价, 消融实验, 稳健性分析, 结果分析, 科研绘图, 竞赛论文, 论文写作, LaTeX, 终审]
 ---
 
-# Big Data Competition Skill v2.13.1
+# Big Data Competition Skill v2.13.2
 
 ## 1. 定位
 
@@ -500,3 +500,8 @@ GitHub 中的 SKILL.md **不会自动成为 ChatGPT 系统提示词**；仅上�
 ## v2.13.1 论文编号缺陷纠正（真实2023 B稿回归）
 
 本版明确修复论文默认 XeLaTeX 样式中“用户要求中文大标题而 `\\section` 仍显示阿拉伯编号”的缺陷。通用模板默认中文三层层级（「一、」/「（一）」/「1．」）并把实际编号结果放入排版预检范围；**可由当届官方论文样式覆盖**，不能把中文三级体系冒称所有比赛的硬性规范。必须重新编译当前论文并检查目录、正文、交叉引用，而非只修改模板文档。参见 [PDF排版质量硬门](skills/big-data-competition-skill/references/paper-visual-quality-gate.md) 和 [TeX 模板](skills/big-data-competition-skill/templates/bigdata-paper-xelatex.md)。
+
+ 
+## v2.13.2 论文五层编号纠正（用户当前指定格式）
+
+前版「一、／（一）／1．」与当前用户指定层级不一致，现将**通用XeLaTeX模板默认**改为：「一、」一级、 「1.1」二级、 「1.1.1」三级、 「（1）」四级枚举、 「•」五级实心点。前三层由 `ctex` 的自动编号实现；四、五层是嵌套 `enumerate/itemize` 列表，而不是要求每篇论文一定有五层正式章节。用实际 PDF 验证目录和正文显示，不能只在配置文件填字段。新增可选 `latex_paper_audit.py --heading-style chinese-mixed-five`；旧的 `chinese-tiered` 兼容保留，仅在明确需要旧样式时启用。**此为当前用户版式，不是官方固定要求**；当届官方格式优先，其他比赛按需选择。
