@@ -43,6 +43,7 @@
 - `skills/big-data-competition-skill/playbooks/11-spatiotemporal-network.md`
 - `skills/big-data-competition-skill/references/automatic-competition-workflow.md`
 - `skills/big-data-competition-skill/references/award-paper-audit.md`
+- `skills/big-data-competition-skill/references/award-paper-empirical-layout.md`
 - `skills/big-data-competition-skill/references/competition-final-runbook.md`
 - `skills/big-data-competition-skill/references/competition-validation-gates.md`
 - `skills/big-data-competition-skill/references/data-audit.md`
